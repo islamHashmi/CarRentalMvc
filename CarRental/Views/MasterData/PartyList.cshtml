@@ -1,0 +1,58 @@
+﻿@model IEnumerable<CarRental.ViewModel.PartyViewModel>
+
+@{
+    ViewBag.Title = "PartyList";
+}
+
+<p>
+    @Html.ActionLink("Create New", "PartyManage")
+</p>
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contact1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contact2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GstNumber)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contact1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contact2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GstNumber)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "PartyManage", new { key = HelperClass.Encrypt(item.PartyId) }) |
+                    @Html.ActionLink("Details", "PartyDetails", new { key = HelperClass.Encrypt(item.PartyId) }) |
+                    @Html.ActionLink("Delete", "PartyDelete", new { key = HelperClass.Encrypt(item.PartyId) })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

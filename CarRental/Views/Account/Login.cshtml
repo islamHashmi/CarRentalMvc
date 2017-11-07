@@ -1,0 +1,290 @@
+﻿@model CarRental.ViewModel.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Styles.Render("~/Content/login")
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+</head>
+<body class="main">
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="login">
+            <div class="wrap">
+                <!-- TOGGLE -->
+                <div id="toggle-wrap">
+                    <div id="toggle-terms">
+                        <div id="cross">
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RECOVERY -->
+                <div class="recovery">
+                    <h2>Verify Login Id</h2>
+                    <p>OTP has been sent to you on your mobile number.</p>
+                    <p>Please enter it below.</p>
+                    <form class="recovery-form" action="" method="post">
+                        <div class="form-group form-inline">
+                            @Html.TextBox("txtOtp", null, htmlAttributes: new { @class = "input form-control", placeholder = "Enter OTP" })
+                            <input type="submit" id="btn-otp" class="button btn btn-primary" value="Submit">
+                        </div>
+
+                    </form>
+                    <p class="mssg">An email has been sent to you with further instructions.</p>
+                </div>
+
+                <!-- SLIDER -->
+                <div class="content">
+                    <!-- LOGO -->
+                    <div class="logo">
+                        <a href="#"><img src="http://res.cloudinary.com/dpcloudinary/image/upload/v1506186248/logo.png" alt=""></a>
+                    </div>
+                    <!-- SLIDESHOW -->
+                    <div id="slideshow">
+                        <div class="one">
+                            <h2><span>Car Rental</span></h2>
+                            <p>Management Software</p>
+                        </div>
+                        <div class="two">
+                            <h2><span>Ajinkya Travels</span></h2>
+                            <p>16/404 Gr. Floor, Katrak Road, Opp. Vitthal Mandir.</p>
+                            <p>Tel : 24181962 / 24162033</p>
+                        </div>
+                        <div class="three">
+                            <h2><span style="font-size:40px;">Shubham Travels</span></h2>
+                            <p>15/404 Gr. Floor, Road, Opp. Vittal Mandir, Wadala (W), Mumbai - 400031.</p>
+                            <p>Tel : 24162033 / 24181962</p>
+                        </div>
+                        <div class="four">
+                            <h2><span>Powered By</span></h2>
+                            <p>Limra Technosys Pvt. Ltd.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- LOGIN FORM -->
+                <div class="user">
+                    <div class="form-wrap">
+                        <!-- TABS -->
+                        <div class="tabs">
+                            <h3 class="login-tab"><a class="log-in active" href="#login-tab-content"><span>Login</span></a></h3>
+                        </div>
+                        <!-- TABS CONTENT -->
+                        <div class="tabs-content">
+                            <!-- TABS CONTENT LOGIN -->
+                            <div id="login-tab-content" class="active">
+                                <form class="login-form" action="" method="post">
+                                    @Html.TextBoxFor(model => model.LoginId, htmlAttributes: new { @class = "input", @autocomplete = "off", placeholder = "Login Id", required = "required" })
+                                    @Html.PasswordFor(model => model.LoginKey, htmlAttributes: new { @class = "input", @autocomplete = "off", placeholder = "Password", required = "required" })
+                                    <input type="submit" class="button" value="Login">
+                                </form>
+                                <div class="help-action">
+                                    @*<p><i class="fa fa-arrow-left" aria-hidden="true"></i><a class="forgot" href="#">Forgot your password?</a></p>*@
+                                    <ul id="errorMessage" class="list-group"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @Scripts.Render("~/bundles/jquery")
+    <script>
+
+        // LOGIN TABS
+        $(function () {
+            var tab = $('.tabs h3 a');
+            tab.on('click', function (event) {
+                event.preventDefault();
+                tab.removeClass('active');
+                $(this).addClass('active');
+                tab_content = $(this).attr('href');
+                $('div[id$="tab-content"]').removeClass('active');
+                $(tab_content).addClass('active');
+            });
+        });
+
+        // SLIDESHOW
+        $(function () {
+            $('#slideshow > div:gt(0)').hide();
+            setInterval(function () {
+                $('#slideshow > div:first')
+                    .fadeOut(1000)
+                    .next()
+                    .fadeIn(1000)
+                    .end()
+                    .appendTo('#slideshow');
+            }, 3850);
+        });
+
+        // CUSTOM JQUERY FUNCTION FOR SWAPPING CLASSES
+        (function ($) {
+            'use strict';
+            $.fn.swapClass = function (remove, add) {
+                this.removeClass(remove).addClass(add);
+                return this;
+            };
+        }(jQuery));
+
+        // SHOW/HIDE PANEL ROUTINE (needs better methods)
+        // I'll optimize when time permits.
+        $(function () {
+            $('.agree,.forgot, #toggle-terms, .log-in, .sign-up').on('click', function (event) {
+                event.preventDefault();
+                var terms = $('.terms'),
+                    recovery = $('.recovery'),
+                    close = $('#toggle-terms'),
+                    arrow = $('.tabs-content .fa');
+                if ($(this).hasClass('agree') || $(this).hasClass('log-in') || ($(this).is('#toggle-terms')) && terms.hasClass('open')) {
+                    if (terms.hasClass('open')) {
+                        terms.swapClass('open', 'closed');
+                        close.swapClass('open', 'closed');
+                        arrow.swapClass('active', 'inactive');
+                    } else {
+                        if ($(this).hasClass('log-in')) {
+                            return;
+                        }
+                        terms.swapClass('closed', 'open').scrollTop(0);
+                        close.swapClass('closed', 'open');
+                        arrow.swapClass('inactive', 'active');
+                    }
+                }
+                else if ($(this).hasClass('forgot') || $(this).hasClass('sign-up') || $(this).is('#toggle-terms')) {
+                    if (recovery.hasClass('open')) {
+                        recovery.swapClass('open', 'closed');
+                        close.swapClass('open', 'closed');
+                        arrow.swapClass('active', 'inactive');
+                    } else {
+                        if ($(this).hasClass('sign-up')) {
+                            return;
+                        }
+                        recovery.swapClass('closed', 'open');
+                        close.swapClass('closed', 'open');
+                        arrow.swapClass('inactive', 'active');
+                    }
+                }
+            });
+        });
+
+        // DISPLAY MSSG
+        $(function () {
+            $('.recovery .button').on('click', function (event) {
+                event.preventDefault();
+                $('.recovery .mssg').addClass('animate');
+                setTimeout(function () {
+                    $('.recovery').swapClass('open', 'closed');
+                    $('#toggle-terms').swapClass('open', 'closed');
+                    $('.tabs-content .fa').swapClass('active', 'inactive');
+                    $('.recovery .mssg').removeClass('animate');
+                }, 2500);
+            });
+        });
+
+        // DISABLE SUBMIT FOR DEMO
+        $(function () {
+            $('.button').on('click', function (event) {
+
+                var serviceURL = '@Url.Action("Authorize_User", "Account")';
+
+                var token = $("[name='__RequestVerificationToken']").val();
+
+                var model = {
+                    LoginId: $('#LoginId').val(),
+                    LoginKey: $('#LoginKey').val()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    data: {
+                        __RequestVerificationToken: token,
+                        vm: model
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        ShowOtpPanel(data);
+                    },
+                    error: function (response) {
+                        alert('Something Wrong !!!' + response.responseText);
+                    }
+                });
+
+                return false;
+            });
+        });
+
+        function ShowOtpPanel(data) {
+            if (data.IsAuthorize == 'true') {
+
+                $('#errorMessage').html = '';
+
+                recovery = $('.recovery');
+                close = $('#toggle-terms');
+                arrow = $('.tabs-content .fa');
+
+                if (data.OtpRequired == 'true') {
+                    recovery.swapClass('closed', 'open');
+                    close.swapClass('closed', 'open');
+                    arrow.swapClass('inactive', 'active');
+                }
+                else {
+                    recovery.swapClass('open', 'close');
+                    close.swapClass('open', 'close');
+                    arrow.swapClass('active', 'inactive');
+                }
+            }
+
+            $('#errorMessage').empty();
+
+            if (data.ErrorMessage != '') {
+
+                var items = data.ErrorMessage;
+
+                for (var i= 0; i < items.length; i++){
+                    $('#errorMessage').append('<li class="list-group-item list-group-item-danger">' + items[i] + '</li>');
+                };
+            }
+        }
+
+        $(function () {
+            $('#btn-otp').on('click', function (event) {
+
+                var serviceURL = '@Url.Action("Authorize_Otp", "Account")';
+
+                var token = $("[name='__RequestVerificationToken']").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    data: {
+                        __RequestVerificationToken: token,
+                        key: model
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        ShowOtpPanel(data);
+                    },
+                    error: function (response) {
+                        alert('Something Wrong !!!' + response.responseText);
+                    }
+                });
+
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>

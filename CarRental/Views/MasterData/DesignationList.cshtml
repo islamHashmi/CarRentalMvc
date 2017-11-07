@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CarRental.ViewModel.DesignationViewModel>
+
+@{
+    ViewBag.Title = "DesignationList";
+}
+
+<h2>DesignationList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "DesignationManage")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DesignationName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DesignationName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "DesignationManage", new { key = HelperClass.Encrypt(item.DesignationId) }) |
+            @Html.ActionLink("Details", "DesignationDetails", new { key = HelperClass.Encrypt(item.DesignationId) }) |
+            @Html.ActionLink("Delete", "DesignationDelete", new { key = HelperClass.Encrypt(item.DesignationId) })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<CarRental.ViewModel.RegisterViewModel>
+
+@{
+    ViewBag.Title = "RegisterList";
+}
+
+<h2>RegisterList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "RegisterManage")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoginId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OtpRequired)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastLogin)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmployeeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoginId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OtpRequired)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastLogin)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "RegisterManage", new { key = HelperClass.Encrypt(item.UserId) }) |
+            @Html.ActionLink("Details", "RegisterDetails", new { key = HelperClass.Encrypt(item.UserId) }) |
+            @Html.ActionLink("Delete", "RegisterDelete", new { key = HelperClass.Encrypt(item.UserId) })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,136 @@
+﻿@model CarRental.ViewModel.EmployeeViewModel
+
+@{
+    ViewBag.Title = "EmployeeDetails";
+}
+
+<div>
+    <h4>EmployeeViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeCode)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchName)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.DesignationId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DesignationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResidentiallAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResidentiallAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NativeAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NativeAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MobileNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MobileNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResidentialTelephone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResidentialTelephone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JoiningDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JoiningDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LeavingDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LeavingDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BasicAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BasicAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HraAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HraAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CcAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CcAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bank)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bank)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EmployeeManage", new { key = HelperClass.Encrypt(item.EmployeeId) }) |
+    @Html.ActionLink("Back to List", "EmployeeList")
+</p>

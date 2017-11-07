@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a93a3bdc30074979946da8650744835f" Name="Diagram1" ZoomLevel="95">
+        <EntityTypeShape EntityType="CarRentalModel.Company" Width="1.5" PointX="3.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarRentalModel.CompanyBranch" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarRentalModel.Department" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarRentalModel.PartyStatu" Width="1.5" PointX="3.75" PointY="12.5" IsExpanded="true" />
+        <AssociationConnector Association="CarRentalModel.FK_CompanyBranch_Company" />
+        <EntityTypeShape EntityType="CarRentalModel.Party" Width="1.5" PointX="3" PointY="6.875" />
+        <AssociationConnector Association="CarRentalModel.FK_Party_CompanyBranch" />
+        <AssociationConnector Association="CarRentalModel.FK_Party_PartyStatus" />
+        <EntityTypeShape EntityType="CarRentalModel.CarModel" Width="1.5" PointX="6" PointY="3.125" />
+        <EntityTypeShape EntityType="CarRentalModel.Designation" Width="1.5" PointX="10.375" PointY="3.125" />
+        <EntityTypeShape EntityType="CarRentalModel.Guest" Width="1.5" PointX="5.25" PointY="6.5" />
+        <AssociationConnector Association="CarRentalModel.FK_Guest_CarModel" />
+        <AssociationConnector Association="CarRentalModel.FK_Guest_CompanyBranch" />
+        <AssociationConnector Association="CarRentalModel.FK_Guest_Department" />
+        <AssociationConnector Association="CarRentalModel.FK_Guest_Party" />
+        <EntityTypeShape EntityType="CarRentalModel.Employee" Width="1.5" PointX="7.625" PointY="6.75" />
+        <AssociationConnector Association="CarRentalModel.FK_Employee_Designation" />
+        <AssociationConnector Association="CarRentalModel.FK_Employee_CompanyBranch" />
+        <EntityTypeShape EntityType="CarRentalModel.Login" Width="1.5" PointX="8.5" PointY="2.875" />
+        <AssociationConnector Association="CarRentalModel.FK_Login_Employee" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

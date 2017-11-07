@@ -1,0 +1,32 @@
+﻿@model CarRental.ViewModel.BranchViewModel
+
+@{
+    ViewBag.Title = "BranchDetails";
+}
+
+<div>
+    <h4>BranchViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchName)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "BranchManage", new { key = HelperClass.Encrypt(Model.BranchId) }) |
+    @Html.ActionLink("Back to List", "BranchList")
+</p>

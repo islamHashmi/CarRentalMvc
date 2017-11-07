@@ -1,0 +1,121 @@
+﻿@model IEnumerable<CarRental.ViewModel.EmployeeViewModel>
+
+@{
+    ViewBag.Title = "EmployeeList";
+}
+
+<h2>EmployeeList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "EmployeeManage")
+</p>
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BranchId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DesignationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResidentiallAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NativeAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MobileNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResidentialTelephone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JoiningDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeavingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BasicAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HraAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CcAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bank)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountNumber)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BranchName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DesignationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResidentiallAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NativeAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MobileNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResidentialTelephone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JoiningDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeavingDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BasicAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HraAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CcAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bank)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccountNumber)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EmployeeManage", new { key = HelperClass.Encrypt(item.EmployeeId) }) |
+                    @Html.ActionLink("Details", "EmployeeDetails", new { key = HelperClass.Encrypt(item.EmployeeId) }) |
+                    @Html.ActionLink("Delete", "EmployeeDelete", new { key = HelperClass.Encrypt(item.EmployeeId) })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+

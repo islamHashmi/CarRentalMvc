@@ -1,0 +1,64 @@
+﻿@model IEnumerable<CarRental.ViewModel.CompanyViewModel>
+
+@{
+    ViewBag.Title = "CompanyList";
+}
+
+<h3>CompanyList</h3>
+
+<p>
+    @Html.ActionLink("Create New", "CompanyManage")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PanNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telephone1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telephone2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ServiceTaxNumber)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PanNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telephone1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telephone2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceTaxNumber)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "CompanyManage", new { key = HelperClass.Encrypt(item.CompanyId) }) |
+                @Html.ActionLink("Details", "CompanyDetails", new { key = HelperClass.Encrypt(item.CompanyId) }) |
+                @Html.ActionLink("Delete", "CompanyDelete", new { key = HelperClass.Encrypt(item.CompanyId) })
+            </td>
+        </tr>
+    }
+
+</table>
