@@ -14,7 +14,7 @@ namespace CarRental.Helpers
 
             string characters = numbers;
 
-            if (otpType.CompareTo(otpType) == 0)
+            if (OtpType.Alphanumeric == otpType)
             {
                 characters += alphabets + small_alphabets + numbers;
             }

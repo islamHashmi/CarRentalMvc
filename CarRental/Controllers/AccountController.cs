@@ -61,6 +61,7 @@ namespace CarRental.Controllers
             
             data.Add("IsAuthorize", "false");
             data.Add("OtpRequired", "false");
+            data.Add("UserId", "");
             data.Add("ErrorMessage", "");
             
             if (string.IsNullOrEmpty(vm.LoginId))
@@ -74,9 +75,18 @@ namespace CarRental.Controllers
                 var user = db.Logins.FirstOrDefault(m => m.loginId == vm.LoginId && m.loginKey == vm.LoginKey);
 
                 if (user != null)
-                {
+                {                    
                     data["IsAuthorize"] = "true";                    
                     data["OtpRequired"] = user.otpRequired.ToString().ToLower();
+
+                    string key = HelperClass.Encrypt(user.userId);
+                    string otp = GenerateOTP.OtpNumber(6, GenerateOTP.OtpType.Numeric);
+
+                    user.otpNumber = otp;
+                    db.SaveChanges();
+
+                    data["UserId"] = key;
+
                 }
                 else
                 {
@@ -89,12 +99,18 @@ namespace CarRental.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult Authorize_Otp(string key)
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult Authorize_Otp(string key, string otpNumber)
         {
-            key = HelperClass.Decrypt(key);
+            Dictionary<string, object> data = new Dictionary<string, object>();
 
-            string otp = GenerateOTP.OtpNumber(6, GenerateOTP.OtpType.Numeric);
+            List<string> _message = new List<string>();
+
+            data.Add("Status", "true");
+            data.Add("ErrorMessage", _message);
+
+            key = HelperClass.Decrypt(key);
+            
 
 
             return Json(true, JsonRequestBehavior.AllowGet);
