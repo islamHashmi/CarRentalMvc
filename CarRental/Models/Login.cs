@@ -26,6 +26,7 @@ namespace CarRental.Models
         public Nullable<int> updatedBy { get; set; }
         public Nullable<System.DateTime> updatedDate { get; set; }
         public bool active { get; set; }
+        public Nullable<System.DateTime> otpExpiryTime { get; set; }
     
         public virtual Employee Employee { get; set; }
     }

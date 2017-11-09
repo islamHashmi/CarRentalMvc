@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="CarRentalModel.Company" Width="1.5" PointX="3.75" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CarRentalModel.CompanyBranch" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CarRentalModel.Department" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CarRentalModel.PartyStatu" Width="1.5" PointX="3.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarRentalModel.PartyStatu" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
         <AssociationConnector Association="CarRentalModel.FK_CompanyBranch_Company" />
         <EntityTypeShape EntityType="CarRentalModel.Party" Width="1.5" PointX="3" PointY="6.875" />
         <AssociationConnector Association="CarRentalModel.FK_Party_CompanyBranch" />

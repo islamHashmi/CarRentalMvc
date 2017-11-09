@@ -26,7 +26,7 @@ namespace CarRental
                       "~/Scripts/bootstrap-datetimepicker.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-solar.css",
                       "~/Content/bootstrap-datetimepicker.css",
                       "~/Content/site.css"));
 

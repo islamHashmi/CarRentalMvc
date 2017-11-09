@@ -129,6 +129,7 @@
           <Property Name="lastLoginDate" Type="datetime" />
           <Property Name="otpNumber" Type="char" MaxLength="6" />
           <Property Name="otpRequired" Type="bit" Nullable="false" />
+          <Property Name="otpExpiryTime" Type="datetime" />
           <Property Name="entryBy" Type="int" Nullable="false" />
           <Property Name="entryDate" Type="datetime" Nullable="false" />
           <Property Name="updatedBy" Type="int" />
@@ -702,6 +703,7 @@
           <Property Name="updatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Employee" Relationship="CarRentalModel.FK_Login_Employee" FromRole="Login" ToRole="Employee" />
           <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="otpExpiryTime" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_Login_Employee">
           <End Type="CarRentalModel.Employee" Role="Employee" Multiplicity="1" />
@@ -887,6 +889,7 @@
           <EntitySetMapping Name="Logins">
             <EntityTypeMapping TypeName="CarRentalModel.Login">
               <MappingFragment StoreEntitySet="Login">
+                <ScalarProperty Name="otpExpiryTime" ColumnName="otpExpiryTime" />
                 <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
                 <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />

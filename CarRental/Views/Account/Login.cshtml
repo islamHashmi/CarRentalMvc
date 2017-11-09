@@ -90,7 +90,7 @@
                                 <form class="login-form" action="" method="post">
                                     @Html.TextBoxFor(model => model.LoginId, htmlAttributes: new { @class = "input", @autocomplete = "off", placeholder = "Login Id", required = "required" })
                                     @Html.PasswordFor(model => model.LoginKey, htmlAttributes: new { @class = "input", @autocomplete = "off", placeholder = "Password", required = "required" })
-                                    <input type="submit" class="button" value="Login">
+                                    <input type="submit" id="btn-login" class="button" value="Login">
                                 </form>
                                 <div class="help-action">
                                     @*<p><i class="fa fa-arrow-left" aria-hidden="true"></i><a class="forgot" href="#">Forgot your password?</a></p>*@
@@ -183,22 +183,24 @@
         });
 
         // DISPLAY MSSG
-        $(function () {
-            $('.recovery .button').on('click', function (event) {
-                event.preventDefault();
-                $('.recovery .mssg').addClass('animate');
-                setTimeout(function () {
-                    $('.recovery').swapClass('open', 'closed');
-                    $('#toggle-terms').swapClass('open', 'closed');
-                    $('.tabs-content .fa').swapClass('active', 'inactive');
-                    $('.recovery .mssg').removeClass('animate');
-                }, 2500);
-            });
-        });
+        //$(function () {
+        //    $('.recovery .button').on('click', function (event) {
+        //        event.preventDefault();
+        //        $('.recovery .mssg').addClass('animate');
+        //        setTimeout(function () {
+        //            $('.recovery').swapClass('open', 'closed');
+        //            $('#toggle-terms').swapClass('open', 'closed');
+        //            $('.tabs-content .fa').swapClass('active', 'inactive');
+        //            $('.recovery .mssg').removeClass('animate');
+        //        }, 2500);
+        //    });
+        //});
 
         // DISABLE SUBMIT FOR DEMO
         $(function () {
-            $('.button').on('click', function (event) {
+            $('#btn-login').on('click', function (event) {
+
+                $('#txtOtp').val('');
 
                 var serviceURL = '@Url.Action("Authorize_User", "Account")';
 
@@ -295,7 +297,7 @@
         function OtpValidate(data) {
             $('#otpError').empty();
 
-            if (data.ErrorMessage != '') {
+            if (data.Status == 'false') {
 
                 var items = data.ErrorMessage;
 
@@ -304,7 +306,7 @@
                 };
             }
             else {
-                var url = @Url.Action("Index", "Home");
+                var url = '@Url.Action("Index", "Home")';
 
                 window.location.href = url;
             }

@@ -33,23 +33,7 @@ namespace CarRental.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel vm)
         {
-            var user = db.Logins.FirstOrDefault(m => m.loginId == vm.LoginId && m.loginKey == vm.LoginKey);
-
-            if (user != null)
-            {
-                FormsAuthentication.SetAuthCookie(vm.LoginId, false);
-
-                ViewBag.IsAuthorized = true;
-
-                return View("_SignInOtpPartial", vm);
-            }
-            else
-            {
-                ModelState.AddModelError("", "Login details are wrong.");
-                ViewBag.LoggedIn = false;
-            }
-
-            return View("_SignInPartial", vm);
+            return View(vm);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -83,6 +67,7 @@ namespace CarRental.Controllers
                     string otp = GenerateOTP.OtpNumber(6, GenerateOTP.OtpType.Numeric);
 
                     user.otpNumber = otp;
+                    user.otpExpiryTime = DateTime.Now;
                     db.SaveChanges();
 
                     data["UserId"] = key;
@@ -100,7 +85,7 @@ namespace CarRental.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Authorize_Otp(string key, string otpNumber)
+        public JsonResult Authorize_Otp(string key, string otp)
         {
             Dictionary<string, object> data = new Dictionary<string, object>();
 
@@ -110,10 +95,26 @@ namespace CarRental.Controllers
             data.Add("ErrorMessage", _message);
 
             key = HelperClass.Decrypt(key);
-            
 
+            int.TryParse(key, out int _id);
 
-            return Json(true, JsonRequestBehavior.AllowGet);
+            var user = db.Logins.FirstOrDefault(m => m.userId == _id);
+
+            if(user != null)
+            {
+                if (user.otpNumber != otp)
+                {
+                    data["Status"] = "false";
+                    _message.Add("!!! Invalid OTP...");
+                }
+            }
+            else
+            {
+                data["Status"] = "false";
+                _message.Add("Try again.....");
+            }
+
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
