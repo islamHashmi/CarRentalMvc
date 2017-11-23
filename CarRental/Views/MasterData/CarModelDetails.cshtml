@@ -1,0 +1,32 @@
+﻿@model CarRental.ViewModel.CarModelViewModel
+
+@{
+    ViewBag.Title = "CarModelDetails";
+}
+
+<h2>Car Model Details</h2>
+<hr />
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ModelDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModelDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SeatingCapacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeatingCapacity)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { key = HelperClass.Encrypt(Model.CarModelId) }) |
+    @Html.ActionLink("Back to List", "CarModelList")
+</p>

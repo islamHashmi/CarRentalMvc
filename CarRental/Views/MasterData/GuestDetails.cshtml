@@ -1,0 +1,121 @@
+﻿@model CarRental.ViewModel.GuestViewModel
+
+@{
+    ViewBag.Title = "GuestDetails";
+}
+
+<div>
+    <h4>Guest Details</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PartyId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PartyId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PartyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PartyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GuestName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GuestName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepartmentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepartmentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepartmentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepartmentName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarModelId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarModelId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModelName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModelName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactNumber1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactNumber1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactNumber2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactNumber2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactNumber3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactNumber3)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { key = HelperClass.Encrypt(Model.GuestId) }) |
+    @Html.ActionLink("Back to List", "GuestList")
+</p>

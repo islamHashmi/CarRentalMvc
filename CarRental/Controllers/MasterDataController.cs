@@ -27,7 +27,7 @@ namespace CarRental.Controllers
         {
             var list = new List<CompanyViewModel>();
 
-            var model = await db.Companies.ToListAsync();
+            var model = await db.Companies.Where(m => m.active == true).ToListAsync();
 
             if (model != null)
             {
@@ -238,7 +238,7 @@ namespace CarRental.Controllers
         {
             var list = new List<BranchViewModel>();
 
-            var model = await db.CompanyBranches.Include(e => e.Company).ToListAsync();
+            var model = await db.CompanyBranches.Include(e => e.Company).Where(m => m.active == true).ToListAsync();
 
             if (model != null)
             {
@@ -442,7 +442,7 @@ namespace CarRental.Controllers
         {
             var list = new List<DepartmentViewModel>();
 
-            var model = await db.Departments.ToListAsync();
+            var model = await db.Departments.Where(m => m.active == true).ToListAsync();
 
             if (model != null)
             {
@@ -628,7 +628,7 @@ namespace CarRental.Controllers
         {
             var list = new List<EmployeeViewModel>();
 
-            var model = await db.Employees.Include(e => e.Designation).Include(e => e.CompanyBranch).ToListAsync();
+            var model = await db.Employees.Include(e => e.Designation).Include(e => e.CompanyBranch).Where(m => m.active == true).ToListAsync();
 
             if (model != null)
             {
@@ -892,7 +892,7 @@ namespace CarRental.Controllers
         {
             var list = new List<PartyViewModel>();
 
-            var model = await db.Parties.Include(e => e.CompanyBranch).Include(e => e.PartyStatu).ToListAsync();
+            var model = await db.Parties.Include(e => e.CompanyBranch).Include(e => e.PartyStatu).Where(m => m.active == true).ToListAsync();
 
             if (model != null)
             {
@@ -1216,7 +1216,7 @@ namespace CarRental.Controllers
         {
             var list = new List<DesignationViewModel>();
 
-            var model = await db.Designations.ToListAsync();
+            var model = await db.Designations.Where(m => m.active == true).ToListAsync();
 
             if (model != null)
             {
@@ -1402,7 +1402,7 @@ namespace CarRental.Controllers
         {
             var list = new List<CarModelViewModel>();
 
-            var model = await db.CarModels.ToListAsync();
+            var model = await db.CarModels.Where(m => m.active == true).ToListAsync();
 
             if (model != null)
             {
@@ -1597,6 +1597,7 @@ namespace CarRental.Controllers
                                        .Include(e => e.CarModel)
                                        .Include(e => e.Party)
                                        .Include(e => e.Department)
+                                       .Where(m => m.active == true)
                                        .ToListAsync();
 
             if (model != null)
@@ -1833,6 +1834,345 @@ namespace CarRental.Controllers
             vm.BranchList = new SelectList(db.CompanyBranches.Where(m => m.active == true), "branchId", "branchName");
             vm.PartyList = new SelectList(db.Parties.Where(m => m.active == true), "partyId", "Name");
             vm.DepartmentList = new SelectList(db.Departments.Where(m => m.active == true), "departmentId", "departmentName");
+            vm.ModelList = new SelectList(db.CarModels.Where(m => m.active == true), "carModelId", "modelDescription");
+        }
+
+        #endregion
+
+        #region Car
+
+        [HttpGet]
+        public async Task<ActionResult> CarList()
+        {
+            var list = new List<CarViewModel>();
+
+            var model = await db.Cars.Where(m => m.active == true).ToListAsync();
+
+            if (model != null)
+            {
+                foreach (var item in model)
+                {
+                    var vm = new CarViewModel
+                    {
+                        CarId = item.CarId,
+                        BranchId = item.branchId,
+                        CarType = item.carType,
+                        CarModelId = item.carModelId,
+                        FuelTypeCode = item.fuelTypeCode,
+                        CarNumber = item.carNumber,
+                        DriverId = item.driverId,
+                        RegistrationNumber = item.registrationNumber,
+                        ChasisNumber = item.chasisNumber,
+                        EngineNumber = item.engineNumber,
+                        InsuranceCompany = item.insuranceCompany,
+                        InsurancePolicyNo = item.insurancePolicyNo,
+                        InsuranceStartDate = item.insuranceStartDate,
+                        InsuranceEndDate = item.insuranceEndDate,
+                        TaxStartDate = item.taxStartDate,
+                        TaxEndDate = item.taxEndDate,
+                        AuthorisationStartDate = item.authorisationStartDate,
+                        AuthorisationEndDate = item.authorisationEndDate,
+                        FitnessStartDate = item.fitnessStartDate,
+                        FitnessEndDate = item.fitnessEndDate,
+                        PermitStartDate = item.permitStartDate,
+                        PermitEndDate = item.permitEndDate,
+                        PucStartDate = item.permitStartDate,
+                        PucEndDate = item.pucEndDate,
+                        FinanceBy = item.financeBy,
+                        OwnerId = item.ownerId,
+                        CarInUse = item.carInUse,
+                        CarOnHold = item.carOnHold,
+                        ServicingSlab = item.servicingSlab,
+                        EmiAmount = item.emiAmount,
+                        EmiDate = item.emiDate
+                    };
+
+                    list.Add(vm);
+                }
+            }
+
+            return View(list);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CarDetails(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.Cars.FindAsync(_Id);
+
+                var vm = new CarViewModel
+                {
+                    CarId = model.CarId,
+                    BranchId = model.branchId,
+                    CarType = model.carType,
+                    CarModelId = model.carModelId,
+                    FuelTypeCode = model.fuelTypeCode,
+                    CarNumber = model.carNumber,
+                    DriverId = model.driverId,
+                    RegistrationNumber = model.registrationNumber,
+                    ChasisNumber = model.chasisNumber,
+                    EngineNumber = model.engineNumber,
+                    InsuranceCompany = model.insuranceCompany,
+                    InsurancePolicyNo = model.insurancePolicyNo,
+                    InsuranceStartDate = model.insuranceStartDate,
+                    InsuranceEndDate = model.insuranceEndDate,
+                    TaxStartDate = model.taxStartDate,
+                    TaxEndDate = model.taxEndDate,
+                    AuthorisationStartDate = model.authorisationStartDate,
+                    AuthorisationEndDate = model.authorisationEndDate,
+                    FitnessStartDate = model.fitnessStartDate,
+                    FitnessEndDate = model.fitnessEndDate,
+                    PermitStartDate = model.permitStartDate,
+                    PermitEndDate = model.permitEndDate,
+                    PucStartDate = model.permitStartDate,
+                    PucEndDate = model.pucEndDate,
+                    FinanceBy = model.financeBy,
+                    OwnerId = model.ownerId,
+                    CarInUse = model.carInUse,
+                    CarOnHold = model.carOnHold,
+                    ServicingSlab = model.servicingSlab,
+                    EmiAmount = model.emiAmount,
+                    EmiDate = model.emiDate
+                };
+
+                return View(vm);
+            }
+
+            return RedirectToAction("CarList");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CarManage(string key)
+        {
+            var vm = new CarViewModel();
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(key))
+                {
+                    key = HelperClass.Decrypt(key);
+
+                    int.TryParse(key, out int _Id);
+
+                    if (_Id == 0)
+                        return HttpNotFound();
+
+                    var model = await db.Cars.FindAsync(_Id);
+
+                    vm.CarId = model.CarId;
+                    vm.BranchId = model.branchId;
+                    vm.CarType = model.carType;
+                    vm.CarModelId = model.carModelId;
+                    vm.FuelTypeCode = model.fuelTypeCode;
+                    vm.CarNumber = model.carNumber;
+                    vm.DriverId = model.driverId;
+                    vm.RegistrationNumber = model.registrationNumber;
+                    vm.ChasisNumber = model.chasisNumber;
+                    vm.EngineNumber = model.engineNumber;
+                    vm.InsuranceCompany = model.insuranceCompany;
+                    vm.InsurancePolicyNo = model.insurancePolicyNo;
+                    vm.InsuranceStartDate = model.insuranceStartDate;
+                    vm.InsuranceEndDate = model.insuranceEndDate;
+                    vm.TaxStartDate = model.taxStartDate;
+                    vm.TaxEndDate = model.taxEndDate;
+                    vm.AuthorisationStartDate = model.authorisationStartDate;
+                    vm.AuthorisationEndDate = model.authorisationEndDate;
+                    vm.FitnessStartDate = model.fitnessStartDate;
+                    vm.FitnessEndDate = model.fitnessEndDate;
+                    vm.PermitStartDate = model.permitStartDate;
+                    vm.PermitEndDate = model.permitEndDate;
+                    vm.PucStartDate = model.permitStartDate;
+                    vm.PucEndDate = model.pucEndDate;
+                    vm.FinanceBy = model.financeBy;
+                    vm.OwnerId = model.ownerId;
+                    vm.CarInUse = model.carInUse;
+                    vm.CarOnHold = model.carOnHold;
+                    vm.ServicingSlab = model.servicingSlab;
+                    vm.EmiAmount = model.emiAmount;
+                    vm.EmiDate = model.emiDate;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> CarManage(CarViewModel vm)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var model = new Car();
+
+                    if (vm.CarId == null)
+                    {
+                        if (db.Cars.Count(m => m.registrationNumber == vm.RegistrationNumber) > 0)
+                        {
+                            ModelState.AddModelError("", "Registration Number already exists in database.");
+                            return View(vm);
+                        }
+
+                        model.active = true;
+                        model.entryBy = 1;
+                        model.entryDate = DateTime.Now;
+
+                        db.Cars.Add(model);
+                    }
+                    else
+                    {
+                        model = await db.Cars.FindAsync(vm.CarId);
+
+                        if (model == null)
+                            return HttpNotFound();
+
+                        model.updatedBy = 2;
+                        model.updatedDate = DateTime.Now;
+                        db.Entry(model).State = EntityState.Modified;
+                    }
+
+                    model.branchId = vm.BranchId;
+                    model.carType = vm.CarType;
+                    model.carModelId = vm.CarModelId;
+                    model.fuelTypeCode = vm.FuelTypeCode;
+                    model.carNumber = vm.CarNumber;
+                    model.driverId = vm.DriverId;
+                    model.registrationNumber = vm.RegistrationNumber;
+                    model.chasisNumber = vm.ChasisNumber;
+                    model.engineNumber = vm.EngineNumber;
+                    model.insuranceCompany = vm.InsuranceCompany;
+                    model.insurancePolicyNo = vm.InsurancePolicyNo;
+                    model.insuranceStartDate = vm.InsuranceStartDate;
+                    model.insuranceEndDate = vm.InsuranceEndDate;
+                    model.taxStartDate = vm.TaxStartDate;
+                    model.taxEndDate = vm.TaxEndDate;
+                    model.authorisationStartDate = vm.AuthorisationStartDate;
+                    model.authorisationEndDate = vm.AuthorisationEndDate;
+                    model.fitnessStartDate = vm.FitnessStartDate;
+                    model.fitnessEndDate = vm.FitnessEndDate;
+                    model.permitStartDate = vm.PermitStartDate;
+                    model.permitEndDate = vm.PermitEndDate;
+                    model.permitStartDate = vm.PucStartDate;
+                    model.pucEndDate = vm.PucEndDate;
+                    model.financeBy = vm.FinanceBy;
+                    model.ownerId = vm.OwnerId;
+                    model.carInUse = vm.CarInUse;
+                    model.carOnHold = vm.CarOnHold;
+                    model.servicingSlab = vm.ServicingSlab;
+                    model.emiAmount = vm.EmiAmount;
+                    model.emiDate = vm.EmiDate;
+
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("CarList");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CarDelete(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.Cars.FindAsync(_Id);
+
+                var vm = new CarViewModel
+                {
+                    CarId = model.CarId,
+                    BranchId = model.branchId,
+                    CarType = model.carType,
+                    CarModelId = model.carModelId,
+                    FuelTypeCode = model.fuelTypeCode,
+                    CarNumber = model.carNumber,
+                    DriverId = model.driverId,
+                    RegistrationNumber = model.registrationNumber,
+                    ChasisNumber = model.chasisNumber,
+                    EngineNumber = model.engineNumber,
+                    InsuranceCompany = model.insuranceCompany,
+                    InsurancePolicyNo = model.insurancePolicyNo,
+                    InsuranceStartDate = model.insuranceStartDate,
+                    InsuranceEndDate = model.insuranceEndDate,
+                    TaxStartDate = model.taxStartDate,
+                    TaxEndDate = model.taxEndDate,
+                    AuthorisationStartDate = model.authorisationStartDate,
+                    AuthorisationEndDate = model.authorisationEndDate,
+                    FitnessStartDate = model.fitnessStartDate,
+                    FitnessEndDate = model.fitnessEndDate,
+                    PermitStartDate = model.permitStartDate,
+                    PermitEndDate = model.permitEndDate,
+                    PucStartDate = model.permitStartDate,
+                    PucEndDate = model.pucEndDate,
+                    FinanceBy = model.financeBy,
+                    OwnerId = model.ownerId,
+                    CarInUse = model.carInUse,
+                    CarOnHold = model.carOnHold,
+                    ServicingSlab = model.servicingSlab,
+                    EmiAmount = model.emiAmount,
+                    EmiDate = model.emiDate
+                };
+
+                return View(vm);
+            }
+
+            return RedirectToAction("CarList");
+        }
+
+        [HttpPost]
+        [ActionName("CarDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CarDeleteConfirmed(string key, CarViewModel vm)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.Cars.FindAsync(_Id);
+
+                model.active = false;
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("CarList");
+            }
+
+            return View(vm);
+        }
+
+        private void BindDropdown_Car(CarViewModel vm)
+        {
+            vm.FuelTypeList = new SelectList(db.FuelTypes.Where(m=>m.active ==true), "fuelTypeCode", "fuelTypeDescription");
+            vm.BranchList = new SelectList(db.CompanyBranches.Where(m => m.active == true), "branchId", "branchName");
+            vm.OwnerList = new SelectList(db.Parties.Where(m => m.active == true), "partyId", "Name");
             vm.ModelList = new SelectList(db.CarModels.Where(m => m.active == true), "carModelId", "modelDescription");
         }
 

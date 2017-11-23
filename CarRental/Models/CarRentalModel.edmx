@@ -5,6 +5,47 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="CarRentalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="CarId" />
+          </Key>
+          <Property Name="CarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="branchId" Type="int" />
+          <Property Name="carType" Type="char" MaxLength="1" />
+          <Property Name="carModelId" Type="int" />
+          <Property Name="fuelTypeCode" Type="char" MaxLength="2" />
+          <Property Name="carNumber" Type="char" MaxLength="4" />
+          <Property Name="driverId" Type="int" />
+          <Property Name="registrationNumber" Type="char" MaxLength="10" />
+          <Property Name="chasisNumber" Type="varchar" MaxLength="50" />
+          <Property Name="engineNumber" Type="varchar" MaxLength="50" />
+          <Property Name="insuranceCompany" Type="varchar" MaxLength="250" />
+          <Property Name="insurancePolicyNo" Type="varchar" MaxLength="50" />
+          <Property Name="insuranceStartDate" Type="date" />
+          <Property Name="insuranceEndDate" Type="date" />
+          <Property Name="taxStartDate" Type="date" />
+          <Property Name="taxEndDate" Type="date" />
+          <Property Name="authorisationStartDate" Type="date" />
+          <Property Name="authorisationEndDate" Type="date" />
+          <Property Name="fitnessStartDate" Type="date" />
+          <Property Name="fitnessEndDate" Type="date" />
+          <Property Name="permitStartDate" Type="date" />
+          <Property Name="permitEndDate" Type="date" />
+          <Property Name="pucStartDate" Type="date" />
+          <Property Name="pucEndDate" Type="date" />
+          <Property Name="financeBy" Type="varchar" MaxLength="200" />
+          <Property Name="ownerId" Type="int" />
+          <Property Name="carInUse" Type="bit" Nullable="false" />
+          <Property Name="carOnHold" Type="bit" Nullable="false" />
+          <Property Name="servicingSlab" Type="int" />
+          <Property Name="emiAmount" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="emiDate" Type="date" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="entryBy" Type="int" Nullable="false" />
+          <Property Name="entryDate" Type="datetime" Nullable="false" />
+          <Property Name="updatedBy" Type="int" />
+          <Property Name="updatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="CarModel">
           <Key>
             <PropertyRef Name="carModelId" />
@@ -98,6 +139,14 @@
           <Property Name="updatedBy" Type="int" />
           <Property Name="updatedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="FuelType">
+          <Key>
+            <PropertyRef Name="fuelTypeCode" />
+          </Key>
+          <Property Name="fuelTypeCode" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="fuelTypeDescription" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="active" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Guest">
           <Key>
             <PropertyRef Name="guestId" />
@@ -177,6 +226,42 @@
           <Property Name="statusCode" Type="char" MaxLength="2" Nullable="false" />
           <Property Name="statusDescription" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Car_CarModel">
+          <End Role="CarModel" Type="Self.CarModel" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModel">
+              <PropertyRef Name="carModelId" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="carModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_CompanyBranch">
+          <End Role="CompanyBranch" Type="Self.CompanyBranch" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyBranch">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_FuelType">
+          <End Role="FuelType" Type="Self.FuelType" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FuelType">
+              <PropertyRef Name="fuelTypeCode" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="fuelTypeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CompanyBranch_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CompanyBranch" Type="Self.CompanyBranch" Multiplicity="*" />
@@ -298,16 +383,30 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CarRentalModelStoreContainer">
+          <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CarModel" EntityType="Self.CarModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyBranch" EntityType="Self.CompanyBranch" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FuelType" EntityType="Self.FuelType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guest" EntityType="Self.Guest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Party" EntityType="Self.Party" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PartyStatus" EntityType="Self.PartyStatus" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Car_CarModel" Association="Self.FK_Car_CarModel">
+            <End Role="CarModel" EntitySet="CarModel" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_CompanyBranch" Association="Self.FK_Car_CompanyBranch">
+            <End Role="CompanyBranch" EntitySet="CompanyBranch" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_FuelType" Association="Self.FK_Car_FuelType">
+            <End Role="FuelType" EntitySet="FuelType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
           <AssociationSet Name="FK_CompanyBranch_Company" Association="Self.FK_CompanyBranch_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyBranch" EntitySet="CompanyBranch" />
@@ -387,6 +486,7 @@
           <NavigationProperty Name="Parties" Relationship="CarRentalModel.FK_Party_CompanyBranch" FromRole="CompanyBranch" ToRole="Party" />
           <NavigationProperty Name="Guests" Relationship="CarRentalModel.FK_Guest_CompanyBranch" FromRole="CompanyBranch" ToRole="Guest" />
           <NavigationProperty Name="Employees" Relationship="CarRentalModel.FK_Employee_CompanyBranch" FromRole="CompanyBranch" ToRole="Employee" />
+          <NavigationProperty Name="Cars" Relationship="CarRentalModel.FK_Car_CompanyBranch" FromRole="CompanyBranch" ToRole="Car" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -459,6 +559,20 @@
           <AssociationSet Name="FK_Login_Employee" Association="CarRentalModel.FK_Login_Employee">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="Login" EntitySet="Logins" />
+          </AssociationSet>
+          <EntitySet Name="Cars" EntityType="CarRentalModel.Car" />
+          <EntitySet Name="FuelTypes" EntityType="CarRentalModel.FuelType" />
+          <AssociationSet Name="FK_Car_CarModel" Association="CarRentalModel.FK_Car_CarModel">
+            <End Role="CarModel" EntitySet="CarModels" />
+            <End Role="Car" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_CompanyBranch" Association="CarRentalModel.FK_Car_CompanyBranch">
+            <End Role="CompanyBranch" EntitySet="CompanyBranches" />
+            <End Role="Car" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_FuelType" Association="CarRentalModel.FK_Car_FuelType">
+            <End Role="FuelType" EntitySet="FuelTypes" />
+            <End Role="Car" EntitySet="Cars" />
           </AssociationSet>
           </EntityContainer>
         <Association Name="FK_CompanyBranch_Company">
@@ -547,6 +661,7 @@
           <Property Name="updatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Guests" Relationship="CarRentalModel.FK_Guest_CarModel" FromRole="CarModel" ToRole="Guest" />
           <Property Name="seatingCapacity" Type="Int32" />
+          <NavigationProperty Name="Cars" Relationship="CarRentalModel.FK_Car_CarModel" FromRole="CarModel" ToRole="Car" />
         </EntityType>
         <EntityType Name="Designation">
           <Key>
@@ -714,6 +829,95 @@
             </Principal>
             <Dependent Role="Login">
               <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="CarId" />
+          </Key>
+          <Property Name="CarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branchId" Type="Int32" />
+          <Property Name="carType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="carModelId" Type="Int32" />
+          <Property Name="fuelTypeCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="carNumber" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="driverId" Type="Int32" />
+          <Property Name="registrationNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="chasisNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="engineNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="insuranceCompany" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="insurancePolicyNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="insuranceStartDate" Type="DateTime" Precision="0" />
+          <Property Name="insuranceEndDate" Type="DateTime" Precision="0" />
+          <Property Name="taxStartDate" Type="DateTime" Precision="0" />
+          <Property Name="taxEndDate" Type="DateTime" Precision="0" />
+          <Property Name="authorisationStartDate" Type="DateTime" Precision="0" />
+          <Property Name="authorisationEndDate" Type="DateTime" Precision="0" />
+          <Property Name="fitnessStartDate" Type="DateTime" Precision="0" />
+          <Property Name="fitnessEndDate" Type="DateTime" Precision="0" />
+          <Property Name="permitStartDate" Type="DateTime" Precision="0" />
+          <Property Name="permitEndDate" Type="DateTime" Precision="0" />
+          <Property Name="pucStartDate" Type="DateTime" Precision="0" />
+          <Property Name="pucEndDate" Type="DateTime" Precision="0" />
+          <Property Name="financeBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ownerId" Type="Int32" />
+          <Property Name="carInUse" Type="Boolean" Nullable="false" />
+          <Property Name="carOnHold" Type="Boolean" Nullable="false" />
+          <Property Name="servicingSlab" Type="Int32" />
+          <Property Name="emiAmount" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="emiDate" Type="DateTime" Precision="0" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="entryBy" Type="Int32" Nullable="false" />
+          <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CarModel" Relationship="CarRentalModel.FK_Car_CarModel" FromRole="Car" ToRole="CarModel" />
+          <NavigationProperty Name="CompanyBranch" Relationship="CarRentalModel.FK_Car_CompanyBranch" FromRole="Car" ToRole="CompanyBranch" />
+          <NavigationProperty Name="FuelType" Relationship="CarRentalModel.FK_Car_FuelType" FromRole="Car" ToRole="FuelType" />
+        </EntityType>
+        <EntityType Name="FuelType">
+          <Key>
+            <PropertyRef Name="fuelTypeCode" />
+          </Key>
+          <Property Name="fuelTypeCode" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="fuelTypeDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Cars" Relationship="CarRentalModel.FK_Car_FuelType" FromRole="FuelType" ToRole="Car" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Car_CarModel">
+          <End Type="CarRentalModel.CarModel" Role="CarModel" Multiplicity="0..1" />
+          <End Type="CarRentalModel.Car" Role="Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModel">
+              <PropertyRef Name="carModelId" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="carModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_CompanyBranch">
+          <End Type="CarRentalModel.CompanyBranch" Role="CompanyBranch" Multiplicity="0..1" />
+          <End Type="CarRentalModel.Car" Role="Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyBranch">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_FuelType">
+          <End Type="CarRentalModel.FuelType" Role="FuelType" Multiplicity="0..1" />
+          <End Type="CarRentalModel.Car" Role="Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FuelType">
+              <PropertyRef Name="fuelTypeCode" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="fuelTypeCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -902,6 +1106,57 @@
                 <ScalarProperty Name="loginId" ColumnName="loginId" />
                 <ScalarProperty Name="employeeId" ColumnName="employeeId" />
                 <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="CarRentalModel.Car">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="entryDate" ColumnName="entryDate" />
+                <ScalarProperty Name="entryBy" ColumnName="entryBy" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="emiDate" ColumnName="emiDate" />
+                <ScalarProperty Name="emiAmount" ColumnName="emiAmount" />
+                <ScalarProperty Name="servicingSlab" ColumnName="servicingSlab" />
+                <ScalarProperty Name="carOnHold" ColumnName="carOnHold" />
+                <ScalarProperty Name="carInUse" ColumnName="carInUse" />
+                <ScalarProperty Name="ownerId" ColumnName="ownerId" />
+                <ScalarProperty Name="financeBy" ColumnName="financeBy" />
+                <ScalarProperty Name="pucEndDate" ColumnName="pucEndDate" />
+                <ScalarProperty Name="pucStartDate" ColumnName="pucStartDate" />
+                <ScalarProperty Name="permitEndDate" ColumnName="permitEndDate" />
+                <ScalarProperty Name="permitStartDate" ColumnName="permitStartDate" />
+                <ScalarProperty Name="fitnessEndDate" ColumnName="fitnessEndDate" />
+                <ScalarProperty Name="fitnessStartDate" ColumnName="fitnessStartDate" />
+                <ScalarProperty Name="authorisationEndDate" ColumnName="authorisationEndDate" />
+                <ScalarProperty Name="authorisationStartDate" ColumnName="authorisationStartDate" />
+                <ScalarProperty Name="taxEndDate" ColumnName="taxEndDate" />
+                <ScalarProperty Name="taxStartDate" ColumnName="taxStartDate" />
+                <ScalarProperty Name="insuranceEndDate" ColumnName="insuranceEndDate" />
+                <ScalarProperty Name="insuranceStartDate" ColumnName="insuranceStartDate" />
+                <ScalarProperty Name="insurancePolicyNo" ColumnName="insurancePolicyNo" />
+                <ScalarProperty Name="insuranceCompany" ColumnName="insuranceCompany" />
+                <ScalarProperty Name="engineNumber" ColumnName="engineNumber" />
+                <ScalarProperty Name="chasisNumber" ColumnName="chasisNumber" />
+                <ScalarProperty Name="registrationNumber" ColumnName="registrationNumber" />
+                <ScalarProperty Name="driverId" ColumnName="driverId" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="fuelTypeCode" ColumnName="fuelTypeCode" />
+                <ScalarProperty Name="carModelId" ColumnName="carModelId" />
+                <ScalarProperty Name="carType" ColumnName="carType" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="CarId" ColumnName="CarId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FuelTypes">
+            <EntityTypeMapping TypeName="CarRentalModel.FuelType">
+              <MappingFragment StoreEntitySet="FuelType">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="fuelTypeDescription" ColumnName="fuelTypeDescription" />
+                <ScalarProperty Name="fuelTypeCode" ColumnName="fuelTypeCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

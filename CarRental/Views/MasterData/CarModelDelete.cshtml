@@ -1,0 +1,39 @@
+﻿@model CarRental.ViewModel.CarModelViewModel
+
+@{
+    ViewBag.Title = "CarModelDelete";
+}
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Car Model</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ModelDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModelDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SeatingCapacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeatingCapacity)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "CarModelList")
+        </div>
+    }
+</div>

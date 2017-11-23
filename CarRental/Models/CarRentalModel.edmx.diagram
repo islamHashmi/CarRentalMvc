@@ -25,6 +25,11 @@
         <AssociationConnector Association="CarRentalModel.FK_Employee_CompanyBranch" />
         <EntityTypeShape EntityType="CarRentalModel.Login" Width="1.5" PointX="8.5" PointY="2.875" />
         <AssociationConnector Association="CarRentalModel.FK_Login_Employee" />
+        <EntityTypeShape EntityType="CarRentalModel.Car" Width="1.5" PointX="11.25" PointY="6.5" />
+        <EntityTypeShape EntityType="CarRentalModel.FuelType" Width="1.5" PointX="9" PointY="13.875" />
+        <AssociationConnector Association="CarRentalModel.FK_Car_CarModel" />
+        <AssociationConnector Association="CarRentalModel.FK_Car_CompanyBranch" />
+        <AssociationConnector Association="CarRentalModel.FK_Car_FuelType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

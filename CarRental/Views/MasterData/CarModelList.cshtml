@@ -1,0 +1,43 @@
+﻿@model IEnumerable<CarRental.ViewModel.CarModelViewModel>
+
+@{
+    ViewBag.Title = "CarModelList";
+}
+
+<h2>Cars Model</h2>
+
+<div class="card">
+    <div class="card-header">
+        @Html.ActionLink("Create New", "CarModelManage")
+    </div>
+    <table class="table table-sm table-responsive-sm">
+        <tr class="thead-light">
+            <th>
+                @Html.DisplayNameFor(model => model.ModelDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeatingCapacity)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModelDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeatingCapacity)
+                </td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        @Html.ActionLink("Edit", "CarModelManage", new { key = HelperClass.Encrypt(item.CarModelId) }, new { @class = "btn btn-secondary btn-sm" })
+                        @Html.ActionLink("Details", "CarModelDetails", new { key = HelperClass.Encrypt(item.CarModelId) }, new { @class = "btn btn-secondary btn-sm" })
+                        @Html.ActionLink("Delete", "CarModelDelete", new { key = HelperClass.Encrypt(item.CarModelId) }, new { @class = "btn btn-secondary btn-sm" })
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
