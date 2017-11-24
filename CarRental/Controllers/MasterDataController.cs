@@ -634,27 +634,7 @@ namespace CarRental.Controllers
             {
                 foreach (var item in model)
                 {
-                    var vm = new EmployeeViewModel
-                    {
-                        EmployeeId = item.employeeId,
-                        EmployeeCode = item.employeeCode,
-                        BranchName = item.CompanyBranch == null ? "" : item.CompanyBranch.branchName,
-                        DesignationName = item.Designation == null ? "" : item.Designation.designationName,
-                        EmployeeName = item.employeeName,
-                        ResidentiallAddress = item.residentiallAddress,
-                        NativeAddress = item.nativeAddress,
-                        MobileNumber = item.mobileNumber,
-                        ResidentialTelephone = item.residentialTelephone,
-                        JoiningDate = item.joiningDate,
-                        LeavingDate = item.leavingDate,
-                        BasicAmount = item.basicAmount,
-                        HraAmount = item.hraAmount,
-                        CcAmount = item.ccAmount,
-                        Bank = item.bank ?? false,
-                        AccountNumber = item.accountNumber
-                    };
-
-                    list.Add(vm);
+                    list.Add(GetEmployee(item));
                 }
             }
 
@@ -674,28 +654,8 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Employees.FindAsync(_Id);
-
-                var vm = new EmployeeViewModel
-                {
-                    EmployeeId = model.employeeId,
-                    EmployeeCode = model.employeeCode,
-                    BranchName = model.CompanyBranch == null ? "" : model.CompanyBranch.branchName,
-                    DesignationName = model.Designation == null ? "" : model.Designation.designationName,
-                    EmployeeName = model.employeeName,
-                    ResidentiallAddress = model.residentiallAddress,
-                    NativeAddress = model.nativeAddress,
-                    MobileNumber = model.mobileNumber,
-                    ResidentialTelephone = model.residentialTelephone,
-                    JoiningDate = model.joiningDate,
-                    LeavingDate = model.leavingDate,
-                    BasicAmount = model.basicAmount,
-                    HraAmount = model.hraAmount,
-                    CcAmount = model.ccAmount,
-                    Bank = model.bank ?? false,
-                    AccountNumber = model.accountNumber
-                };
-
-                return View(vm);
+                
+                return View(GetEmployee(model));
             }
 
             return RedirectToAction("EmployeeList");
@@ -719,22 +679,7 @@ namespace CarRental.Controllers
 
                     var model = await db.Employees.FindAsync(_Id);
 
-                    vm.BranchId = model.branchId;
-                    vm.DesignationId = model.designationId;
-                    vm.EmployeeId = model.employeeId;
-                    vm.EmployeeCode = model.employeeCode;
-                    vm.EmployeeName = model.employeeName;
-                    vm.ResidentiallAddress = model.residentiallAddress;
-                    vm.NativeAddress = model.nativeAddress;
-                    vm.MobileNumber = model.mobileNumber;
-                    vm.ResidentialTelephone = model.residentialTelephone;
-                    vm.JoiningDate = model.joiningDate;
-                    vm.LeavingDate = model.leavingDate;
-                    vm.BasicAmount = model.basicAmount;
-                    vm.HraAmount = model.hraAmount;
-                    vm.CcAmount = model.ccAmount;
-                    vm.Bank = model.bank ?? false;
-                    vm.AccountNumber = model.accountNumber;
+                    vm = GetEmployee(model);                    
                 }
             }
             catch (Exception ex)
@@ -791,8 +736,15 @@ namespace CarRental.Controllers
                     model.basicAmount = vm.BasicAmount;
                     model.hraAmount = vm.HraAmount;
                     model.ccAmount = vm.CcAmount;
-                    model.bank = vm.Bank;
                     model.accountNumber = vm.AccountNumber;
+                    model.bloodGroup = vm.BloodGroup;
+                    model.licenseNumber = vm.LicenseNumber;
+                    model.otRatePerHour = vm.OtRatePerHour;
+                    model.outstation150 = vm.Outstation150;
+                    model.outstation100 = vm.Outstation100;
+                    model.pfAmount = vm.PfAmount;
+                    model.extraDuty = vm.ExtraDuty;
+                    model.sundayAmount = vm.SundayAmount;
 
                     await db.SaveChangesAsync();
 
@@ -824,28 +776,8 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Employees.FindAsync(_Id);
-
-                var vm = new EmployeeViewModel
-                {
-                    EmployeeId = model.employeeId,
-                    EmployeeCode = model.employeeCode,
-                    BranchName = model.CompanyBranch == null ? "" : model.CompanyBranch.branchName,
-                    DesignationName = model.Designation == null ? "" : model.Designation.designationName,
-                    EmployeeName = model.employeeName,
-                    ResidentiallAddress = model.residentiallAddress,
-                    NativeAddress = model.nativeAddress,
-                    MobileNumber = model.mobileNumber,
-                    ResidentialTelephone = model.residentialTelephone,
-                    JoiningDate = model.joiningDate,
-                    LeavingDate = model.leavingDate,
-                    BasicAmount = model.basicAmount,
-                    HraAmount = model.hraAmount,
-                    CcAmount = model.ccAmount,
-                    Bank = model.bank ?? false,
-                    AccountNumber = model.accountNumber
-                };
-
-                return View(vm);
+                
+                return View(GetEmployee(model));
             }
 
             return RedirectToAction("EmployeeList");
@@ -875,6 +807,38 @@ namespace CarRental.Controllers
             }
 
             return View(vm);
+        }
+
+        private EmployeeViewModel GetEmployee(Employee model)
+        {
+            return new EmployeeViewModel
+            {
+                BranchId = model.branchId,
+                EmployeeId = model.employeeId,
+                EmployeeCode = model.employeeCode,
+                BranchName = model.CompanyBranch == null ? "" : model.CompanyBranch.branchName,
+                DesignationId = model.designationId,
+                DesignationName = model.Designation == null ? "" : model.Designation.designationName,
+                EmployeeName = model.employeeName,
+                ResidentiallAddress = model.residentiallAddress,
+                NativeAddress = model.nativeAddress,
+                MobileNumber = model.mobileNumber,
+                ResidentialTelephone = model.residentialTelephone,
+                JoiningDate = model.joiningDate,
+                LeavingDate = model.leavingDate,
+                BasicAmount = model.basicAmount,
+                HraAmount = model.hraAmount,
+                CcAmount = model.ccAmount,
+                AccountNumber = model.accountNumber,
+                BloodGroup = model.bloodGroup,
+                LicenseNumber = model.licenseNumber,
+                OtRatePerHour = model.otRatePerHour,
+                Outstation100 = model.outstation100,
+                Outstation150 = model.outstation150,
+                PfAmount = model.pfAmount,
+                ExtraDuty = model.extraDuty,
+                SundayAmount = model.sundayAmount
+            };
         }
 
         private void BindDropdown_Employee(EmployeeViewModel vm)
@@ -2004,6 +1968,10 @@ namespace CarRental.Controllers
             {
                 throw;
             }
+            finally
+            {
+                BindDropdown_Car(vm);
+            }
 
             return View(vm);
         }
@@ -2082,6 +2050,10 @@ namespace CarRental.Controllers
             catch (Exception ex)
             {
                 throw;
+            }
+            finally
+            {
+                BindDropdown_Car(vm);
             }
 
             return View(vm);
@@ -2170,10 +2142,191 @@ namespace CarRental.Controllers
 
         private void BindDropdown_Car(CarViewModel vm)
         {
-            vm.FuelTypeList = new SelectList(db.FuelTypes.Where(m=>m.active ==true), "fuelTypeCode", "fuelTypeDescription");
+            vm.FuelTypeList = new SelectList(db.FuelTypes.Where(m => m.active == true), "fuelTypeCode", "fuelTypeDescription");
             vm.BranchList = new SelectList(db.CompanyBranches.Where(m => m.active == true), "branchId", "branchName");
             vm.OwnerList = new SelectList(db.Parties.Where(m => m.active == true), "partyId", "Name");
             vm.ModelList = new SelectList(db.CarModels.Where(m => m.active == true), "carModelId", "modelDescription");
+            vm.DriverList = new SelectList(db.Employees.Where(m => m.active == true), "employeeId", "employeeName");
+        }
+
+        #endregion
+
+        #region Scheme Master
+
+        [HttpGet]
+        public async Task<ActionResult> SchemeList()
+        {
+            var list = new List<SchemeViewModel>();
+
+            var model = await db.Schemes.Where(m => m.active == true).ToListAsync();
+
+            if (model != null)
+            {
+                foreach (var item in model)
+                {
+                    list.Add(GetScheme(item));
+                }
+            }
+
+            return View(list);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> SchemeDetails(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.Schemes.FindAsync(_Id);
+                
+                return View(GetScheme(model));
+            }
+
+            return RedirectToAction("SchemeList");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> SchemeManage(string key)
+        {
+            var vm = new SchemeViewModel();
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(key))
+                {
+                    key = HelperClass.Decrypt(key);
+
+                    int.TryParse(key, out int _Id);
+
+                    if (_Id == 0)
+                        return HttpNotFound();
+
+                    var model = await db.Schemes.FindAsync(_Id);
+
+                    vm = GetScheme(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> SchemeManage(SchemeViewModel vm)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var model = new Scheme();
+
+                    if (vm.SchemeId == null)
+                    {
+                        if (db.Schemes.Count(m => m.schemeName == vm.SchemeName) > 0)
+                        {
+                            ModelState.AddModelError("", "Scheme Name already exists in database.");
+                            return View(vm);
+                        }
+
+                        model.active = true;
+                        model.entryBy = 1;
+                        model.entryDate = DateTime.Now;
+
+                        db.Schemes.Add(model);
+                    }
+                    else
+                    {
+                        model = await db.Schemes.FindAsync(vm.SchemeId);
+
+                        if (model == null)
+                            return HttpNotFound();
+
+                        model.updatedBy = 2;
+                        model.updatedDate = DateTime.Now;
+                        db.Entry(model).State = EntityState.Modified;
+                    }
+
+                    model.schemeName = vm.SchemeName;
+                    model.minimumHours = vm.MinimumHours;
+                    model.minimumKilometer = vm.MinimumKilometer;
+
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("SchemeList");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> SchemeDelete(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.Schemes.FindAsync(_Id);
+                
+                return View(GetScheme(model));
+            }
+
+            return RedirectToAction("SchemeList");
+        }
+
+        [HttpPost]
+        [ActionName("SchemeDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SchemeDeleteConfirmed(string key, SchemeViewModel vm)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.Schemes.FindAsync(_Id);
+
+                model.active = false;
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("SchemeList");
+            }
+
+            return View(vm);
+        }
+
+        private SchemeViewModel GetScheme(Scheme model)
+        {
+            return new SchemeViewModel
+            {
+                SchemeId = model.schemeId,
+                SchemeName = model.schemeName,
+                MinimumHours = model.minimumHours,
+                MinimumKilometer = model.minimumKilometer
+            };
         }
 
         #endregion

@@ -1,0 +1,264 @@
+﻿@model CarRental.ViewModel.CarViewModel
+
+@{
+    ViewBag.Title = "CarDelete";
+}
+
+<h2>CarDelete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CarViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarTypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FuelTypeCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FuelTypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DriverId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DriverName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarModelId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModelName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistrationNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistrationNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChasisNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChasisNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EngineNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EngineNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsuranceCompany)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsuranceCompany)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsurancePolicyNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsurancePolicyNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsuranceStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsuranceStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsuranceEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsuranceEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaxStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaxStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaxEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaxEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthorisationStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthorisationStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthorisationEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthorisationEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FitnessStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FitnessStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FitnessEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FitnessEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PermitStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PermitStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PermitEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PermitEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PucStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PucStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PucEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PucEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FinanceBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FinanceBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OwnerId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OwnerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarInUse)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarInUse)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarOnHold)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarOnHold)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServicingSlab)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServicingSlab)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmiAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmiAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmiDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmiDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

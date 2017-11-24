@@ -53,9 +53,6 @@
                     @Html.DisplayNameFor(model => model.CcAmount)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Bank)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.AccountNumber)
                 </th>
                 <th></th>
@@ -104,16 +101,13 @@
                         @Html.DisplayFor(modelItem => item.CcAmount)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Bank)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.AccountNumber)
                     </td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            @Html.ActionLink("Edit", "BranchManage", new { key = HelperClass.Encrypt(item.EmployeeId) }, new { @class = "btn btn-secondary btn-sm" })
-                            @Html.ActionLink("Details", "BranchDetails", new { key = HelperClass.Encrypt(item.EmployeeId) }, new { @class = "btn btn-secondary btn-sm" })
-                            @Html.ActionLink("Delete", "BranchDelete", new { key = HelperClass.Encrypt(item.EmployeeId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Edit", "EmployeeManage", new { key = HelperClass.Encrypt(item.EmployeeId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Details", "EmployeeDetails", new { key = HelperClass.Encrypt(item.EmployeeId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Delete", "EmployeeDelete", new { key = HelperClass.Encrypt(item.EmployeeId) }, new { @class = "btn btn-secondary btn-sm" })
                         </div>
                     </td>
                 </tr>

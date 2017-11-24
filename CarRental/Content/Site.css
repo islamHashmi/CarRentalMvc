@@ -17,3 +17,7 @@
 .input-validation-error{
     border-color : #ff0000;
 }
+
+.form-group{
+    margin-bottom:.2rem;
+}

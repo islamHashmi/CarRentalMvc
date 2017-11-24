@@ -34,7 +34,9 @@
                             @Html.ActionLink("Party", "PartyList", "MasterData", null, new { @class = "dropdown-item" })
                             @Html.ActionLink("Designation", "DesignationList", "MasterData", null, new { @class = "dropdown-item" })
                             @Html.ActionLink("Car Model", "CarModelList", "MasterData", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Car", "CarList", "MasterData", null, new { @class = "dropdown-item" })
                             @Html.ActionLink("Guest", "GuestList", "MasterData", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Scheme", "SchemeList", "MasterData", null, new { @class = "dropdown-item" })
                         </div>
                     </li>
                     <li class="nav-item">
@@ -66,5 +68,10 @@
             integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $(".chosen-select-single").chosen();
+        });
+    </script>
 </body>
 </html>

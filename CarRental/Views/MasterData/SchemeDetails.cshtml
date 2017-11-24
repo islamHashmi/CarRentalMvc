@@ -1,0 +1,41 @@
+﻿@model CarRental.ViewModel.SchemeViewModel
+
+@{
+    ViewBag.Title = "SchemeDetails";
+}
+
+<h4>SchemeViewModel</h4>
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SchemeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchemeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinimumHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinimumHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinimumKilometer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinimumKilometer)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { key = HelperClass.Encrypt(Model.SchemeId) }) |
+    @Html.ActionLink("Back to List", "SchemeList")
+</p>

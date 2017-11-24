@@ -19,8 +19,8 @@ namespace CarRental.Models
         {
             this.Parties = new HashSet<Party>();
             this.Guests = new HashSet<Guest>();
-            this.Employees = new HashSet<Employee>();
             this.Cars = new HashSet<Car>();
+            this.Employees = new HashSet<Employee>();
         }
     
         public int branchId { get; set; }
@@ -38,8 +38,8 @@ namespace CarRental.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Guest> Guests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employees { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Car> Cars { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

@@ -34,16 +34,23 @@ namespace CarRental.Models
         public Nullable<decimal> basicAmount { get; set; }
         public Nullable<decimal> hraAmount { get; set; }
         public Nullable<decimal> ccAmount { get; set; }
-        public Nullable<bool> bank { get; set; }
+        public string bloodGroup { get; set; }
+        public string licenseNumber { get; set; }
+        public Nullable<decimal> otRatePerHour { get; set; }
+        public Nullable<decimal> outstation150 { get; set; }
+        public Nullable<decimal> outstation100 { get; set; }
+        public Nullable<decimal> pfAmount { get; set; }
+        public Nullable<decimal> extraDuty { get; set; }
         public string accountNumber { get; set; }
         public bool active { get; set; }
         public int entryBy { get; set; }
         public System.DateTime entryDate { get; set; }
         public Nullable<int> updatedBy { get; set; }
         public Nullable<System.DateTime> updatedDate { get; set; }
+        public Nullable<decimal> sundayAmount { get; set; }
     
-        public virtual Designation Designation { get; set; }
         public virtual CompanyBranch CompanyBranch { get; set; }
+        public virtual Designation Designation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Login> Logins { get; set; }
     }

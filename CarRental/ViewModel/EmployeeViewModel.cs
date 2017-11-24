@@ -9,7 +9,7 @@ namespace CarRental.ViewModel
         [Key]
         public int? EmployeeId { get; set; }
 
-        [Display(Name ="Employee Code")]
+        [Display(Name ="ID Name")]
         public string EmployeeCode { get; set; }
 
         [Required, Display(Name = "Branch")]
@@ -28,34 +28,56 @@ namespace CarRental.ViewModel
         [Required, Display(Name = "Residentail Address")]
         public string ResidentiallAddress { get; set; }
 
-        [Required, Display(Name = "Native Address")]
+        [Display(Name = "Native Address")]
         public string NativeAddress { get; set; }
 
         [Required, Display(Name = "Mobile Number")]
         public string MobileNumber { get; set; }
 
-        [Required, Display(Name = "Residential Tel.")]
+        [Display(Name = "Residential Tel.")]
         public string ResidentialTelephone { get; set; }
 
         [Required, Display(Name = "Joining Date")]
         public DateTime? JoiningDate { get; set; }
 
-        [Required, Display(Name = "Leaving Date")]
+        [Display(Name = "Leaving Date")]
         public DateTime? LeavingDate { get; set; }
 
-        [Required, Display(Name = "Basic Amount")]
+        [Display(Name = "Basic Amount")]
         public decimal? BasicAmount { get; set; }
 
-        [Required, Display(Name = "HRA Amount")]
+        [Display(Name = "HRA Amount")]
         public decimal? HraAmount { get; set; }
 
-        [Required, Display(Name = "CC Amount")]
+        [Display(Name = "CC Amount")]
         public decimal? CcAmount { get; set; }
+        
+        [Display(Name = "Account Number")]
+        public string AccountNumber { get; set; }
 
-        [Required, Display(Name = "Bank")]
-        public bool Bank { get; set; }
+        [Display(Name = "Blood Group")]
+        public string BloodGroup { get; set; }
 
-        [Required, Display(Name = "Account Number")]
-        public string AccountNumber { get; set; }        
+        [Display(Name = "License No.")]
+        public string LicenseNumber { get; set; }
+
+        [Display(Name = "O.T. Rate/Hr.")]
+        public decimal? OtRatePerHour { get; set; }
+
+        [Display(Name = "Outstation 150")]
+        public decimal? Outstation150 { get; set; }
+
+        [Display(Name = "Outstation 100")]
+        public decimal? Outstation100 { get; set; }
+
+        [Display(Name = "P.F. %")]
+        public decimal? PfAmount { get; set; }
+
+        [Display(Name = "Extra Duty")]
+        public decimal? ExtraDuty { get; set; }
+
+        [Display(Name = "Sunday")]
+        public decimal? SundayAmount { get; set; }
+
     }
 }

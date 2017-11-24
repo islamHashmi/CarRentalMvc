@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CarRental.ViewModel.SchemeViewModel>
+
+@{
+    ViewBag.Title = "SchemeList";
+}
+
+<h2>Schemes</h2>
+
+<div class="card">
+    <div class="card-header">
+        @Html.ActionLink("Create New", "SchemeManage")
+    </div>
+    <table class="table table-sm table-responsive-sm">
+        <tr class="thead-light">
+            <th>
+                @Html.DisplayNameFor(model => model.SchemeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinimumHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinimumKilometer)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SchemeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MinimumHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MinimumKilometer)
+                </td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        @Html.ActionLink("Edit", "SchemeManage", new { key = HelperClass.Encrypt(item.SchemeId) }, new { @class = "btn btn-secondary btn-sm" })
+                        @Html.ActionLink("Details", "SchemeDetails", new { key = HelperClass.Encrypt(item.SchemeId) }, new { @class = "btn btn-secondary btn-sm" })
+                        @Html.ActionLink("Delete", "SchemeDelete", new { key = HelperClass.Encrypt(item.SchemeId) }, new { @class = "btn btn-secondary btn-sm" })
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+

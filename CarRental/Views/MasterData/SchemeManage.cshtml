@@ -1,0 +1,53 @@
+﻿@model CarRental.ViewModel.SchemeViewModel
+
+@{
+    ViewBag.Title = "SchemeManage";
+}
+
+<h4>Scheme</h4>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.SchemeId)
+
+    <div class="card">
+        <div class="card-body">
+            <div class="form-group row">
+                @Html.LabelFor(model => model.SchemeName, htmlAttributes: new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+                <div class="col-sm-5">
+                    @Html.EditorFor(model => model.SchemeName, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.SchemeName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.MinimumHours, htmlAttributes: new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+                <div class="col-sm-5">
+                    @Html.EditorFor(model => model.MinimumHours, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.MinimumHours, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.MinimumKilometer, htmlAttributes: new { @class = "col-sm-2 col-form-label col-form-label-sm" })
+                <div class="col-sm-5">
+                    @Html.EditorFor(model => model.MinimumKilometer, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.MinimumKilometer, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <input type="submit" value="Save" class="btn btn-primary btn-sm" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "SchemeList")
+</div>

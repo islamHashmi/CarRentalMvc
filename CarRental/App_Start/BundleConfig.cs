@@ -17,17 +17,20 @@ namespace CarRental
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/respond.js",
-                      "~/Scripts/moment.js",
-                      "~/Scripts/bootstrap-datetimepicker.js"));
+                        "~/Scripts/chosen.jquery.js",
+                        "~/Scripts/respond.js",
+                        "~/Scripts/moment.js",
+                        "~/Scripts/bootstrap-datetimepicker.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                       "~/Content/bootstrap-datetimepicker.css",
-                      "~/Content/site.css"));
+                        "~/Content/chosen.css",
+                        "~/Content/chosen-bootstrap.css",
+                        "~/Content/bootstrap-datetimepicker.css",
+                        "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/login").Include(
-                     "~/Content/bootstrap.css",
-                     "~/Content/login-style.css"));
+                        "~/Content/bootstrap.css",
+                        "~/Content/login-style.css"));
         }
     }
 }

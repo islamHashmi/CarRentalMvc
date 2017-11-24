@@ -118,7 +118,7 @@
             <PropertyRef Name="employeeId" />
           </Key>
           <Property Name="employeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="employeeCode" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="employeeCode" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="branchId" Type="int" Nullable="false" />
           <Property Name="designationId" Type="int" />
           <Property Name="employeeName" Type="varchar" MaxLength="200" Nullable="false" />
@@ -131,7 +131,14 @@
           <Property Name="basicAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="hraAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="ccAmount" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="bank" Type="bit" />
+          <Property Name="bloodGroup" Type="char" MaxLength="3" />
+          <Property Name="licenseNumber" Type="varchar" MaxLength="50" />
+          <Property Name="otRatePerHour" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="outstation150" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="outstation100" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="pfAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="extraDuty" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="sundayAmount" Type="decimal" Precision="10" Scale="2" />
           <Property Name="accountNumber" Type="varchar" MaxLength="50" />
           <Property Name="active" Type="bit" Nullable="false" />
           <Property Name="entryBy" Type="int" Nullable="false" />
@@ -225,6 +232,20 @@
           </Key>
           <Property Name="statusCode" Type="char" MaxLength="2" Nullable="false" />
           <Property Name="statusDescription" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Scheme">
+          <Key>
+            <PropertyRef Name="schemeId" />
+          </Key>
+          <Property Name="schemeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="schemeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="minimumHours" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="minimumKilometer" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="entryBy" Type="int" Nullable="false" />
+          <Property Name="entryDate" Type="datetime" Nullable="false" />
+          <Property Name="updatedBy" Type="int" />
+          <Property Name="updatedDate" Type="datetime" />
         </EntityType>
         <Association Name="FK_Car_CarModel">
           <End Role="CarModel" Type="Self.CarModel" Multiplicity="0..1" />
@@ -395,6 +416,7 @@
           <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Party" EntityType="Self.Party" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PartyStatus" EntityType="Self.PartyStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Scheme" EntityType="Self.Scheme" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Car_CarModel" Association="Self.FK_Car_CarModel">
             <End Role="CarModel" EntitySet="CarModel" />
             <End Role="Car" EntitySet="Car" />
@@ -485,8 +507,8 @@
           <Property Name="updatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Parties" Relationship="CarRentalModel.FK_Party_CompanyBranch" FromRole="CompanyBranch" ToRole="Party" />
           <NavigationProperty Name="Guests" Relationship="CarRentalModel.FK_Guest_CompanyBranch" FromRole="CompanyBranch" ToRole="Guest" />
-          <NavigationProperty Name="Employees" Relationship="CarRentalModel.FK_Employee_CompanyBranch" FromRole="CompanyBranch" ToRole="Employee" />
           <NavigationProperty Name="Cars" Relationship="CarRentalModel.FK_Car_CompanyBranch" FromRole="CompanyBranch" ToRole="Car" />
+          <NavigationProperty Name="Employees" Relationship="CarRentalModel.FK_Employee_CompanyBranch" FromRole="CompanyBranch" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -546,20 +568,7 @@
             <End Role="Party" EntitySet="Parties" />
             <End Role="Guest" EntitySet="Guests" />
           </AssociationSet>
-          <EntitySet Name="Employees" EntityType="CarRentalModel.Employee" />
-          <AssociationSet Name="FK_Employee_Designation" Association="CarRentalModel.FK_Employee_Designation">
-            <End Role="Designation" EntitySet="Designations" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_CompanyBranch" Association="CarRentalModel.FK_Employee_CompanyBranch">
-            <End Role="CompanyBranch" EntitySet="CompanyBranches" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
           <EntitySet Name="Logins" EntityType="CarRentalModel.Login" />
-          <AssociationSet Name="FK_Login_Employee" Association="CarRentalModel.FK_Login_Employee">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="Login" EntitySet="Logins" />
-          </AssociationSet>
           <EntitySet Name="Cars" EntityType="CarRentalModel.Car" />
           <EntitySet Name="FuelTypes" EntityType="CarRentalModel.FuelType" />
           <AssociationSet Name="FK_Car_CarModel" Association="CarRentalModel.FK_Car_CarModel">
@@ -574,6 +583,20 @@
             <End Role="FuelType" EntitySet="FuelTypes" />
             <End Role="Car" EntitySet="Cars" />
           </AssociationSet>
+          <EntitySet Name="Employees" EntityType="CarRentalModel.Employee" />
+          <AssociationSet Name="FK_Employee_CompanyBranch" Association="CarRentalModel.FK_Employee_CompanyBranch">
+            <End Role="CompanyBranch" EntitySet="CompanyBranches" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Designation" Association="CarRentalModel.FK_Employee_Designation">
+            <End Role="Designation" EntitySet="Designations" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Login_Employee" Association="CarRentalModel.FK_Login_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Login" EntitySet="Logins" />
+          </AssociationSet>
+          <EntitySet Name="Schemes" EntityType="CarRentalModel.Scheme" />
           </EntityContainer>
         <Association Name="FK_CompanyBranch_Company">
           <End Type="CarRentalModel.Company" Role="Company" Multiplicity="0..1" />
@@ -748,59 +771,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="employeeId" />
-          </Key>
-          <Property Name="employeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="employeeCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
-          <Property Name="branchId" Type="Int32" Nullable="false" />
-          <Property Name="designationId" Type="Int32" />
-          <Property Name="employeeName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="residentiallAddress" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="nativeAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="mobileNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="residentialTelephone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="joiningDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="leavingDate" Type="DateTime" Precision="0" />
-          <Property Name="basicAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="hraAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ccAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="bank" Type="Boolean" />
-          <Property Name="accountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="active" Type="Boolean" Nullable="false" />
-          <Property Name="entryBy" Type="Int32" Nullable="false" />
-          <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="updatedBy" Type="Int32" />
-          <Property Name="updatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Designation" Relationship="CarRentalModel.FK_Employee_Designation" FromRole="Employee" ToRole="Designation" />
-          <NavigationProperty Name="CompanyBranch" Relationship="CarRentalModel.FK_Employee_CompanyBranch" FromRole="Employee" ToRole="CompanyBranch" />
-          <NavigationProperty Name="Logins" Relationship="CarRentalModel.FK_Login_Employee" FromRole="Employee" ToRole="Login" />
-        </EntityType>
-        <Association Name="FK_Employee_Designation">
-          <End Type="CarRentalModel.Designation" Role="Designation" Multiplicity="0..1" />
-          <End Type="CarRentalModel.Employee" Role="Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Designation">
-              <PropertyRef Name="designationId" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="designationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_CompanyBranch">
-          <End Type="CarRentalModel.CompanyBranch" Role="CompanyBranch" Multiplicity="1" />
-          <End Type="CarRentalModel.Employee" Role="Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CompanyBranch">
-              <PropertyRef Name="branchId" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="branchId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Login">
           <Key>
             <PropertyRef Name="userId" />
@@ -816,22 +786,10 @@
           <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="updatedBy" Type="Int32" />
           <Property Name="updatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Employee" Relationship="CarRentalModel.FK_Login_Employee" FromRole="Login" ToRole="Employee" />
           <Property Name="active" Type="Boolean" Nullable="false" />
           <Property Name="otpExpiryTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="CarRentalModel.FK_Login_Employee" FromRole="Login" ToRole="Employee" />
         </EntityType>
-        <Association Name="FK_Login_Employee">
-          <End Type="CarRentalModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="CarRentalModel.Login" Role="Login" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="employeeId" />
-            </Principal>
-            <Dependent Role="Login">
-              <PropertyRef Name="employeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Car">
           <Key>
             <PropertyRef Name="CarId" />
@@ -921,6 +879,92 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="employeeId" />
+          </Key>
+          <Property Name="employeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employeeCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="designationId" Type="Int32" />
+          <Property Name="employeeName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="residentiallAddress" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="nativeAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="mobileNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="residentialTelephone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="joiningDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="leavingDate" Type="DateTime" Precision="0" />
+          <Property Name="basicAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="hraAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ccAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bloodGroup" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="licenseNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="otRatePerHour" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="outstation150" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="outstation100" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="pfAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="extraDuty" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="accountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="entryBy" Type="Int32" Nullable="false" />
+          <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CompanyBranch" Relationship="CarRentalModel.FK_Employee_CompanyBranch" FromRole="Employee" ToRole="CompanyBranch" />
+          <NavigationProperty Name="Designation" Relationship="CarRentalModel.FK_Employee_Designation" FromRole="Employee" ToRole="Designation" />
+          <NavigationProperty Name="Logins" Relationship="CarRentalModel.FK_Login_Employee" FromRole="Employee" ToRole="Login" />
+          <Property Name="sundayAmount" Type="Decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <Association Name="FK_Employee_CompanyBranch">
+          <End Type="CarRentalModel.CompanyBranch" Role="CompanyBranch" Multiplicity="1" />
+          <End Type="CarRentalModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyBranch">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Designation">
+          <End Type="CarRentalModel.Designation" Role="Designation" Multiplicity="0..1" />
+          <End Type="CarRentalModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="designationId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="designationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Login_Employee">
+          <End Type="CarRentalModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="CarRentalModel.Login" Role="Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="Login">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Scheme">
+          <Key>
+            <PropertyRef Name="schemeId" />
+          </Key>
+          <Property Name="schemeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="schemeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="minimumHours" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="minimumKilometer" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="entryBy" Type="Int32" Nullable="false" />
+          <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1063,33 +1107,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="CarRentalModel.Employee">
-              <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="entryDate" ColumnName="entryDate" />
-                <ScalarProperty Name="entryBy" ColumnName="entryBy" />
-                <ScalarProperty Name="active" ColumnName="active" />
-                <ScalarProperty Name="accountNumber" ColumnName="accountNumber" />
-                <ScalarProperty Name="bank" ColumnName="bank" />
-                <ScalarProperty Name="ccAmount" ColumnName="ccAmount" />
-                <ScalarProperty Name="hraAmount" ColumnName="hraAmount" />
-                <ScalarProperty Name="basicAmount" ColumnName="basicAmount" />
-                <ScalarProperty Name="leavingDate" ColumnName="leavingDate" />
-                <ScalarProperty Name="joiningDate" ColumnName="joiningDate" />
-                <ScalarProperty Name="residentialTelephone" ColumnName="residentialTelephone" />
-                <ScalarProperty Name="mobileNumber" ColumnName="mobileNumber" />
-                <ScalarProperty Name="nativeAddress" ColumnName="nativeAddress" />
-                <ScalarProperty Name="residentiallAddress" ColumnName="residentiallAddress" />
-                <ScalarProperty Name="employeeName" ColumnName="employeeName" />
-                <ScalarProperty Name="designationId" ColumnName="designationId" />
-                <ScalarProperty Name="branchId" ColumnName="branchId" />
-                <ScalarProperty Name="employeeCode" ColumnName="employeeCode" />
-                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Logins">
             <EntityTypeMapping TypeName="CarRentalModel.Login">
               <MappingFragment StoreEntitySet="Login">
@@ -1157,6 +1174,55 @@
                 <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="fuelTypeDescription" ColumnName="fuelTypeDescription" />
                 <ScalarProperty Name="fuelTypeCode" ColumnName="fuelTypeCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="CarRentalModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="sundayAmount" ColumnName="sundayAmount" />
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="entryDate" ColumnName="entryDate" />
+                <ScalarProperty Name="entryBy" ColumnName="entryBy" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="accountNumber" ColumnName="accountNumber" />
+                <ScalarProperty Name="extraDuty" ColumnName="extraDuty" />
+                <ScalarProperty Name="pfAmount" ColumnName="pfAmount" />
+                <ScalarProperty Name="outstation100" ColumnName="outstation100" />
+                <ScalarProperty Name="outstation150" ColumnName="outstation150" />
+                <ScalarProperty Name="otRatePerHour" ColumnName="otRatePerHour" />
+                <ScalarProperty Name="licenseNumber" ColumnName="licenseNumber" />
+                <ScalarProperty Name="bloodGroup" ColumnName="bloodGroup" />
+                <ScalarProperty Name="ccAmount" ColumnName="ccAmount" />
+                <ScalarProperty Name="hraAmount" ColumnName="hraAmount" />
+                <ScalarProperty Name="basicAmount" ColumnName="basicAmount" />
+                <ScalarProperty Name="leavingDate" ColumnName="leavingDate" />
+                <ScalarProperty Name="joiningDate" ColumnName="joiningDate" />
+                <ScalarProperty Name="residentialTelephone" ColumnName="residentialTelephone" />
+                <ScalarProperty Name="mobileNumber" ColumnName="mobileNumber" />
+                <ScalarProperty Name="nativeAddress" ColumnName="nativeAddress" />
+                <ScalarProperty Name="residentiallAddress" ColumnName="residentiallAddress" />
+                <ScalarProperty Name="employeeName" ColumnName="employeeName" />
+                <ScalarProperty Name="designationId" ColumnName="designationId" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="employeeCode" ColumnName="employeeCode" />
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schemes">
+            <EntityTypeMapping TypeName="CarRentalModel.Scheme">
+              <MappingFragment StoreEntitySet="Scheme">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="entryDate" ColumnName="entryDate" />
+                <ScalarProperty Name="entryBy" ColumnName="entryBy" />
+                <ScalarProperty Name="minimumKilometer" ColumnName="minimumKilometer" />
+                <ScalarProperty Name="minimumHours" ColumnName="minimumHours" />
+                <ScalarProperty Name="schemeName" ColumnName="schemeName" />
+                <ScalarProperty Name="schemeId" ColumnName="schemeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
