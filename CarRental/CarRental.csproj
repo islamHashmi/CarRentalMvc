@@ -194,6 +194,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MasterDataController.cs" />
     <Compile Include="Global.asax.cs">
@@ -201,6 +202,9 @@
     </Compile>
     <Compile Include="Helpers\GenerateOTP.cs" />
     <Compile Include="Helpers\HelperClass.cs" />
+    <Compile Include="Models\Booking.cs">
+      <DependentUpon>CarRentalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Car.cs">
       <DependentUpon>CarRentalModel.tt</DependentUpon>
     </Compile>
@@ -234,7 +238,13 @@
     <Compile Include="Models\Designation.cs">
       <DependentUpon>CarRentalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DutyType.cs">
+      <DependentUpon>CarRentalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Employee.cs">
+      <DependentUpon>CarRentalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExpenseHead.cs">
       <DependentUpon>CarRentalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FuelType.cs">
@@ -252,11 +262,18 @@
     <Compile Include="Models\PartyStatu.cs">
       <DependentUpon>CarRentalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RateCard.cs">
+      <DependentUpon>CarRentalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReleasePoint.cs">
+      <DependentUpon>CarRentalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Scheme.cs">
       <DependentUpon>CarRentalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\BookingViewModel.cs" />
     <Compile Include="ViewModel\BranchViewModel.cs" />
     <Compile Include="ViewModel\CarModelViewModel.cs" />
     <Compile Include="ViewModel\CarViewModel.cs" />
@@ -264,10 +281,13 @@
     <Compile Include="ViewModel\DepartmentViewModel.cs" />
     <Compile Include="ViewModel\DesignationViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
+    <Compile Include="ViewModel\ExpenseViewModel.cs" />
     <Compile Include="ViewModel\GuestViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PartyViewModel.cs" />
+    <Compile Include="ViewModel\RateCardViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
+    <Compile Include="ViewModel\ReleasePointViewModel.cs" />
     <Compile Include="ViewModel\SchemeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -510,9 +530,21 @@
     <Content Include="Views\MasterData\SchemeDetails.cshtml" />
     <Content Include="Views\MasterData\SchemeManage.cshtml" />
     <Content Include="Views\MasterData\SchemeDelete.cshtml" />
+    <Content Include="Views\MasterData\RateCardList.cshtml" />
+    <Content Include="Views\MasterData\RateCardDetails.cshtml" />
+    <Content Include="Views\MasterData\RateCardManage.cshtml" />
+    <Content Include="Views\MasterData\ExpenseList.cshtml" />
+    <Content Include="Views\MasterData\ExpenseDetails.cshtml" />
+    <Content Include="Views\MasterData\ExpenseManage.cshtml" />
+    <Content Include="Views\MasterData\ExpenseDelete.cshtml" />
+    <Content Include="Views\MasterData\ReleasePointList.cshtml" />
+    <Content Include="Views\MasterData\ReleasePointDetails.cshtml" />
+    <Content Include="Views\MasterData\ReleasePointManage.cshtml" />
+    <Content Include="Views\MasterData\ReleasePointDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Booking\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

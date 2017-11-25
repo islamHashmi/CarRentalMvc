@@ -31,7 +31,21 @@
         <AssociationConnector Association="CarRentalModel.FK_Employee_Designation" />
         <AssociationConnector Association="CarRentalModel.FK_Login_Employee" />
         <EntityTypeShape EntityType="CarRentalModel.Scheme" Width="1.5" PointX="12.375" PointY="0.75" />
-      </Diagram>
+        <EntityTypeShape EntityType="CarRentalModel.DutyType" Width="1.5" PointX="0.75" PointY="12.625" />
+        <EntityTypeShape EntityType="CarRentalModel.RateCard" Width="1.5" PointX="13.125" PointY="4.75" />
+        <AssociationConnector Association="CarRentalModel.FK_RateCard_CarModel" />
+        <AssociationConnector Association="CarRentalModel.FK_RateCard_DutyType" />
+        <AssociationConnector Association="CarRentalModel.FK_RateCard_Party" />
+        <AssociationConnector Association="CarRentalModel.FK_RateCard_Scheme" />
+        <EntityTypeShape EntityType="CarRentalModel.ExpenseHead" Width="1.5" PointX="5.375" PointY="12.75" />
+        <EntityTypeShape EntityType="CarRentalModel.ReleasePoint" Width="1.5" PointX="13.375" PointY="13.75" />
+        <EntityTypeShape EntityType="CarRentalModel.Booking" Width="1.5" PointX="15.25" PointY="0.75" />
+        <AssociationConnector Association="CarRentalModel.FK_Booking_CarModel" />
+        <AssociationConnector Association="CarRentalModel.FK_Booking_CompanyBranch" />
+        <AssociationConnector Association="CarRentalModel.FK_Booking_DutyType" />
+        <AssociationConnector Association="CarRentalModel.FK_Booking_Guest" />
+        <AssociationConnector Association="CarRentalModel.FK_Booking_Party" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

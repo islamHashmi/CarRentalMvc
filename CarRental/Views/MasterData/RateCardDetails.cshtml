@@ -1,0 +1,114 @@
+﻿@model CarRental.ViewModel.RateCardViewModel
+
+@{
+    ViewBag.Title = "RateCardDetails";
+}
+
+<h2>RateCardDetails</h2>
+
+<div>
+    <h4>RateCardViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EfftectiveDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EfftectiveDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PartyId)
+        </dt>
+        
+        <dd>
+            @Html.DisplayFor(model => model.PartyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarModelId)
+        </dt>
+                
+        <dd>
+            @Html.DisplayFor(model => model.CarModelName)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.DutyTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DutyTypeName)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.SchemeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchemeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinKm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinKm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RateAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RateAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExtraHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExtraHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExtraKM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExtraKM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NightAllowed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NightAllowed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DayAllowed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DayAllowed)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "BranchManage", new { key = HelperClass.Encrypt(Model.RateId) }) |
+    @Html.ActionLink("Back to List", "RateCardList")
+</p>

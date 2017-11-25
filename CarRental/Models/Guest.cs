@@ -14,6 +14,12 @@ namespace CarRental.Models
     
     public partial class Guest
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Guest()
+        {
+            this.Bookings = new HashSet<Booking>();
+        }
+    
         public int guestId { get; set; }
         public int branchId { get; set; }
         public int partyId { get; set; }
@@ -34,5 +40,7 @@ namespace CarRental.Models
         public virtual CompanyBranch CompanyBranch { get; set; }
         public virtual Department Department { get; set; }
         public virtual Party Party { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

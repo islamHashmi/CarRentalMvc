@@ -19,6 +19,8 @@ namespace CarRental.Models
         {
             this.Guests = new HashSet<Guest>();
             this.Cars = new HashSet<Car>();
+            this.RateCards = new HashSet<RateCard>();
+            this.Bookings = new HashSet<Booking>();
         }
     
         public int carModelId { get; set; }
@@ -34,5 +36,9 @@ namespace CarRental.Models
         public virtual ICollection<Guest> Guests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Car> Cars { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RateCard> RateCards { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

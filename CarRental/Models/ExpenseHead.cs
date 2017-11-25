@@ -12,25 +12,14 @@ namespace CarRental.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Scheme
+    public partial class ExpenseHead
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Scheme()
-        {
-            this.RateCards = new HashSet<RateCard>();
-        }
-    
-        public int schemeId { get; set; }
-        public string schemeName { get; set; }
-        public Nullable<decimal> minimumHours { get; set; }
-        public Nullable<decimal> minimumKilometer { get; set; }
+        public int expenseId { get; set; }
+        public string expenseName { get; set; }
+        public bool active { get; set; }
         public int entryBy { get; set; }
         public System.DateTime entryDate { get; set; }
         public Nullable<int> updatedBy { get; set; }
         public Nullable<System.DateTime> updatedDate { get; set; }
-        public bool active { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RateCard> RateCards { get; set; }
     }
 }

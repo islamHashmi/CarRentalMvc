@@ -1,0 +1,131 @@
+﻿@model IEnumerable<CarRental.ViewModel.RateCardViewModel>
+
+@{
+    ViewBag.Title = "RateCardList";
+}
+
+<h2>Rates Card</h2>
+
+<div class="card">
+    <div class="card-header">
+        @Html.ActionLink("Create New", "RateCardManage")
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <tr class="thead-light">
+                <th>
+                    @Html.DisplayNameFor(model => model.EfftectiveDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PartyId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PartyName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CarModelId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CarModelName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DutyTypeId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DutyTypeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SchemeId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SchemeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MinHours)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MinKm)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RateAmount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExtraHours)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExtraKM)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NightAllowance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DayAllowance)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EfftectiveDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PartyId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PartyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CarModelId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CarModelName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DutyTypeId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DutyTypeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SchemeId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SchemeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MinHours)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MinKm)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RateAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExtraHours)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExtraKM)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NightAllowance)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DayAllowance)
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            @Html.ActionLink("Edit", "RateCardManage", new { key = HelperClass.Encrypt(item.RateId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Details", "RateCardDetails", new { key = HelperClass.Encrypt(item.RateId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Delete", "RateCardDelete", new { key = HelperClass.Encrypt(item.RateId) }, new { @class = "btn btn-secondary btn-sm" })
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    
+</div>

@@ -1,0 +1,25 @@
+﻿@model CarRental.ViewModel.ReleasePointViewModel
+
+@{
+    ViewBag.Title = "ReleasePointDetails";
+}
+
+<h4>Release Point</h4>
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ReleasePointName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReleasePointName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "ReleasePointManage", new { key = HelperClass.Encrypt(item.ReleasePointId) }) |
+    @Html.ActionLink("Back to List", "ReleasePointList")
+</p>

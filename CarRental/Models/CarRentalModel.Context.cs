@@ -38,5 +38,10 @@ namespace CarRental.Models
         public virtual DbSet<FuelType> FuelTypes { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Scheme> Schemes { get; set; }
+        public virtual DbSet<DutyType> DutyTypes { get; set; }
+        public virtual DbSet<RateCard> RateCards { get; set; }
+        public virtual DbSet<ExpenseHead> ExpenseHeads { get; set; }
+        public virtual DbSet<ReleasePoint> ReleasePoints { get; set; }
+        public virtual DbSet<Booking> Bookings { get; set; }
     }
 }

@@ -1,0 +1,26 @@
+﻿@model CarRental.ViewModel.ExpenseViewModel
+
+@{
+    ViewBag.Title = "ExpenseDetails";
+}
+
+<h2>ExpenseDetails</h2>
+
+<div>
+    <h4>ExpenseViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpenseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpenseName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "ExpenseManage", new { key = HelperClass.Encrypt(Model.ExpenseId) }) |
+    @Html.ActionLink("Back to List", "ExpenseList")
+</p>

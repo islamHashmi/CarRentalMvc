@@ -12,7 +12,7 @@ namespace CarRental.ViewModel
         [Key]
         public int? PartyId { get; set; }
 
-        [Required, Display(Name = "Company")]
+        [Display(Name = "Company")]
         public int? CompanyId { get; set; }
         public string CompanyName { get; set; }
         public SelectList CompanyList { get; set; }

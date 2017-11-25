@@ -21,6 +21,7 @@ namespace CarRental.Models
             this.Guests = new HashSet<Guest>();
             this.Cars = new HashSet<Car>();
             this.Employees = new HashSet<Employee>();
+            this.Bookings = new HashSet<Booking>();
         }
     
         public int branchId { get; set; }
@@ -41,5 +42,7 @@ namespace CarRental.Models
         public virtual ICollection<Car> Cars { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

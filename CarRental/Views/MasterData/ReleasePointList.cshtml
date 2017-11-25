@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CarRental.ViewModel.ReleasePointViewModel>
+
+@{
+    ViewBag.Title = "ReleasePointList";
+}
+
+<h4>ReleasePointList</h4>
+
+<div class="card">
+    <div class="card-header">
+        @Html.ActionLink("Create New", "ReleasePointManage")
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <tr class="thead-light">
+                <th>
+                    @Html.DisplayNameFor(model => model.ReleasePointName)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReleasePointName)
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            @Html.ActionLink("Edit", "ReleasePointManage", new { key = HelperClass.Encrypt(item.ReleasePointId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Details", "ReleasePointDetails", new { key = HelperClass.Encrypt(item.ReleasePointId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Delete", "ReleasePointDelete", new { key = HelperClass.Encrypt(item.ReleasePointId) }, new { @class = "btn btn-secondary btn-sm" })
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+

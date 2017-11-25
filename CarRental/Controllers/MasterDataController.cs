@@ -654,7 +654,7 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Employees.FindAsync(_Id);
-                
+
                 return View(GetEmployee(model));
             }
 
@@ -679,7 +679,7 @@ namespace CarRental.Controllers
 
                     var model = await db.Employees.FindAsync(_Id);
 
-                    vm = GetEmployee(model);                    
+                    vm = GetEmployee(model);
                 }
             }
             catch (Exception ex)
@@ -776,7 +776,7 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Employees.FindAsync(_Id);
-                
+
                 return View(GetEmployee(model));
             }
 
@@ -2184,7 +2184,7 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Schemes.FindAsync(_Id);
-                
+
                 return View(GetScheme(model));
             }
 
@@ -2285,7 +2285,7 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Schemes.FindAsync(_Id);
-                
+
                 return View(GetScheme(model));
             }
 
@@ -2326,6 +2326,576 @@ namespace CarRental.Controllers
                 SchemeName = model.schemeName,
                 MinimumHours = model.minimumHours,
                 MinimumKilometer = model.minimumKilometer
+            };
+        }
+
+        #endregion
+
+        #region RateCard Master
+
+        [HttpGet]
+        public async Task<ActionResult> RateCardList()
+        {
+            var list = new List<RateCardViewModel>();
+
+            var model = await db.RateCards.Where(m => m.active == true).ToListAsync();
+
+            if (model != null)
+            {
+                foreach (var item in model)
+                {
+                    list.Add(GetRateCard(item));
+                }
+            }
+
+            return View(list);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> RateCardDetails(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.RateCards.FindAsync(_Id);
+
+                return View(GetRateCard(model));
+            }
+
+            return RedirectToAction("RateCardList");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> RateCardManage(string key)
+        {
+            var vm = new RateCardViewModel();
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(key))
+                {
+                    key = HelperClass.Decrypt(key);
+
+                    int.TryParse(key, out int _Id);
+
+                    if (_Id == 0)
+                        return HttpNotFound();
+
+                    var model = await db.RateCards.FindAsync(_Id);
+
+                    vm = GetRateCard(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                BindDropdown_RateCard(vm);
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> RateCardManage(RateCardViewModel vm)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var model = new RateCard();
+
+                    if (vm.RateId == null)
+                    {
+                        if (db.RateCards.Count(m => m.efftectiveDate == vm.EfftectiveDate) > 0)
+                        {
+                            ModelState.AddModelError("", "Rate is already defined for effective date :" + vm.EfftectiveDate);
+                            return View(vm);
+                        }
+
+                        model.active = true;
+                        model.entryBy = 1;
+                        model.entryDate = DateTime.Now;
+
+                        db.RateCards.Add(model);
+                    }
+                    else
+                    {
+                        model = await db.RateCards.FindAsync(vm.RateId);
+
+                        if (model == null)
+                            return HttpNotFound();
+
+                        model.updatedBy = 2;
+                        model.updatedDate = DateTime.Now;
+                        db.Entry(model).State = EntityState.Modified;
+                    }
+
+                    model.efftectiveDate = (DateTime)vm.EfftectiveDate;
+                    model.partyId = vm.PartyId;
+                    model.carModelId = vm.CarModelId;
+                    model.dutyTypeId = vm.DutyTypeId;
+                    model.schemeId = vm.SchemeId;
+                    model.minHours = vm.MinHours;
+                    model.minKm = vm.MinKm;
+                    model.rateAmount = vm.RateAmount;
+                    model.extraHours = vm.ExtraHours;
+                    model.extraKM = vm.ExtraKM;
+                    model.nightAllowance = vm.NightAllowance;
+                    model.dayAllowance = vm.DayAllowance;
+
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("RateCardList");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                BindDropdown_RateCard(vm);
+            }
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> RateCardDelete(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.RateCards.FindAsync(_Id);
+
+                return View(GetRateCard(model));
+            }
+
+            return RedirectToAction("RateCardList");
+        }
+
+        [HttpPost]
+        [ActionName("RateCardDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RateCardDeleteConfirmed(string key, RateCardViewModel vm)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.RateCards.FindAsync(_Id);
+
+                model.active = false;
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("RateCardList");
+            }
+
+            return View(vm);
+        }
+
+        private RateCardViewModel GetRateCard(RateCard model)
+        {
+            return new RateCardViewModel
+            {
+                EfftectiveDate = model.efftectiveDate,
+                RateId = model.rateId,
+                PartyId = model.partyId,
+                PartyName = model.Party == null ? string.Empty : model.Party.Name,
+                CarModelId = model.carModelId,
+                CarModelName = model.CarModel == null ? string.Empty : model.CarModel.modelDescription,
+                DutyTypeId = model.dutyTypeId,
+                DutyTypeName = model.DutyType == null ? string.Empty : model.DutyType.dutyDescription,
+                SchemeId = model.schemeId,
+                SchemeName = model.Scheme == null ? string.Empty : model.Scheme.schemeName,
+                MinHours = model.minHours,
+                MinKm = model.minKm,
+                RateAmount = model.rateAmount,
+                ExtraHours = model.extraHours,
+                ExtraKM = model.extraKM,
+                NightAllowance = model.nightAllowance,
+                DayAllowance = model.dayAllowance
+            };
+        }
+
+        private void BindDropdown_RateCard(RateCardViewModel vm)
+        {
+            vm.PartyList = new SelectList(db.Parties.Where(m => m.active == true), "partyId", "Name");
+            vm.CarModelList = new SelectList(db.CarModels.Where(m => m.active == true), "carModelId", "modelDescription");
+            vm.DutyTypeList = new SelectList(db.DutyTypes.Where(m => m.active == true), "dutyTypeId", "dutyDescription");
+            vm.SchemeList = new SelectList(db.Schemes.Where(m => m.active == true), "schemeId", "schemeName");
+        }
+
+        #endregion
+
+        #region Expense Master
+
+        [HttpGet]
+        public async Task<ActionResult> ExpenseList()
+        {
+            var list = new List<ExpenseViewModel>();
+
+            var model = await db.ExpenseHeads.Where(m => m.active == true).ToListAsync();
+
+            if (model != null)
+            {
+                foreach (var item in model)
+                {
+                    list.Add(GetExpense(item));
+                }
+            }
+
+            return View(list);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExpenseDetails(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.ExpenseHeads.FindAsync(_Id);
+                
+                return View(GetExpense(model));
+            }
+
+            return RedirectToAction("ExpenseList");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExpenseManage(string key)
+        {
+            var vm = new ExpenseViewModel();
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(key))
+                {
+                    key = HelperClass.Decrypt(key);
+
+                    int.TryParse(key, out int _Id);
+
+                    if (_Id == 0)
+                        return HttpNotFound();
+
+                    var model = await db.ExpenseHeads.FindAsync(_Id);
+
+                    vm = GetExpense(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> ExpenseManage(ExpenseViewModel vm)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var model = new ExpenseHead();
+
+                    if (vm.ExpenseId == null)
+                    {
+                        if (db.ExpenseHeads.Count(m => m.expenseName == vm.ExpenseName) > 0)
+                        {
+                            ModelState.AddModelError("", "Expense Name already exists in database.");
+                            return View(vm);
+                        }
+
+                        model.active = true;
+                        model.entryBy = 1;
+                        model.entryDate = DateTime.Now;
+
+                        db.ExpenseHeads.Add(model);
+                    }
+                    else
+                    {
+                        model = await db.ExpenseHeads.FindAsync(vm.ExpenseId);
+
+                        if (model == null)
+                            return HttpNotFound();
+
+                        model.updatedBy = 2;
+                        model.updatedDate = DateTime.Now;
+                        db.Entry(model).State = EntityState.Modified;
+                    }
+
+                    model.expenseName = vm.ExpenseName;
+
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("ExpenseList");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExpenseDelete(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.ExpenseHeads.FindAsync(_Id);
+                
+                return View(GetExpense(model));
+            }
+
+            return RedirectToAction("ExpenseList");
+        }
+
+        [HttpPost]
+        [ActionName("ExpenseDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ExpenseDeleteConfirmed(string key, ExpenseViewModel vm)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.ExpenseHeads.FindAsync(_Id);
+
+                model.active = false;
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("ExpenseList");
+            }
+
+            return View(vm);
+        }
+
+        private ExpenseViewModel GetExpense(ExpenseHead model)
+        {
+            return new ExpenseViewModel
+            {
+                ExpenseId = model.expenseId,
+                ExpenseName = model.expenseName
+            };
+        }
+
+        #endregion
+
+        #region ReleasePoint Master
+
+        [HttpGet]
+        public async Task<ActionResult> ReleasePointList()
+        {
+            var list = new List<ReleasePointViewModel>();
+
+            var model = await db.ReleasePoints.Where(m => m.active == true).ToListAsync();
+
+            if (model != null)
+            {
+                foreach (var item in model)
+                {
+                    list.Add(GetReleasePoint(item));
+                }
+            }
+
+            return View(list);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ReleasePointDetails(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.ReleasePoints.FindAsync(_Id);
+
+                return View(GetReleasePoint(model));
+            }
+
+            return RedirectToAction("ReleasePointList");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ReleasePointManage(string key)
+        {
+            var vm = new ReleasePointViewModel();
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(key))
+                {
+                    key = HelperClass.Decrypt(key);
+
+                    int.TryParse(key, out int _Id);
+
+                    if (_Id == 0)
+                        return HttpNotFound();
+
+                    var model = await db.ReleasePoints.FindAsync(_Id);
+
+                    vm = GetReleasePoint(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> ReleasePointManage(ReleasePointViewModel vm)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var model = new ReleasePoint();
+
+                    if (vm.ReleasePointId == null)
+                    {
+                        if (db.ReleasePoints.Count(m => m.releasePointName == vm.ReleasePointName) > 0)
+                        {
+                            ModelState.AddModelError("", "ReleasePoint Name already exists in database.");
+                            return View(vm);
+                        }
+
+                        model.active = true;
+                        model.entryBy = 1;
+                        model.entryDate = DateTime.Now;
+
+                        db.ReleasePoints.Add(model);
+                    }
+                    else
+                    {
+                        model = await db.ReleasePoints.FindAsync(vm.ReleasePointId);
+
+                        if (model == null)
+                            return HttpNotFound();
+
+                        model.updatedBy = 2;
+                        model.updatedDate = DateTime.Now;
+                        db.Entry(model).State = EntityState.Modified;
+                    }
+
+                    model.releasePointName = vm.ReleasePointName;
+
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("ReleasePointList");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ReleasePointDelete(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.ReleasePoints.FindAsync(_Id);
+
+                return View(GetReleasePoint(model));
+            }
+
+            return RedirectToAction("ReleasePointList");
+        }
+
+        [HttpPost]
+        [ActionName("ReleasePointDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ReleasePointDeleteConfirmed(string key, ReleasePointViewModel vm)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.ReleasePoints.FindAsync(_Id);
+
+                model.active = false;
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("ReleasePointList");
+            }
+
+            return View(vm);
+        }
+
+        private ReleasePointViewModel GetReleasePoint(ReleasePoint model)
+        {
+            return new ReleasePointViewModel
+            {
+                ReleasePointId = model.releasePointId,
+                ReleasePointName = model.releasePointName
             };
         }
 

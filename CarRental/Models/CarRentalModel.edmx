@@ -5,6 +5,43 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="CarRentalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="bookingId" />
+          </Key>
+          <Property Name="bookingId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="bookingType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="billAddress" Type="varchar" MaxLength="500" />
+          <Property Name="bookingNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="bookingDate" Type="datetime" Nullable="false" />
+          <Property Name="billingType" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="bookingReceivedBy" Type="int" Nullable="false" />
+          <Property Name="partyId" Type="int" />
+          <Property Name="bookingBy" Type="varchar" MaxLength="200" />
+          <Property Name="guestId" Type="int" />
+          <Property Name="guestMobileNo" Type="char" MaxLength="10" />
+          <Property Name="bookingSource" Type="varchar" MaxLength="50" />
+          <Property Name="requirementStartDate" Type="datetime" />
+          <Property Name="requirementEndDate" Type="datetime" />
+          <Property Name="travelId" Type="varchar" MaxLength="50" />
+          <Property Name="reportingTo" Type="varchar" MaxLength="150" />
+          <Property Name="reportingMobileNo" Type="char" MaxLength="10" />
+          <Property Name="reportingLocation" Type="varchar" MaxLength="255" />
+          <Property Name="reportingTime" Type="time" Precision="7" />
+          <Property Name="carModelId" Type="int" />
+          <Property Name="dutyTypeId" Type="int" />
+          <Property Name="specialInstruction" Type="varchar" MaxLength="500" />
+          <Property Name="requisition" Type="bit" />
+          <Property Name="mobileNumber1" Type="char" MaxLength="10" />
+          <Property Name="mobileNumber2" Type="char" MaxLength="10" />
+          <Property Name="mobileNumber3" Type="char" MaxLength="10" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="entryBy" Type="int" Nullable="false" />
+          <Property Name="entryDate" Type="datetime" Nullable="false" />
+          <Property Name="updatedBy" Type="int" />
+          <Property Name="updatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Car">
           <Key>
             <PropertyRef Name="CarId" />
@@ -113,6 +150,14 @@
           <Property Name="updatedBy" Type="int" />
           <Property Name="updatedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="DutyType">
+          <Key>
+            <PropertyRef Name="dutyTypeId" />
+          </Key>
+          <Property Name="dutyTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dutyDescription" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="active" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="employeeId" />
@@ -140,6 +185,18 @@
           <Property Name="extraDuty" Type="decimal" Precision="10" Scale="2" />
           <Property Name="sundayAmount" Type="decimal" Precision="10" Scale="2" />
           <Property Name="accountNumber" Type="varchar" MaxLength="50" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="entryBy" Type="int" Nullable="false" />
+          <Property Name="entryDate" Type="datetime" Nullable="false" />
+          <Property Name="updatedBy" Type="int" />
+          <Property Name="updatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ExpenseHead">
+          <Key>
+            <PropertyRef Name="expenseId" />
+          </Key>
+          <Property Name="expenseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="expenseName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="active" Type="bit" Nullable="false" />
           <Property Name="entryBy" Type="int" Nullable="false" />
           <Property Name="entryDate" Type="datetime" Nullable="false" />
@@ -233,6 +290,41 @@
           <Property Name="statusCode" Type="char" MaxLength="2" Nullable="false" />
           <Property Name="statusDescription" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="RateCard">
+          <Key>
+            <PropertyRef Name="rateId" />
+          </Key>
+          <Property Name="rateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="efftectiveDate" Type="date" Nullable="false" />
+          <Property Name="partyId" Type="int" />
+          <Property Name="carModelId" Type="int" />
+          <Property Name="dutyTypeId" Type="int" />
+          <Property Name="schemeId" Type="int" />
+          <Property Name="minHours" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="minKm" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="rateAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="extraHours" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="extraKM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="nightAllowance" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="dayAllowance" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="entryBy" Type="int" Nullable="false" />
+          <Property Name="entryDate" Type="datetime" Nullable="false" />
+          <Property Name="updatedBy" Type="int" />
+          <Property Name="updatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ReleasePoint">
+          <Key>
+            <PropertyRef Name="releasePointId" />
+          </Key>
+          <Property Name="releasePointId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="releasePointName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="entryBy" Type="int" Nullable="false" />
+          <Property Name="entryDate" Type="datetime" Nullable="false" />
+          <Property Name="updatedBy" Type="int" />
+          <Property Name="updatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Scheme">
           <Key>
             <PropertyRef Name="schemeId" />
@@ -247,6 +339,66 @@
           <Property Name="updatedBy" Type="int" />
           <Property Name="updatedDate" Type="datetime" />
         </EntityType>
+        <Association Name="FK_Booking_CarModel">
+          <End Role="CarModel" Type="Self.CarModel" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModel">
+              <PropertyRef Name="carModelId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="carModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_CompanyBranch">
+          <End Role="CompanyBranch" Type="Self.CompanyBranch" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyBranch">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_DutyType">
+          <End Role="DutyType" Type="Self.DutyType" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DutyType">
+              <PropertyRef Name="dutyTypeId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="dutyTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Guest">
+          <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="guestId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="guestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Party">
+          <End Role="Party" Type="Self.Party" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="partyId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="partyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Car_CarModel">
           <End Role="CarModel" Type="Self.CarModel" Multiplicity="0..1" />
           <End Role="Car" Type="Self.Car" Multiplicity="*" />
@@ -403,20 +555,93 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RateCard_CarModel">
+          <End Role="CarModel" Type="Self.CarModel" Multiplicity="0..1" />
+          <End Role="RateCard" Type="Self.RateCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModel">
+              <PropertyRef Name="carModelId" />
+            </Principal>
+            <Dependent Role="RateCard">
+              <PropertyRef Name="carModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RateCard_DutyType">
+          <End Role="DutyType" Type="Self.DutyType" Multiplicity="0..1" />
+          <End Role="RateCard" Type="Self.RateCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DutyType">
+              <PropertyRef Name="dutyTypeId" />
+            </Principal>
+            <Dependent Role="RateCard">
+              <PropertyRef Name="dutyTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RateCard_Party">
+          <End Role="Party" Type="Self.Party" Multiplicity="0..1" />
+          <End Role="RateCard" Type="Self.RateCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="partyId" />
+            </Principal>
+            <Dependent Role="RateCard">
+              <PropertyRef Name="partyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RateCard_Scheme">
+          <End Role="Scheme" Type="Self.Scheme" Multiplicity="0..1" />
+          <End Role="RateCard" Type="Self.RateCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Scheme">
+              <PropertyRef Name="schemeId" />
+            </Principal>
+            <Dependent Role="RateCard">
+              <PropertyRef Name="schemeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CarRentalModelStoreContainer">
+          <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CarModel" EntityType="Self.CarModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyBranch" EntityType="Self.CompanyBranch" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DutyType" EntityType="Self.DutyType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseHead" EntityType="Self.ExpenseHead" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FuelType" EntityType="Self.FuelType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guest" EntityType="Self.Guest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Party" EntityType="Self.Party" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PartyStatus" EntityType="Self.PartyStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RateCard" EntityType="Self.RateCard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReleasePoint" EntityType="Self.ReleasePoint" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Scheme" EntityType="Self.Scheme" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Booking_CarModel" Association="Self.FK_Booking_CarModel">
+            <End Role="CarModel" EntitySet="CarModel" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_CompanyBranch" Association="Self.FK_Booking_CompanyBranch">
+            <End Role="CompanyBranch" EntitySet="CompanyBranch" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_DutyType" Association="Self.FK_Booking_DutyType">
+            <End Role="DutyType" EntitySet="DutyType" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Guest" Association="Self.FK_Booking_Guest">
+            <End Role="Guest" EntitySet="Guest" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Party" Association="Self.FK_Booking_Party">
+            <End Role="Party" EntitySet="Party" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
           <AssociationSet Name="FK_Car_CarModel" Association="Self.FK_Car_CarModel">
             <End Role="CarModel" EntitySet="CarModel" />
             <End Role="Car" EntitySet="Car" />
@@ -469,6 +694,22 @@
             <End Role="PartyStatus" EntitySet="PartyStatus" />
             <End Role="Party" EntitySet="Party" />
           </AssociationSet>
+          <AssociationSet Name="FK_RateCard_CarModel" Association="Self.FK_RateCard_CarModel">
+            <End Role="CarModel" EntitySet="CarModel" />
+            <End Role="RateCard" EntitySet="RateCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RateCard_DutyType" Association="Self.FK_RateCard_DutyType">
+            <End Role="DutyType" EntitySet="DutyType" />
+            <End Role="RateCard" EntitySet="RateCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RateCard_Party" Association="Self.FK_RateCard_Party">
+            <End Role="Party" EntitySet="Party" />
+            <End Role="RateCard" EntitySet="RateCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RateCard_Scheme" Association="Self.FK_RateCard_Scheme">
+            <End Role="Scheme" EntitySet="Scheme" />
+            <End Role="RateCard" EntitySet="RateCard" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -509,6 +750,7 @@
           <NavigationProperty Name="Guests" Relationship="CarRentalModel.FK_Guest_CompanyBranch" FromRole="CompanyBranch" ToRole="Guest" />
           <NavigationProperty Name="Cars" Relationship="CarRentalModel.FK_Car_CompanyBranch" FromRole="CompanyBranch" ToRole="Car" />
           <NavigationProperty Name="Employees" Relationship="CarRentalModel.FK_Employee_CompanyBranch" FromRole="CompanyBranch" ToRole="Employee" />
+          <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_CompanyBranch" FromRole="CompanyBranch" ToRole="Booking" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -597,6 +839,47 @@
             <End Role="Login" EntitySet="Logins" />
           </AssociationSet>
           <EntitySet Name="Schemes" EntityType="CarRentalModel.Scheme" />
+          <EntitySet Name="DutyTypes" EntityType="CarRentalModel.DutyType" />
+          <EntitySet Name="RateCards" EntityType="CarRentalModel.RateCard" />
+          <AssociationSet Name="FK_RateCard_CarModel" Association="CarRentalModel.FK_RateCard_CarModel">
+            <End Role="CarModel" EntitySet="CarModels" />
+            <End Role="RateCard" EntitySet="RateCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RateCard_DutyType" Association="CarRentalModel.FK_RateCard_DutyType">
+            <End Role="DutyType" EntitySet="DutyTypes" />
+            <End Role="RateCard" EntitySet="RateCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RateCard_Party" Association="CarRentalModel.FK_RateCard_Party">
+            <End Role="Party" EntitySet="Parties" />
+            <End Role="RateCard" EntitySet="RateCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RateCard_Scheme" Association="CarRentalModel.FK_RateCard_Scheme">
+            <End Role="Scheme" EntitySet="Schemes" />
+            <End Role="RateCard" EntitySet="RateCards" />
+          </AssociationSet>
+          <EntitySet Name="ExpenseHeads" EntityType="CarRentalModel.ExpenseHead" />
+          <EntitySet Name="ReleasePoints" EntityType="CarRentalModel.ReleasePoint" />
+          <EntitySet Name="Bookings" EntityType="CarRentalModel.Booking" />
+          <AssociationSet Name="FK_Booking_CarModel" Association="CarRentalModel.FK_Booking_CarModel">
+            <End Role="CarModel" EntitySet="CarModels" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_CompanyBranch" Association="CarRentalModel.FK_Booking_CompanyBranch">
+            <End Role="CompanyBranch" EntitySet="CompanyBranches" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_DutyType" Association="CarRentalModel.FK_Booking_DutyType">
+            <End Role="DutyType" EntitySet="DutyTypes" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Guest" Association="CarRentalModel.FK_Booking_Guest">
+            <End Role="Guest" EntitySet="Guests" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Party" Association="CarRentalModel.FK_Booking_Party">
+            <End Role="Party" EntitySet="Parties" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
           </EntityContainer>
         <Association Name="FK_CompanyBranch_Company">
           <End Type="CarRentalModel.Company" Role="Company" Multiplicity="0..1" />
@@ -646,6 +929,8 @@
           <NavigationProperty Name="CompanyBranch" Relationship="CarRentalModel.FK_Party_CompanyBranch" FromRole="Party" ToRole="CompanyBranch" />
           <NavigationProperty Name="PartyStatu" Relationship="CarRentalModel.FK_Party_PartyStatus" FromRole="Party" ToRole="PartyStatu" />
           <NavigationProperty Name="Guests" Relationship="CarRentalModel.FK_Guest_Party" FromRole="Party" ToRole="Guest" />
+          <NavigationProperty Name="RateCards" Relationship="CarRentalModel.FK_RateCard_Party" FromRole="Party" ToRole="RateCard" />
+          <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_Party" FromRole="Party" ToRole="Booking" />
         </EntityType>
         <Association Name="FK_Party_CompanyBranch">
           <End Type="CarRentalModel.CompanyBranch" Role="CompanyBranch" Multiplicity="0..1" />
@@ -685,6 +970,8 @@
           <NavigationProperty Name="Guests" Relationship="CarRentalModel.FK_Guest_CarModel" FromRole="CarModel" ToRole="Guest" />
           <Property Name="seatingCapacity" Type="Int32" />
           <NavigationProperty Name="Cars" Relationship="CarRentalModel.FK_Car_CarModel" FromRole="CarModel" ToRole="Car" />
+          <NavigationProperty Name="RateCards" Relationship="CarRentalModel.FK_RateCard_CarModel" FromRole="CarModel" ToRole="RateCard" />
+          <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_CarModel" FromRole="CarModel" ToRole="Booking" />
         </EntityType>
         <EntityType Name="Designation">
           <Key>
@@ -722,6 +1009,7 @@
           <NavigationProperty Name="Department" Relationship="CarRentalModel.FK_Guest_Department" FromRole="Guest" ToRole="Department" />
           <NavigationProperty Name="Party" Relationship="CarRentalModel.FK_Guest_Party" FromRole="Guest" ToRole="Party" />
           <Property Name="contactNumber3" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_Guest" FromRole="Guest" ToRole="Booking" />
         </EntityType>
         <Association Name="FK_Guest_CarModel">
           <End Type="CarRentalModel.CarModel" Role="CarModel" Multiplicity="0..1" />
@@ -964,7 +1252,219 @@
           <Property Name="updatedBy" Type="Int32" />
           <Property Name="updatedDate" Type="DateTime" Precision="3" />
           <Property Name="active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="RateCards" Relationship="CarRentalModel.FK_RateCard_Scheme" FromRole="Scheme" ToRole="RateCard" />
         </EntityType>
+        <EntityType Name="DutyType">
+          <Key>
+            <PropertyRef Name="dutyTypeId" />
+          </Key>
+          <Property Name="dutyTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dutyDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="RateCards" Relationship="CarRentalModel.FK_RateCard_DutyType" FromRole="DutyType" ToRole="RateCard" />
+          <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_DutyType" FromRole="DutyType" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="RateCard">
+          <Key>
+            <PropertyRef Name="rateId" />
+          </Key>
+          <Property Name="rateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="efftectiveDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="partyId" Type="Int32" />
+          <Property Name="carModelId" Type="Int32" />
+          <Property Name="dutyTypeId" Type="Int32" />
+          <Property Name="schemeId" Type="Int32" />
+          <Property Name="minHours" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="minKm" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="rateAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="extraHours" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="extraKM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="nightAllowance" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="dayAllowance" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="entryBy" Type="Int32" Nullable="false" />
+          <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CarModel" Relationship="CarRentalModel.FK_RateCard_CarModel" FromRole="RateCard" ToRole="CarModel" />
+          <NavigationProperty Name="DutyType" Relationship="CarRentalModel.FK_RateCard_DutyType" FromRole="RateCard" ToRole="DutyType" />
+          <NavigationProperty Name="Party" Relationship="CarRentalModel.FK_RateCard_Party" FromRole="RateCard" ToRole="Party" />
+          <NavigationProperty Name="Scheme" Relationship="CarRentalModel.FK_RateCard_Scheme" FromRole="RateCard" ToRole="Scheme" />
+        </EntityType>
+        <Association Name="FK_RateCard_CarModel">
+          <End Type="CarRentalModel.CarModel" Role="CarModel" Multiplicity="0..1" />
+          <End Type="CarRentalModel.RateCard" Role="RateCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModel">
+              <PropertyRef Name="carModelId" />
+            </Principal>
+            <Dependent Role="RateCard">
+              <PropertyRef Name="carModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RateCard_DutyType">
+          <End Type="CarRentalModel.DutyType" Role="DutyType" Multiplicity="0..1" />
+          <End Type="CarRentalModel.RateCard" Role="RateCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DutyType">
+              <PropertyRef Name="dutyTypeId" />
+            </Principal>
+            <Dependent Role="RateCard">
+              <PropertyRef Name="dutyTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RateCard_Party">
+          <End Type="CarRentalModel.Party" Role="Party" Multiplicity="0..1" />
+          <End Type="CarRentalModel.RateCard" Role="RateCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="partyId" />
+            </Principal>
+            <Dependent Role="RateCard">
+              <PropertyRef Name="partyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RateCard_Scheme">
+          <End Type="CarRentalModel.Scheme" Role="Scheme" Multiplicity="0..1" />
+          <End Type="CarRentalModel.RateCard" Role="RateCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Scheme">
+              <PropertyRef Name="schemeId" />
+            </Principal>
+            <Dependent Role="RateCard">
+              <PropertyRef Name="schemeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ExpenseHead">
+          <Key>
+            <PropertyRef Name="expenseId" />
+          </Key>
+          <Property Name="expenseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="expenseName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="entryBy" Type="Int32" Nullable="false" />
+          <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ReleasePoint">
+          <Key>
+            <PropertyRef Name="releasePointId" />
+          </Key>
+          <Property Name="releasePointId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="releasePointName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="entryBy" Type="Int32" Nullable="false" />
+          <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="bookingId" />
+          </Key>
+          <Property Name="bookingId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="bookingType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="billAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="bookingNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="bookingDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="billingType" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="bookingReceivedBy" Type="Int32" Nullable="false" />
+          <Property Name="partyId" Type="Int32" />
+          <Property Name="bookingBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="guestId" Type="Int32" />
+          <Property Name="guestMobileNo" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="bookingSource" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="requirementStartDate" Type="DateTime" Precision="3" />
+          <Property Name="requirementEndDate" Type="DateTime" Precision="3" />
+          <Property Name="travelId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="reportingTo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="reportingMobileNo" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="reportingLocation" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="reportingTime" Type="Time" Precision="7" />
+          <Property Name="carModelId" Type="Int32" />
+          <Property Name="dutyTypeId" Type="Int32" />
+          <Property Name="specialInstruction" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="requisition" Type="Boolean" />
+          <Property Name="mobileNumber1" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="mobileNumber2" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="mobileNumber3" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="entryBy" Type="Int32" Nullable="false" />
+          <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CarModel" Relationship="CarRentalModel.FK_Booking_CarModel" FromRole="Booking" ToRole="CarModel" />
+          <NavigationProperty Name="CompanyBranch" Relationship="CarRentalModel.FK_Booking_CompanyBranch" FromRole="Booking" ToRole="CompanyBranch" />
+          <NavigationProperty Name="DutyType" Relationship="CarRentalModel.FK_Booking_DutyType" FromRole="Booking" ToRole="DutyType" />
+          <NavigationProperty Name="Guest" Relationship="CarRentalModel.FK_Booking_Guest" FromRole="Booking" ToRole="Guest" />
+          <NavigationProperty Name="Party" Relationship="CarRentalModel.FK_Booking_Party" FromRole="Booking" ToRole="Party" />
+        </EntityType>
+        <Association Name="FK_Booking_CarModel">
+          <End Type="CarRentalModel.CarModel" Role="CarModel" Multiplicity="0..1" />
+          <End Type="CarRentalModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModel">
+              <PropertyRef Name="carModelId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="carModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_CompanyBranch">
+          <End Type="CarRentalModel.CompanyBranch" Role="CompanyBranch" Multiplicity="1" />
+          <End Type="CarRentalModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyBranch">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_DutyType">
+          <End Type="CarRentalModel.DutyType" Role="DutyType" Multiplicity="0..1" />
+          <End Type="CarRentalModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DutyType">
+              <PropertyRef Name="dutyTypeId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="dutyTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Guest">
+          <End Type="CarRentalModel.Guest" Role="Guest" Multiplicity="0..1" />
+          <End Type="CarRentalModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="guestId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="guestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Party">
+          <End Type="CarRentalModel.Party" Role="Party" Multiplicity="0..1" />
+          <End Type="CarRentalModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="partyId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="partyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1223,6 +1723,103 @@
                 <ScalarProperty Name="minimumHours" ColumnName="minimumHours" />
                 <ScalarProperty Name="schemeName" ColumnName="schemeName" />
                 <ScalarProperty Name="schemeId" ColumnName="schemeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DutyTypes">
+            <EntityTypeMapping TypeName="CarRentalModel.DutyType">
+              <MappingFragment StoreEntitySet="DutyType">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="dutyDescription" ColumnName="dutyDescription" />
+                <ScalarProperty Name="dutyTypeId" ColumnName="dutyTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RateCards">
+            <EntityTypeMapping TypeName="CarRentalModel.RateCard">
+              <MappingFragment StoreEntitySet="RateCard">
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="entryDate" ColumnName="entryDate" />
+                <ScalarProperty Name="entryBy" ColumnName="entryBy" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="dayAllowance" ColumnName="dayAllowance" />
+                <ScalarProperty Name="nightAllowance" ColumnName="nightAllowance" />
+                <ScalarProperty Name="extraKM" ColumnName="extraKM" />
+                <ScalarProperty Name="extraHours" ColumnName="extraHours" />
+                <ScalarProperty Name="rateAmount" ColumnName="rateAmount" />
+                <ScalarProperty Name="minKm" ColumnName="minKm" />
+                <ScalarProperty Name="minHours" ColumnName="minHours" />
+                <ScalarProperty Name="schemeId" ColumnName="schemeId" />
+                <ScalarProperty Name="dutyTypeId" ColumnName="dutyTypeId" />
+                <ScalarProperty Name="carModelId" ColumnName="carModelId" />
+                <ScalarProperty Name="partyId" ColumnName="partyId" />
+                <ScalarProperty Name="efftectiveDate" ColumnName="efftectiveDate" />
+                <ScalarProperty Name="rateId" ColumnName="rateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseHeads">
+            <EntityTypeMapping TypeName="CarRentalModel.ExpenseHead">
+              <MappingFragment StoreEntitySet="ExpenseHead">
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="entryDate" ColumnName="entryDate" />
+                <ScalarProperty Name="entryBy" ColumnName="entryBy" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="expenseName" ColumnName="expenseName" />
+                <ScalarProperty Name="expenseId" ColumnName="expenseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReleasePoints">
+            <EntityTypeMapping TypeName="CarRentalModel.ReleasePoint">
+              <MappingFragment StoreEntitySet="ReleasePoint">
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="entryDate" ColumnName="entryDate" />
+                <ScalarProperty Name="entryBy" ColumnName="entryBy" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="releasePointName" ColumnName="releasePointName" />
+                <ScalarProperty Name="releasePointId" ColumnName="releasePointId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="CarRentalModel.Booking">
+              <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="entryDate" ColumnName="entryDate" />
+                <ScalarProperty Name="entryBy" ColumnName="entryBy" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="mobileNumber3" ColumnName="mobileNumber3" />
+                <ScalarProperty Name="mobileNumber2" ColumnName="mobileNumber2" />
+                <ScalarProperty Name="mobileNumber1" ColumnName="mobileNumber1" />
+                <ScalarProperty Name="requisition" ColumnName="requisition" />
+                <ScalarProperty Name="specialInstruction" ColumnName="specialInstruction" />
+                <ScalarProperty Name="dutyTypeId" ColumnName="dutyTypeId" />
+                <ScalarProperty Name="carModelId" ColumnName="carModelId" />
+                <ScalarProperty Name="reportingTime" ColumnName="reportingTime" />
+                <ScalarProperty Name="reportingLocation" ColumnName="reportingLocation" />
+                <ScalarProperty Name="reportingMobileNo" ColumnName="reportingMobileNo" />
+                <ScalarProperty Name="reportingTo" ColumnName="reportingTo" />
+                <ScalarProperty Name="travelId" ColumnName="travelId" />
+                <ScalarProperty Name="requirementEndDate" ColumnName="requirementEndDate" />
+                <ScalarProperty Name="requirementStartDate" ColumnName="requirementStartDate" />
+                <ScalarProperty Name="bookingSource" ColumnName="bookingSource" />
+                <ScalarProperty Name="guestMobileNo" ColumnName="guestMobileNo" />
+                <ScalarProperty Name="guestId" ColumnName="guestId" />
+                <ScalarProperty Name="bookingBy" ColumnName="bookingBy" />
+                <ScalarProperty Name="partyId" ColumnName="partyId" />
+                <ScalarProperty Name="bookingReceivedBy" ColumnName="bookingReceivedBy" />
+                <ScalarProperty Name="billingType" ColumnName="billingType" />
+                <ScalarProperty Name="bookingDate" ColumnName="bookingDate" />
+                <ScalarProperty Name="bookingNumber" ColumnName="bookingNumber" />
+                <ScalarProperty Name="billAddress" ColumnName="billAddress" />
+                <ScalarProperty Name="bookingType" ColumnName="bookingType" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="bookingId" ColumnName="bookingId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

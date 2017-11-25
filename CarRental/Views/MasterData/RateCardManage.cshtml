@@ -1,0 +1,133 @@
+﻿@model CarRental.ViewModel.RateCardViewModel
+
+@{
+    ViewBag.Title = "RateCardManage";
+}
+
+<h4>Rate Card</h4>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.RateId)
+
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Details</h4>
+                <hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EfftectiveDate, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    <div class='input-group input-group-sm' id='datetimepicker1'>
+                        @Html.TextBoxFor(model => model.EfftectiveDate, new { @class = "form-control", aria_describedby = "sizing-addon2" })
+                        <span class="input-group-addon" id="sizing-addon2">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.EfftectiveDate, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PartyId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.PartyId, Model.PartyList, "--- Select Company ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.PartyId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CarModelId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.CarModelId, Model.CarModelList, "--- Select Model ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.CarModelId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DutyTypeId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.DutyTypeId, Model.DutyTypeList, "--- Select Duty Type ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.DutyTypeId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SchemeId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.SchemeId, Model.SchemeList, "--- Select Scheme ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.SchemeId, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Rate</h4>
+                <hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MinHours, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.MinHours, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.MinHours, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MinKm, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.MinKm, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.MinKm, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RateAmount, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.RateAmount, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.RateAmount, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ExtraHours, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.ExtraHours, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.ExtraHours, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ExtraKM, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.ExtraKM, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.ExtraKM, "", new { @class = "text-danger" })
+                </div>
+
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Allowance</h4>
+                <hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NightAllowance, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.NightAllowance, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.NightAllowance, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DayAllowance, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.DayAllowance, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.DayAllowance, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="card-footer">
+                <input type="submit" value="Save" class="btn btn-primary btn-sm" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+        });
+    </script>
+}

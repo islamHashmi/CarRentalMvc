@@ -18,6 +18,8 @@ namespace CarRental.Models
         public Party()
         {
             this.Guests = new HashSet<Guest>();
+            this.RateCards = new HashSet<RateCard>();
+            this.Bookings = new HashSet<Booking>();
         }
     
         public int partyId { get; set; }
@@ -54,5 +56,9 @@ namespace CarRental.Models
         public virtual PartyStatu PartyStatu { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Guest> Guests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RateCard> RateCards { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }
