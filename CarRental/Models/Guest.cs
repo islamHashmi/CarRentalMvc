@@ -18,6 +18,7 @@ namespace CarRental.Models
         public Guest()
         {
             this.Bookings = new HashSet<Booking>();
+            this.guestAddresses = new HashSet<guestAddress>();
         }
     
         public int guestId { get; set; }
@@ -35,6 +36,8 @@ namespace CarRental.Models
         public Nullable<int> updatedBy { get; set; }
         public Nullable<System.DateTime> updatedDate { get; set; }
         public string contactNumber3 { get; set; }
+        public string guestMobile { get; set; }
+        public string bookedByMobile { get; set; }
     
         public virtual CarModel CarModel { get; set; }
         public virtual CompanyBranch CompanyBranch { get; set; }
@@ -42,5 +45,7 @@ namespace CarRental.Models
         public virtual Party Party { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<guestAddress> guestAddresses { get; set; }
     }
 }

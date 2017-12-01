@@ -28,6 +28,7 @@
           <Property Name="reportingTo" Type="varchar" MaxLength="150" />
           <Property Name="reportingMobileNo" Type="char" MaxLength="10" />
           <Property Name="reportingLocation" Type="varchar" MaxLength="255" />
+          <Property Name="guestAddressId" Type="int" />
           <Property Name="reportingTime" Type="time" Precision="7" />
           <Property Name="carModelId" Type="int" />
           <Property Name="dutyTypeId" Type="int" />
@@ -219,7 +220,9 @@
           <Property Name="branchId" Type="int" Nullable="false" />
           <Property Name="partyId" Type="int" Nullable="false" />
           <Property Name="guestName" Type="varchar" MaxLength="100" />
+          <Property Name="guestMobile" Type="char" MaxLength="10" />
           <Property Name="bookedBy" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="bookedByMobile" Type="char" MaxLength="10" />
           <Property Name="departmentId" Type="int" />
           <Property Name="carModelId" Type="int" />
           <Property Name="contactNumber1" Type="char" MaxLength="10" />
@@ -230,6 +233,16 @@
           <Property Name="entryDate" Type="datetime" Nullable="false" />
           <Property Name="updatedBy" Type="int" />
           <Property Name="updatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="guestAddress">
+          <Key>
+            <PropertyRef Name="guestAddressId" />
+          </Key>
+          <Property Name="guestAddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="guestId" Type="int" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="entryBy" Type="int" Nullable="false" />
+          <Property Name="entryDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Login">
           <Key>
@@ -387,6 +400,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Booking_guestAddress">
+          <End Role="guestAddress" Type="Self.guestAddress" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="guestAddress">
+              <PropertyRef Name="guestAddressId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="guestAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Booking_Party">
           <End Role="Party" Type="Self.Party" Multiplicity="0..1" />
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
@@ -519,6 +544,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_guestAddress_Guest">
+          <End Role="Guest" Type="Self.Guest" Multiplicity="1" />
+          <End Role="guestAddress" Type="Self.guestAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="guestId" />
+            </Principal>
+            <Dependent Role="guestAddress">
+              <PropertyRef Name="guestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Login_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="Login" Type="Self.Login" Multiplicity="*" />
@@ -603,6 +640,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_Generate_BookingNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="CarRentalModelStoreContainer">
           <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
@@ -616,6 +654,7 @@
           <EntitySet Name="ExpenseHead" EntityType="Self.ExpenseHead" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FuelType" EntityType="Self.FuelType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guest" EntityType="Self.Guest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="guestAddress" EntityType="Self.guestAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Party" EntityType="Self.Party" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PartyStatus" EntityType="Self.PartyStatus" Schema="dbo" store:Type="Tables" />
@@ -636,6 +675,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Booking_Guest" Association="Self.FK_Booking_Guest">
             <End Role="Guest" EntitySet="Guest" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_guestAddress" Association="Self.FK_Booking_guestAddress">
+            <End Role="guestAddress" EntitySet="guestAddress" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
           <AssociationSet Name="FK_Booking_Party" Association="Self.FK_Booking_Party">
@@ -681,6 +724,10 @@
           <AssociationSet Name="FK_Guest_Party" Association="Self.FK_Guest_Party">
             <End Role="Party" EntitySet="Party" />
             <End Role="Guest" EntitySet="Guest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_guestAddress_Guest" Association="Self.FK_guestAddress_Guest">
+            <End Role="Guest" EntitySet="Guest" />
+            <End Role="guestAddress" EntitySet="guestAddress" />
           </AssociationSet>
           <AssociationSet Name="FK_Login_Employee" Association="Self.FK_Login_Employee">
             <End Role="Employee" EntitySet="Employee" />
@@ -880,6 +927,16 @@
             <End Role="Party" EntitySet="Parties" />
             <End Role="Booking" EntitySet="Bookings" />
           </AssociationSet>
+          <FunctionImport Name="sp_Generate_BookingNo" ReturnType="Collection(Int32)" />
+          <EntitySet Name="guestAddresses" EntityType="CarRentalModel.guestAddress" />
+          <AssociationSet Name="FK_guestAddress_Guest" Association="CarRentalModel.FK_guestAddress_Guest">
+            <End Role="Guest" EntitySet="Guests" />
+            <End Role="guestAddress" EntitySet="guestAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_guestAddress" Association="CarRentalModel.FK_Booking_guestAddress">
+            <End Role="guestAddress" EntitySet="guestAddresses" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
           </EntityContainer>
         <Association Name="FK_CompanyBranch_Company">
           <End Type="CarRentalModel.Company" Role="Company" Multiplicity="0..1" />
@@ -1010,6 +1067,9 @@
           <NavigationProperty Name="Party" Relationship="CarRentalModel.FK_Guest_Party" FromRole="Guest" ToRole="Party" />
           <Property Name="contactNumber3" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_Guest" FromRole="Guest" ToRole="Booking" />
+          <NavigationProperty Name="guestAddresses" Relationship="CarRentalModel.FK_guestAddress_Guest" FromRole="Guest" ToRole="guestAddress" />
+          <Property Name="guestMobile" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="bookedByMobile" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
         </EntityType>
         <Association Name="FK_Guest_CarModel">
           <End Type="CarRentalModel.CarModel" Role="CarModel" Multiplicity="0..1" />
@@ -1404,6 +1464,8 @@
           <NavigationProperty Name="DutyType" Relationship="CarRentalModel.FK_Booking_DutyType" FromRole="Booking" ToRole="DutyType" />
           <NavigationProperty Name="Guest" Relationship="CarRentalModel.FK_Booking_Guest" FromRole="Booking" ToRole="Guest" />
           <NavigationProperty Name="Party" Relationship="CarRentalModel.FK_Booking_Party" FromRole="Booking" ToRole="Party" />
+          <Property Name="guestAddressId" Type="Int32" />
+          <NavigationProperty Name="guestAddress" Relationship="CarRentalModel.FK_Booking_guestAddress" FromRole="Booking" ToRole="guestAddress" />
         </EntityType>
         <Association Name="FK_Booking_CarModel">
           <End Type="CarRentalModel.CarModel" Role="CarModel" Multiplicity="0..1" />
@@ -1462,6 +1524,42 @@
             </Principal>
             <Dependent Role="Booking">
               <PropertyRef Name="partyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="guestAddress">
+          <Key>
+            <PropertyRef Name="guestAddressId" />
+          </Key>
+          <Property Name="guestAddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="guestId" Type="Int32" Nullable="false" />
+          <Property Name="address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="entryBy" Type="Int32" Nullable="false" />
+          <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Guest" Relationship="CarRentalModel.FK_guestAddress_Guest" FromRole="guestAddress" ToRole="Guest" />
+          <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_guestAddress" FromRole="guestAddress" ToRole="Booking" />
+        </EntityType>
+        <Association Name="FK_guestAddress_Guest">
+          <End Type="CarRentalModel.Guest" Role="Guest" Multiplicity="1" />
+          <End Type="CarRentalModel.guestAddress" Role="guestAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="guestId" />
+            </Principal>
+            <Dependent Role="guestAddress">
+              <PropertyRef Name="guestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_guestAddress">
+          <End Type="CarRentalModel.guestAddress" Role="guestAddress" Multiplicity="0..1" />
+          <End Type="CarRentalModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="guestAddress">
+              <PropertyRef Name="guestAddressId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="guestAddressId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1589,6 +1687,8 @@
           <EntitySetMapping Name="Guests">
             <EntityTypeMapping TypeName="CarRentalModel.Guest">
               <MappingFragment StoreEntitySet="Guest">
+                <ScalarProperty Name="bookedByMobile" ColumnName="bookedByMobile" />
+                <ScalarProperty Name="guestMobile" ColumnName="guestMobile" />
                 <ScalarProperty Name="contactNumber3" ColumnName="contactNumber3" />
                 <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
                 <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
@@ -1788,6 +1888,7 @@
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="CarRentalModel.Booking">
               <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="guestAddressId" ColumnName="guestAddressId" />
                 <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
                 <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
                 <ScalarProperty Name="entryDate" ColumnName="entryDate" />
@@ -1820,6 +1921,18 @@
                 <ScalarProperty Name="bookingType" ColumnName="bookingType" />
                 <ScalarProperty Name="branchId" ColumnName="branchId" />
                 <ScalarProperty Name="bookingId" ColumnName="bookingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Generate_BookingNo" FunctionName="CarRentalModel.Store.sp_Generate_BookingNo" />
+          <EntitySetMapping Name="guestAddresses">
+            <EntityTypeMapping TypeName="CarRentalModel.guestAddress">
+              <MappingFragment StoreEntitySet="guestAddress">
+                <ScalarProperty Name="entryDate" ColumnName="entryDate" />
+                <ScalarProperty Name="entryBy" ColumnName="entryBy" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="guestId" ColumnName="guestId" />
+                <ScalarProperty Name="guestAddressId" ColumnName="guestAddressId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -7,7 +7,7 @@ namespace CarRental.ViewModel
     public class BookingViewModel
     {
         [Key]
-        public long BookingId { get; set; }
+        public long? BookingId { get; set; }
 
         [Required, Display(Name = "Branch")]
         public int BranchId { get; set; }
@@ -15,7 +15,7 @@ namespace CarRental.ViewModel
         public SelectList BranchList { get; set; }
 
         [Display(Name = "Booking Type")]
-        public string BookingType { get; set; }
+        public string BookingType { get; set; }        
 
         [Display(Name = "Billing Address")]
         public string BillAddress { get; set; }
@@ -23,14 +23,16 @@ namespace CarRental.ViewModel
         [Display(Name = "Booking No.")]
         public string BookingNumber { get; set; }
 
-        [Display(Name = "Booking Date")]
-        public DateTime BookingDate { get; set; }
+        [Required,Display(Name = "Booking Date")]
+        public DateTime? BookingDate { get; set; }
 
         [Display(Name = "Billing Type")]
-        public string BillingType { get; set; }
+        public string BillingTypeCode { get; set; }
+        public string BiilingType { get; set; }
 
         [Display(Name = "Booking Received By")]
-        public int BookingReceivedBy { get; set; }
+        public string BookingReceivedByName { get; set; }
+        public int BookingReceivedBy { get; set; }        
 
         [Display(Name = "Company")]
         public int? PartyId { get; set; }
@@ -40,14 +42,14 @@ namespace CarRental.ViewModel
         [Display(Name = "Booking By")]
         public string BookingBy { get; set; }
 
+        [Display(Name = "Mobile No. (Book BY)")]
+        public string BookedByMobileNo { get; set; }
+
         [Display(Name = "Guest")]
         public int? GuestId { get; set; }
         public string GuestName { get; set; }
         public SelectList GuestList { get; set; }
-
-        [Display(Name = "Mobile No.")]
-        public string GuestMobileNo { get; set; }
-
+        
         [Display(Name = "Booking Source")]
         public string BookingSource { get; set; }
 
@@ -68,6 +70,7 @@ namespace CarRental.ViewModel
 
         [Display(Name = "Reporting Location")]
         public string ReportingLocation { get; set; }
+        public int? GuestAddressId { get; set; }
 
         [Display(Name = "Reporting Time")]
         public TimeSpan? ReportingTime { get; set; }

@@ -55,10 +55,11 @@ select.form-control + .chosen-container .chosen-search input[type=text] {
 select.form-control + .chosen-container .chosen-results {
     margin: 2px 0 0;
     padding: 5px 0;
-    font-size: 14px;
+    font-size: 12px;
     list-style: none;
     background-color: #fff;
     margin-bottom: 5px;
+    overflow-x:auto;
 }
 
     select.form-control + .chosen-container .chosen-results li,

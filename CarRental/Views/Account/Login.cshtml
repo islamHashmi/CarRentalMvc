@@ -14,7 +14,7 @@
     <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
 </head>
 <body class="main">
-    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "formmain" }))
     {
         @Html.AntiForgeryToken()
         @Html.Hidden("hfUserId")
@@ -103,10 +103,9 @@
             </div>
         </div>
     }
-
+    
     @Scripts.Render("~/bundles/jquery")
     <script>
-
         // LOGIN TABS
         $(function () {
             var tab = $('.tabs h3 a');
@@ -201,23 +200,18 @@
             $('#btn-login').on('click', function (event) {
 
                 $('#txtOtp').val('');
-
+                               
                 var serviceURL = '@Url.Action("Authorize_User", "Account")';
-
-                var token = $("[name='__RequestVerificationToken']").val();
-
+                
                 var model = {
                     LoginId: $('#LoginId').val(),
                     LoginKey: $('#LoginKey').val()
                 };
-
+                
                 $.ajax({
                     type: "POST",
                     url: serviceURL,
-                    data: {
-                        __RequestVerificationToken: token,
-                        vm: model
-                    },
+                    data: addRequestVerificationToken(model),
                     dataType: "json",
                     success: function (data) {
                         ShowOtpPanel(data);
@@ -226,14 +220,19 @@
                         alert('Something Wrong !!!' + response.responseText);
                     }
                 });
-
+               
                 return false;
             });
         });
 
+        function addRequestVerificationToken(data) {
+            data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+            return data;
+        };
+
         function ShowOtpPanel(data) {
             if (data.IsAuthorize == 'true') {
-                
+
                 recovery = $('.recovery');
                 close = $('#toggle-terms');
                 arrow = $('.tabs-content .fa');
@@ -262,7 +261,7 @@
                 };
             }
             else {
-                document.getElementById("hfUserId").value = data.UserId;                
+                document.getElementById("hfUserId").value = data.UserId;
             }
         }
 

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using CarRental.Helpers;
 using CarRental.Models;
@@ -1568,25 +1567,7 @@ namespace CarRental.Controllers
             {
                 foreach (var item in model)
                 {
-                    var vm = new GuestViewModel
-                    {
-                        GuestId = item.guestId,
-                        BranchId = item.branchId,
-                        BranchName = item.CompanyBranch == null ? "" : item.CompanyBranch.branchName,
-                        CarModelId = item.carModelId,
-                        ModelName = item.CarModel == null ? "" : item.CarModel.modelDescription,
-                        PartyId = item.partyId,
-                        PartyName = item.Party == null ? "" : item.Party.Name,
-                        DepartmentId = item.departmentId,
-                        DepartmentName = item.Department == null ? "" : item.Department.departmentName,
-                        GuestName = item.guestName,
-                        BookedBy = item.bookedBy,
-                        ContactNumber1 = item.contactNumber1,
-                        ContactNumber2 = item.contactNumber2,
-                        ContactNumber3 = item.contactNumber3
-                    };
-
-                    list.Add(vm);
+                    list.Add(GetGuest(item));
                 }
             }
 
@@ -1606,26 +1587,8 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Guests.FindAsync(_Id);
-
-                var vm = new GuestViewModel
-                {
-                    GuestId = model.guestId,
-                    BranchId = model.branchId,
-                    BranchName = model.CompanyBranch == null ? "" : model.CompanyBranch.branchName,
-                    CarModelId = model.carModelId,
-                    ModelName = model.CarModel == null ? "" : model.CarModel.modelDescription,
-                    PartyId = model.partyId,
-                    PartyName = model.Party == null ? "" : model.Party.Name,
-                    DepartmentId = model.departmentId,
-                    DepartmentName = model.Department == null ? "" : model.Department.departmentName,
-                    GuestName = model.guestName,
-                    BookedBy = model.bookedBy,
-                    ContactNumber1 = model.contactNumber1,
-                    ContactNumber2 = model.contactNumber2,
-                    ContactNumber3 = model.contactNumber3
-                };
-
-                return View(vm);
+                
+                return View(GetGuest(model));
             }
 
             return RedirectToAction("GuestList");
@@ -1649,16 +1612,7 @@ namespace CarRental.Controllers
 
                     var model = await db.Guests.FindAsync(_Id);
 
-                    vm.GuestId = model.guestId;
-                    vm.BranchId = model.branchId;
-                    vm.CarModelId = model.carModelId;
-                    vm.PartyId = model.partyId;
-                    vm.DepartmentId = model.departmentId;
-                    vm.GuestName = model.guestName;
-                    vm.BookedBy = model.bookedBy;
-                    vm.ContactNumber1 = model.contactNumber1;
-                    vm.ContactNumber2 = model.contactNumber2;
-                    vm.ContactNumber3 = model.contactNumber3;
+                    vm = GetGuest(model);
                 }
             }
             catch (Exception ex)
@@ -1708,6 +1662,8 @@ namespace CarRental.Controllers
                     model.departmentId = vm.DepartmentId;
                     model.guestName = vm.GuestName;
                     model.bookedBy = vm.BookedBy;
+                    model.guestMobile = vm.GuestMobile;
+                    model.bookedByMobile = vm.BookedByMobile;
                     model.contactNumber1 = vm.ContactNumber1;
                     model.contactNumber2 = vm.ContactNumber2;
                     model.contactNumber3 = vm.ContactNumber3;
@@ -1742,26 +1698,8 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Guests.FindAsync(_Id);
-
-                var vm = new GuestViewModel
-                {
-                    GuestId = model.guestId,
-                    BranchId = model.branchId,
-                    BranchName = model.CompanyBranch == null ? "" : model.CompanyBranch.branchName,
-                    CarModelId = model.carModelId,
-                    ModelName = model.CarModel == null ? "" : model.CarModel.modelDescription,
-                    PartyId = model.partyId,
-                    PartyName = model.Party == null ? "" : model.Party.Name,
-                    DepartmentId = model.departmentId,
-                    DepartmentName = model.Department == null ? "" : model.Department.departmentName,
-                    GuestName = model.guestName,
-                    BookedBy = model.bookedBy,
-                    ContactNumber1 = model.contactNumber1,
-                    ContactNumber2 = model.contactNumber2,
-                    ContactNumber3 = model.contactNumber3
-                };
-
-                return View(vm);
+                
+                return View(GetGuest(model));
             }
 
             return RedirectToAction("GuestList");
@@ -1799,6 +1737,29 @@ namespace CarRental.Controllers
             vm.PartyList = new SelectList(db.Parties.Where(m => m.active == true), "partyId", "Name");
             vm.DepartmentList = new SelectList(db.Departments.Where(m => m.active == true), "departmentId", "departmentName");
             vm.ModelList = new SelectList(db.CarModels.Where(m => m.active == true), "carModelId", "modelDescription");
+        }
+
+        private GuestViewModel GetGuest(Guest model)
+        {
+            return new GuestViewModel
+            {
+                GuestId = model.guestId,
+                BranchId = model.branchId,
+                BranchName = model.CompanyBranch == null ? "" : model.CompanyBranch.branchName,
+                CarModelId = model.carModelId,
+                ModelName = model.CarModel == null ? "" : model.CarModel.modelDescription,
+                PartyId = model.partyId,
+                PartyName = model.Party == null ? "" : model.Party.Name,
+                DepartmentId = model.departmentId,
+                DepartmentName = model.Department == null ? "" : model.Department.departmentName,
+                GuestName = model.guestName,
+                BookedBy = model.bookedBy,
+                GuestMobile = model.guestMobile,
+                BookedByMobile = model.bookedByMobile,
+                ContactNumber1 = model.contactNumber1,
+                ContactNumber2 = model.contactNumber2,
+                ContactNumber3 = model.contactNumber3
+            };
         }
 
         #endregion

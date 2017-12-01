@@ -1,0 +1,396 @@
+﻿@model CarRental.ViewModel.BookingViewModel
+
+@{
+    ViewBag.Title = "BookingManage";
+}
+
+<h4>Booking</h4>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.BookingId)
+    @Html.HiddenFor(model => model.GuestAddressId)
+
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BranchId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.BranchId, Model.BranchList, new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingNumber, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.BookingNumber, new { htmlAttributes = new { @class = "form-control form-control-sm", readOnly = "readOnly" } })
+                    @Html.ValidationMessageFor(model => model.BookingNumber, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.BookingType, new SelectList(new List<SelectListItem>
+                                                                            {
+                                                                                new SelectListItem{ Text = "Normal", Value = "N" },
+                                                                                new SelectListItem{ Text = "Event", Value = "E" },
+                                                                                new SelectListItem{ Text = "Monthly", Value = "M" }
+                                                                            }, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.BookingType, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BillAddress, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextAreaFor(model => model.BillAddress, new { @class = "form-control form-control-sm", rows = "3" })
+                    @Html.ValidationMessageFor(model => model.BillAddress, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingDate, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    <div class='input-group input-group-sm' id='datetimepicker1'>
+                        @Html.EditorFor(model => model.BookingDate, new { htmlAttributes = new { @class = "form-control form-control-sm", aria_describedby = "sizing-addon1" } })
+                        <span class="input-group-addon" id="sizing-addon1">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.BookingDate, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BiilingType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.BiilingType, new SelectList(new List<SelectListItem>
+                                                                            {
+                                                                                new SelectListItem{ Text = "Cash", Value = "CA" },
+                                                                                new SelectListItem{ Text = "Credit", Value = "Cr" }
+                                                                            }, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.BiilingType, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingReceivedByName, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.BookingReceivedByName, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.BookingReceivedByName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PartyId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.PartyId, Model.PartyList, "--- Select Party ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.PartyId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingBy, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.BookingBy, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.BookingBy, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GuestId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.GuestId, Model.GuestList, "--- Select Guest ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.GuestId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookedByMobileNo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.BookedByMobileNo, new { htmlAttributes = new { @class = "form-control form-control-sm", maxLenght = "10" } })
+                    @Html.ValidationMessageFor(model => model.BookedByMobileNo, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingSource, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.BookingSource, new SelectList(new List<SelectListItem>
+                                                                            {
+                                                                                new SelectListItem{ Text = "Telephone", Value = "Telephone" },
+                                                                                new SelectListItem{ Text = "Fax", Value = "Fax" },
+                                                                                new SelectListItem{ Text = "Email", Value = "Email" },
+                                                                                new SelectListItem{ Text = "Verbal", Value = "Verbal" }
+                                                                            }, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.BookingSource, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RequirementStartDate, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    <div class='input-group input-group-sm' id='datetimepicker2'>
+                        @Html.EditorFor(model => model.RequirementStartDate, new { htmlAttributes = new { @class = "form-control form-control-sm", aria_describedby = "sizing-addon1" } })
+                        <span class="input-group-addon" id="sizing-addon1">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.RequirementStartDate, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RequirementEndDate, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    <div class='input-group input-group-sm' id='datetimepicker3'>
+                        @Html.EditorFor(model => model.RequirementEndDate, new { htmlAttributes = new { @class = "form-control form-control-sm", aria_describedby = "sizing-addon1" } })
+                        <span class="input-group-addon" id="sizing-addon1">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.RequirementEndDate, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TravelId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.TravelId, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.TravelId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportingTo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    <div class="input-group input-group-sm">
+                        @Html.EditorFor(model => model.ReportingTo, new { htmlAttributes = new { @class = "form-control" } })
+                        <span class="input-group-btn">
+                            <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#exampleModal">?</button>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ReportingTo, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportingMobileNo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.ReportingMobileNo, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.ReportingMobileNo, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportingTime, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    <div class='input-group input-group-sm' id='datetimepicker4'>
+                        @Html.EditorFor(model => model.ReportingTime, new { htmlAttributes = new { @class = "form-control form-control-sm", aria_describedby = "sizing-addon1" } })
+                        <span class="input-group-addon" id="sizing-addon1">
+                            <span class="fa fa-clock-o"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ReportingTime, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportingLocation, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextAreaFor(model => model.ReportingLocation, new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.ReportingLocation, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CarModelId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.CarModelId, Model.CarModelList, "--- Select Model ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.CarModelId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DutyTypeId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.DutyTypeId, Model.DutyTypeList, "--- Select Duty Type ---", new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.DutyTypeId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SpecialInstruction, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.SpecialInstruction, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.SpecialInstruction, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Requisition, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.Requisition, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.Requisition, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MobileNumber1, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.MobileNumber1, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.MobileNumber1, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MobileNumber2, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.MobileNumber2, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.MobileNumber2, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MobileNumber3, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.MobileNumber3, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.MobileNumber3, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="card-footer">
+                <input type="submit" value="Save" class="btn btn-primary btn-sm" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "BookingList")
+</div>
+
+<div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Reporting Address</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'DD/MM/YYYY',
+                showClear: true
+            });
+
+            $('#datetimepicker2').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm',
+                showClear: true
+            });
+
+            $('#datetimepicker3').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm',
+                showClear: true
+            });
+
+            $('#datetimepicker4').datetimepicker({
+                showClear: true,
+                format: 'HH:mm',
+            });
+        });
+    </script>
+    <script>
+        $('#GuestId').change(function () {
+            var value = $('#GuestId option:selected').val();
+            var index = $("#GuestId").prop('selectedIndex');
+
+            if (index != 0) {
+                var serviceURL = '@Url.Action("GetGuestInformation", "Booking")';
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    data: JSON.stringify(addRequestVerificationToken({ guestId: value })),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: successFunc,
+                    error: errorFunc
+                });
+
+                function addRequestVerificationToken(data) {
+                    data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+                    return data;
+                };
+
+                function successFunc(data, status) {
+                    showGuestData(data);
+                };
+
+                function errorFunc(jqXHR, exception) {
+                    console.log(jqXHR);
+                };
+
+                function showGuestData(data) {
+                    $('#BookingBy').val(data.bookBy);
+                    $('#BookedByMobileNo').val(data.bookByMob);
+                    $('#ReportingTo').val(data.guestName);
+                    $('#ReportingMobileNo').val(data.guestMob);
+                    $('#MobileNumber1').val(data.Mob1);
+                    $('#MobileNumber2').val(data.Mob2);
+                    $('#MobileNumber3').val(data.Mob3);
+                    $('#CarModelId').val(data.carModelId);
+                    $('#CarModelId').trigger("chosen:updated");
+                };
+
+                function guestAddressList() {
+
+                }
+            }
+            else {
+                $('#BookingBy').val('');
+                $('#BookedByMobileNo').val('');
+                $('#ReportingTo').val('');
+                $('#ReportingMobileNo').val('');
+                $('#MobileNumber1').val('');
+                $('#MobileNumber2').val('');
+                $('#MobileNumber3').val('');
+                $('#CarModelId').val('');
+                $('#CarModelId').trigger("chosen:updated");
+            }
+        });
+    </script>
+    <script>
+        $('#PartyId').change(function () {
+            var value = $('#PartyId option:selected').val();
+            var index = $("#PartyId").prop('selectedIndex');
+
+            if (index != 0) {
+                var serviceURL = '@Url.Action("GetGuestList", "Booking")';
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    data: JSON.stringify(addRequestVerificationToken({ partyId: value })),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: successFunc,
+                    error: errorFunc
+                });
+
+                function addRequestVerificationToken(data) {
+                    data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+                    return data;
+                };
+
+                function successFunc(data, status) {
+                    bindGuest(data);
+                };
+
+                function errorFunc(jqXHR, exception) {
+                    console.log(jqXHR);
+                };
+
+                function bindGuest(data) {
+
+                    var list = data.guestList
+
+                    $("#GuestId").empty();
+
+                    var opt = '<option value='+""+'>--- Select Guest ---</option>';
+                    for (var i = 0; i < list.length; i++) {
+                        opt += '<option value=' + list[i].Value + '>' + list[i].Text + '</option>';
+                    }
+
+                    $('#GuestId').append(opt);
+
+                    $("#GuestId").trigger("chosen:updated");
+                    $("#GuestId").trigger("liszt:updated");
+                };
+            }
+            else {
+
+            }
+        });
+    </script>
+}

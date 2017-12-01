@@ -12,6 +12,8 @@ namespace CarRental.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class CarRentalEntities : DbContext
     {
@@ -43,5 +45,11 @@ namespace CarRental.Models
         public virtual DbSet<ExpenseHead> ExpenseHeads { get; set; }
         public virtual DbSet<ReleasePoint> ReleasePoints { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
+        public virtual DbSet<guestAddress> guestAddresses { get; set; }
+    
+        public virtual ObjectResult<Nullable<int>> sp_Generate_BookingNo()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_Generate_BookingNo");
+        }
     }
 }

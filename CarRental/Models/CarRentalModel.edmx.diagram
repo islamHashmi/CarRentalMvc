@@ -45,6 +45,9 @@
         <AssociationConnector Association="CarRentalModel.FK_Booking_DutyType" />
         <AssociationConnector Association="CarRentalModel.FK_Booking_Guest" />
         <AssociationConnector Association="CarRentalModel.FK_Booking_Party" />
+        <EntityTypeShape EntityType="CarRentalModel.guestAddress" Width="1.5" PointX="6.375" PointY="0.625" />
+        <AssociationConnector Association="CarRentalModel.FK_guestAddress_Guest" />
+        <AssociationConnector Association="CarRentalModel.FK_Booking_guestAddress" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

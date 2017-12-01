@@ -253,6 +253,9 @@
     <Compile Include="Models\Guest.cs">
       <DependentUpon>CarRentalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\guestAddress.cs">
+      <DependentUpon>CarRentalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Login.cs">
       <DependentUpon>CarRentalModel.tt</DependentUpon>
     </Compile>
@@ -541,10 +544,10 @@
     <Content Include="Views\MasterData\ReleasePointDetails.cshtml" />
     <Content Include="Views\MasterData\ReleasePointManage.cshtml" />
     <Content Include="Views\MasterData\ReleasePointDelete.cshtml" />
+    <Content Include="Views\Booking\BookingManage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Booking\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

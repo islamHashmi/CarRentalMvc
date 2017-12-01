@@ -21,8 +21,14 @@ namespace CarRental.ViewModel
         [Display(Name = "Guest Name")]
         public string GuestName { get; set; }
 
+        [Display(Name ="Contact No. (Guest)")]
+        public string GuestMobile { get; set; }
+
         [Display(Name = "Booked By")]
         public string BookedBy { get; set; }
+
+        [Display(Name = "Contact No. (Booked By)")]
+        public string BookedByMobile { get; set; }
 
         [Display(Name = "Department")]
         public int? DepartmentId { get; set; }

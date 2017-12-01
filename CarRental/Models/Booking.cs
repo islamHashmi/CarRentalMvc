@@ -46,11 +46,13 @@ namespace CarRental.Models
         public System.DateTime entryDate { get; set; }
         public Nullable<int> updatedBy { get; set; }
         public Nullable<System.DateTime> updatedDate { get; set; }
+        public Nullable<int> guestAddressId { get; set; }
     
         public virtual CarModel CarModel { get; set; }
         public virtual CompanyBranch CompanyBranch { get; set; }
         public virtual DutyType DutyType { get; set; }
         public virtual Guest Guest { get; set; }
         public virtual Party Party { get; set; }
+        public virtual guestAddress guestAddress { get; set; }
     }
 }
