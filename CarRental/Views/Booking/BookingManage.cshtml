@@ -12,6 +12,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.BookingId)
+    @Html.HiddenFor(model => model.BookingReceivedBy)
     @Html.HiddenFor(model => model.GuestAddressId)
 
     <div class="card-group">
@@ -97,7 +98,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.BookedByMobileNo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    @Html.EditorFor(model => model.BookedByMobileNo, new { htmlAttributes = new { @class = "form-control form-control-sm", maxLenght = "10" } })
+                    @Html.EditorFor(model => model.BookedByMobileNo, new { htmlAttributes = new { @class = "form-control form-control-sm numbersOnly", maxLength = "10" } })
                     @Html.ValidationMessageFor(model => model.BookedByMobileNo, "", new { @class = "text-danger" })
                 </div>
 
@@ -146,7 +147,7 @@
                     <div class="input-group input-group-sm">
                         @Html.EditorFor(model => model.ReportingTo, new { htmlAttributes = new { @class = "form-control" } })
                         <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#exampleModal">?</button>
+                            <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#guestAddressModal">?</button>
                         </span>
                     </div>
                     @Html.ValidationMessageFor(model => model.ReportingTo, "", new { @class = "text-danger" })
@@ -154,7 +155,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.ReportingMobileNo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    @Html.EditorFor(model => model.ReportingMobileNo, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.EditorFor(model => model.ReportingMobileNo, new { htmlAttributes = new { @class = "form-control form-control-sm numbersOnly", maxLength = "10" } })
                     @Html.ValidationMessageFor(model => model.ReportingMobileNo, "", new { @class = "text-danger" })
                 </div>
 
@@ -206,19 +207,19 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.MobileNumber1, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    @Html.EditorFor(model => model.MobileNumber1, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.EditorFor(model => model.MobileNumber1, new { htmlAttributes = new { @class = "form-control form-control-sm numbersOnly", maxLength = "10" } })
                     @Html.ValidationMessageFor(model => model.MobileNumber1, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.MobileNumber2, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    @Html.EditorFor(model => model.MobileNumber2, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.EditorFor(model => model.MobileNumber2, new { htmlAttributes = new { @class = "form-control form-control-sm numbersOnly", maxLength = "10" } })
                     @Html.ValidationMessageFor(model => model.MobileNumber2, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.MobileNumber3, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    @Html.EditorFor(model => model.MobileNumber3, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.EditorFor(model => model.MobileNumber3, new { htmlAttributes = new { @class = "form-control form-control-sm numbersOnly", maxLength = "10" } })
                     @Html.ValidationMessageFor(model => model.MobileNumber3, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -235,7 +236,7 @@
 
 <div>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="guestAddressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -245,11 +246,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <p id="guest-name"></p>
+                    <table id="tbl-address" class="table table-sm"></table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-sm">Save changes</button>
                 </div>
             </div>
         </div>
@@ -260,7 +262,7 @@
     <script type="text/javascript">
         $(function () {
             $('#datetimepicker1').datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'DD/MM/YYYY HH:mm',
                 showClear: true
             });
 
@@ -305,6 +307,7 @@
 
                 function successFunc(data, status) {
                     showGuestData(data);
+                    guestAddressList(data.guestAddress, data.guestName);
                 };
 
                 function errorFunc(jqXHR, exception) {
@@ -323,8 +326,26 @@
                     $('#CarModelId').trigger("chosen:updated");
                 };
 
-                function guestAddressList() {
+                function guestAddressList(data,name) {
+                    var rows = '';
 
+                    $('#tbl-address').empty();
+                    $('#guest-name').html('');
+
+                    for (var i = 0; i < data.length; i++) {
+                        var row = '';
+
+                        row += '<tr>';
+                        row += '<td><input type="radio" name="address" onchange=checkAddress(' + data[i].Value + ') /></td>';
+                        row += '<td><label id=' + data[i].Value + '>' + data[i].Text + '</label></td>';
+                        row += '</tr>'
+
+                        rows += row
+                    }
+
+                    $('#guest-name').html(name);
+
+                    $('#tbl-address').append(rows);
                 }
             }
             else {
@@ -383,6 +404,7 @@
                     }
 
                     $('#GuestId').append(opt);
+                    $('#BillAddress').val(data.billAddress);
 
                     $("#GuestId").trigger("chosen:updated");
                     $("#GuestId").trigger("liszt:updated");
@@ -391,6 +413,29 @@
             else {
 
             }
+        });
+    </script>
+    <script>
+        function checkAddress(value) {
+
+            var text = $('label#' + value).html();
+
+            $('#ReportingLocation').val(text);
+            $('#GuestAddressId').val(value);
+
+            $('#guestAddressModal').modal('hide')
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            //called when key is pressed in textbox
+            $(".numbersOnly").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    return false;
+                }
+            });
         });
     </script>
 }

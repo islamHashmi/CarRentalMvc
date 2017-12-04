@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a93a3bdc30074979946da8650744835f" Name="Diagram1" ZoomLevel="95">
-        <EntityTypeShape EntityType="CarRentalModel.Company" Width="1.5" PointX="3.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarRentalModel.Company" Width="1.5" PointX="2.625" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CarRentalModel.CompanyBranch" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CarRentalModel.Department" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CarRentalModel.PartyStatu" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
@@ -13,7 +13,7 @@
         <EntityTypeShape EntityType="CarRentalModel.Party" Width="1.5" PointX="3" PointY="6.875" />
         <AssociationConnector Association="CarRentalModel.FK_Party_CompanyBranch" />
         <AssociationConnector Association="CarRentalModel.FK_Party_PartyStatus" />
-        <EntityTypeShape EntityType="CarRentalModel.CarModel" Width="1.5" PointX="6" PointY="3.125" />
+        <EntityTypeShape EntityType="CarRentalModel.CarModel" Width="1.5" PointX="4.5" PointY="3" />
         <EntityTypeShape EntityType="CarRentalModel.Designation" Width="1.5" PointX="10.375" PointY="3.125" />
         <EntityTypeShape EntityType="CarRentalModel.Guest" Width="1.5" PointX="5.25" PointY="6.5" />
         <AssociationConnector Association="CarRentalModel.FK_Guest_CarModel" />
@@ -45,9 +45,14 @@
         <AssociationConnector Association="CarRentalModel.FK_Booking_DutyType" />
         <AssociationConnector Association="CarRentalModel.FK_Booking_Guest" />
         <AssociationConnector Association="CarRentalModel.FK_Booking_Party" />
-        <EntityTypeShape EntityType="CarRentalModel.guestAddress" Width="1.5" PointX="6.375" PointY="0.625" />
+        <EntityTypeShape EntityType="CarRentalModel.guestAddress" Width="1.5" PointX="6.25" PointY="0.5" />
         <AssociationConnector Association="CarRentalModel.FK_guestAddress_Guest" />
         <AssociationConnector Association="CarRentalModel.FK_Booking_guestAddress" />
+        <AssociationConnector Association="CarRentalModel.FK_Booking_Employee" />
+        <EntityTypeShape EntityType="CarRentalModel.DriverAllocation" Width="1.5" PointX="17.5" PointY="6.125" />
+        <AssociationConnector Association="CarRentalModel.FK_DriverAllocation_Booking" />
+        <AssociationConnector Association="CarRentalModel.FK_DriverAllocation_Car" />
+        <AssociationConnector Association="CarRentalModel.FK_DriverAllocation_Employee" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

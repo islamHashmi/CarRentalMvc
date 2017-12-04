@@ -151,6 +151,26 @@
           <Property Name="updatedBy" Type="int" />
           <Property Name="updatedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="DriverAllocation">
+          <Key>
+            <PropertyRef Name="allocationId" />
+          </Key>
+          <Property Name="allocationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="bookingId" Type="bigint" Nullable="false" />
+          <Property Name="carType" Type="char" MaxLength="2" />
+          <Property Name="carId" Type="int" />
+          <Property Name="carNumber" Type="varchar" MaxLength="10" />
+          <Property Name="carRegisterNumber" Type="varchar" MaxLength="20" />
+          <Property Name="driverId" Type="int" />
+          <Property Name="driverName" Type="varchar" MaxLength="50" />
+          <Property Name="driverMobileNo" Type="char" MaxLength="10" />
+          <Property Name="slipNumber" Type="int" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="entryBy" Type="int" Nullable="false" />
+          <Property Name="entryDate" Type="datetime" Nullable="false" />
+          <Property Name="updatedBy" Type="int" />
+          <Property Name="updatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="DutyType">
           <Key>
             <PropertyRef Name="dutyTypeId" />
@@ -241,6 +261,7 @@
           <Property Name="guestAddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="guestId" Type="int" Nullable="false" />
           <Property Name="address" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="active" Type="bit" Nullable="false" />
           <Property Name="entryBy" Type="int" Nullable="false" />
           <Property Name="entryDate" Type="datetime" Nullable="false" />
         </EntityType>
@@ -388,6 +409,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Booking_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="bookingReceivedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Booking_Guest">
           <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
@@ -469,6 +502,42 @@
             </Principal>
             <Dependent Role="CompanyBranch">
               <PropertyRef Name="companyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DriverAllocation_Booking">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+          <End Role="DriverAllocation" Type="Self.DriverAllocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="bookingId" />
+            </Principal>
+            <Dependent Role="DriverAllocation">
+              <PropertyRef Name="bookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DriverAllocation_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+          <End Role="DriverAllocation" Type="Self.DriverAllocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="CarId" />
+            </Principal>
+            <Dependent Role="DriverAllocation">
+              <PropertyRef Name="carId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DriverAllocation_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="DriverAllocation" Type="Self.DriverAllocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="DriverAllocation">
+              <PropertyRef Name="driverId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -649,6 +718,7 @@
           <EntitySet Name="CompanyBranch" EntityType="Self.CompanyBranch" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DriverAllocation" EntityType="Self.DriverAllocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DutyType" EntityType="Self.DutyType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseHead" EntityType="Self.ExpenseHead" Schema="dbo" store:Type="Tables" />
@@ -671,6 +741,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Booking_DutyType" Association="Self.FK_Booking_DutyType">
             <End Role="DutyType" EntitySet="DutyType" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Employee" Association="Self.FK_Booking_Employee">
+            <End Role="Employee" EntitySet="Employee" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
           <AssociationSet Name="FK_Booking_Guest" Association="Self.FK_Booking_Guest">
@@ -700,6 +774,18 @@
           <AssociationSet Name="FK_CompanyBranch_Company" Association="Self.FK_CompanyBranch_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyBranch" EntitySet="CompanyBranch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverAllocation_Booking" Association="Self.FK_DriverAllocation_Booking">
+            <End Role="Booking" EntitySet="Booking" />
+            <End Role="DriverAllocation" EntitySet="DriverAllocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverAllocation_Car" Association="Self.FK_DriverAllocation_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="DriverAllocation" EntitySet="DriverAllocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverAllocation_Employee" Association="Self.FK_DriverAllocation_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="DriverAllocation" EntitySet="DriverAllocation" />
           </AssociationSet>
           <AssociationSet Name="FK_Employee_CompanyBranch" Association="Self.FK_Employee_CompanyBranch">
             <End Role="CompanyBranch" EntitySet="CompanyBranch" />
@@ -936,6 +1022,23 @@
           <AssociationSet Name="FK_Booking_guestAddress" Association="CarRentalModel.FK_Booking_guestAddress">
             <End Role="guestAddress" EntitySet="guestAddresses" />
             <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Employee" Association="CarRentalModel.FK_Booking_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <EntitySet Name="DriverAllocations" EntityType="CarRentalModel.DriverAllocation" />
+          <AssociationSet Name="FK_DriverAllocation_Booking" Association="CarRentalModel.FK_DriverAllocation_Booking">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="DriverAllocation" EntitySet="DriverAllocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverAllocation_Car" Association="CarRentalModel.FK_DriverAllocation_Car">
+            <End Role="Car" EntitySet="Cars" />
+            <End Role="DriverAllocation" EntitySet="DriverAllocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverAllocation_Employee" Association="CarRentalModel.FK_DriverAllocation_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="DriverAllocation" EntitySet="DriverAllocations" />
           </AssociationSet>
           </EntityContainer>
         <Association Name="FK_CompanyBranch_Company">
@@ -1181,6 +1284,7 @@
           <NavigationProperty Name="CarModel" Relationship="CarRentalModel.FK_Car_CarModel" FromRole="Car" ToRole="CarModel" />
           <NavigationProperty Name="CompanyBranch" Relationship="CarRentalModel.FK_Car_CompanyBranch" FromRole="Car" ToRole="CompanyBranch" />
           <NavigationProperty Name="FuelType" Relationship="CarRentalModel.FK_Car_FuelType" FromRole="Car" ToRole="FuelType" />
+          <NavigationProperty Name="DriverAllocations" Relationship="CarRentalModel.FK_DriverAllocation_Car" FromRole="Car" ToRole="DriverAllocation" />
         </EntityType>
         <EntityType Name="FuelType">
           <Key>
@@ -1262,6 +1366,8 @@
           <NavigationProperty Name="Designation" Relationship="CarRentalModel.FK_Employee_Designation" FromRole="Employee" ToRole="Designation" />
           <NavigationProperty Name="Logins" Relationship="CarRentalModel.FK_Login_Employee" FromRole="Employee" ToRole="Login" />
           <Property Name="sundayAmount" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_Employee" FromRole="Employee" ToRole="Booking" />
+          <NavigationProperty Name="DriverAllocations" Relationship="CarRentalModel.FK_DriverAllocation_Employee" FromRole="Employee" ToRole="DriverAllocation" />
         </EntityType>
         <Association Name="FK_Employee_CompanyBranch">
           <End Type="CarRentalModel.CompanyBranch" Role="CompanyBranch" Multiplicity="1" />
@@ -1466,6 +1572,8 @@
           <NavigationProperty Name="Party" Relationship="CarRentalModel.FK_Booking_Party" FromRole="Booking" ToRole="Party" />
           <Property Name="guestAddressId" Type="Int32" />
           <NavigationProperty Name="guestAddress" Relationship="CarRentalModel.FK_Booking_guestAddress" FromRole="Booking" ToRole="guestAddress" />
+          <NavigationProperty Name="Employee" Relationship="CarRentalModel.FK_Booking_Employee" FromRole="Booking" ToRole="Employee" />
+          <NavigationProperty Name="DriverAllocations" Relationship="CarRentalModel.FK_DriverAllocation_Booking" FromRole="Booking" ToRole="DriverAllocation" />
         </EntityType>
         <Association Name="FK_Booking_CarModel">
           <End Type="CarRentalModel.CarModel" Role="CarModel" Multiplicity="0..1" />
@@ -1538,6 +1646,7 @@
           <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Guest" Relationship="CarRentalModel.FK_guestAddress_Guest" FromRole="guestAddress" ToRole="Guest" />
           <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_guestAddress" FromRole="guestAddress" ToRole="Booking" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_guestAddress_Guest">
           <End Type="CarRentalModel.Guest" Role="Guest" Multiplicity="1" />
@@ -1560,6 +1669,77 @@
             </Principal>
             <Dependent Role="Booking">
               <PropertyRef Name="guestAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Employee">
+          <End Type="CarRentalModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="CarRentalModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="bookingReceivedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DriverAllocation">
+          <Key>
+            <PropertyRef Name="allocationId" />
+          </Key>
+          <Property Name="allocationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="bookingId" Type="Int64" Nullable="false" />
+          <Property Name="carType" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="carId" Type="Int32" />
+          <Property Name="carNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="carRegisterNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="driverId" Type="Int32" />
+          <Property Name="driverName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="driverMobileNo" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="slipNumber" Type="Int32" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="entryBy" Type="Int32" Nullable="false" />
+          <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Booking" Relationship="CarRentalModel.FK_DriverAllocation_Booking" FromRole="DriverAllocation" ToRole="Booking" />
+          <NavigationProperty Name="Car" Relationship="CarRentalModel.FK_DriverAllocation_Car" FromRole="DriverAllocation" ToRole="Car" />
+          <NavigationProperty Name="Employee" Relationship="CarRentalModel.FK_DriverAllocation_Employee" FromRole="DriverAllocation" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_DriverAllocation_Booking">
+          <End Type="CarRentalModel.Booking" Role="Booking" Multiplicity="1" />
+          <End Type="CarRentalModel.DriverAllocation" Role="DriverAllocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="bookingId" />
+            </Principal>
+            <Dependent Role="DriverAllocation">
+              <PropertyRef Name="bookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DriverAllocation_Car">
+          <End Type="CarRentalModel.Car" Role="Car" Multiplicity="0..1" />
+          <End Type="CarRentalModel.DriverAllocation" Role="DriverAllocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="CarId" />
+            </Principal>
+            <Dependent Role="DriverAllocation">
+              <PropertyRef Name="carId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DriverAllocation_Employee">
+          <End Type="CarRentalModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="CarRentalModel.DriverAllocation" Role="DriverAllocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="DriverAllocation">
+              <PropertyRef Name="driverId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1928,11 +2108,33 @@
           <EntitySetMapping Name="guestAddresses">
             <EntityTypeMapping TypeName="CarRentalModel.guestAddress">
               <MappingFragment StoreEntitySet="guestAddress">
+                <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="entryDate" ColumnName="entryDate" />
                 <ScalarProperty Name="entryBy" ColumnName="entryBy" />
                 <ScalarProperty Name="address" ColumnName="address" />
                 <ScalarProperty Name="guestId" ColumnName="guestId" />
                 <ScalarProperty Name="guestAddressId" ColumnName="guestAddressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DriverAllocations">
+            <EntityTypeMapping TypeName="CarRentalModel.DriverAllocation">
+              <MappingFragment StoreEntitySet="DriverAllocation">
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="entryDate" ColumnName="entryDate" />
+                <ScalarProperty Name="entryBy" ColumnName="entryBy" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="slipNumber" ColumnName="slipNumber" />
+                <ScalarProperty Name="driverMobileNo" ColumnName="driverMobileNo" />
+                <ScalarProperty Name="driverName" ColumnName="driverName" />
+                <ScalarProperty Name="driverId" ColumnName="driverId" />
+                <ScalarProperty Name="carRegisterNumber" ColumnName="carRegisterNumber" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="carId" ColumnName="carId" />
+                <ScalarProperty Name="carType" ColumnName="carType" />
+                <ScalarProperty Name="bookingId" ColumnName="bookingId" />
+                <ScalarProperty Name="allocationId" ColumnName="allocationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

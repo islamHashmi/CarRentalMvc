@@ -1,0 +1,96 @@
+﻿@model CarRental.ViewModel.BookingFilter
+
+@{
+    ViewBag.Title = "BookingList";
+}
+
+<h4>Booking List</h4>
+
+@using (Html.BeginForm())
+{
+    <div class="card">
+        <div class="card-header">
+            <div class="form-inline">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                </div>
+                <div class="form-group mx-sm-3">
+
+                    @Html.DropDownListFor(model => model.BookingType, new SelectList(new List<SelectListItem>
+                                                                            {
+                                                                                new SelectListItem{ Text = "Normal", Value = "N" },
+                                                                                new SelectListItem{ Text = "Event", Value = "E" },
+                                                                                new SelectListItem{ Text = "Monthly", Value = "M" }
+                                                                            }, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.BookingType, "", new { @class = "text-danger" })
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                <div class="form-group mx-sm-3">
+                    @Html.ActionLink("Create New", "BookingManage", "Booking", new { @class = "btn btn-primary btn-sm float-right" })
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <table class="table table-sm">
+                <tr class="thead-light">
+                    <th>
+                        Branch Name
+                    </th>
+                    <th>
+                        Booking Type
+                    </th>
+                    <th>
+                        Booking Number
+                    </th>
+                    <th>
+                        Booking Date
+                    </th>
+                    <th>
+                        Party Name
+                    </th>
+                    <th>
+                        Guest Name
+                    </th>
+                    <th>
+                        Car Model
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.BookingList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BranchName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BookingTypeDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BookingNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BookingDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PartyName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuestName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CarModelName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "BookingManage", new { key = HelperClass.Encrypt(item.BookingId) }) |
+                            @Html.ActionLink("Details", "BookingDetail", new { key = HelperClass.Encrypt(item.BookingId) }) |
+                            @Html.ActionLink("Delete", "BookingDelete", new { key = HelperClass.Encrypt(item.BookingId) })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+}
+

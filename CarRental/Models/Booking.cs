@@ -14,6 +14,12 @@ namespace CarRental.Models
     
     public partial class Booking
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Booking()
+        {
+            this.DriverAllocations = new HashSet<DriverAllocation>();
+        }
+    
         public long bookingId { get; set; }
         public int branchId { get; set; }
         public string bookingType { get; set; }
@@ -54,5 +60,8 @@ namespace CarRental.Models
         public virtual Guest Guest { get; set; }
         public virtual Party Party { get; set; }
         public virtual guestAddress guestAddress { get; set; }
+        public virtual Employee Employee { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DriverAllocation> DriverAllocations { get; set; }
     }
 }

@@ -25,6 +25,7 @@ namespace CarRental.Models
         public string address { get; set; }
         public int entryBy { get; set; }
         public System.DateTime entryDate { get; set; }
+        public bool active { get; set; }
     
         public virtual Guest Guest { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

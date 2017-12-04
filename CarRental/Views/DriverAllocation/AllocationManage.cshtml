@@ -1,0 +1,265 @@
+﻿@model CarRental.ViewModel.DriverAllocationViewModel
+
+@{
+    ViewBag.Title = "AllocationManage";
+}
+
+<h4>AllocationManage</h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.AllocationId)
+
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Booking Details</h4>
+                <hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.BookingId, Model.BookingNoList,"--- Select Booking No ---", new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.BookingId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingDate, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.BookingDate, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingReceivedBy, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.BookingReceivedBy, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.Company, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingBy, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.BookingBy, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingSource, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.BookingSource, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SourceDetail, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.SourceDetail, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DutyType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.DutyType, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DateFrom, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.DateFrom, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DateTo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.DateTo, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportingTo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.ReportingTo, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportingLocation, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.ReportingLocation, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportingTime, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.ReportingTime, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ModelCar, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.ModelCar, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SpecialInstruction, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.SpecialInstruction, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Requisition, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.Requisition, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SlipNumber, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.SlipNumber, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Allocation</h4>
+                <hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CarType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.CarType, new SelectList(new List<SelectListItem>
+                                                                            {
+                                                                                new SelectListItem{ Text = "Owner", Value = "OW" },
+                                                                                new SelectListItem{ Text = "Operator", Value = "OP" }
+                                                                            }, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.CarType, "", new { @class = "text-danger" })
+                </div>
+
+                <div id="owner">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CarId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.DropDownListFor(model => model.CarId, Model.CarNumberList,"--- Select Car Number", new { @class = "form-control form-control-sm" })
+                        @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DriverId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.DropDownListFor(model => model.DriverId, Model.DriverNameList,"--- Select Driver Name ---", new { @class = "form-control form-control-sm" })
+                        @Html.ValidationMessageFor(model => model.DriverId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div id="operator" style="display:none;">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CarNumber, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.EditorFor(model => model.CarNumber, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        @Html.ValidationMessageFor(model => model.CarNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CarRegisterNumber, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.EditorFor(model => model.CarRegisterNumber, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        @Html.ValidationMessageFor(model => model.CarRegisterNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DriverName, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.EditorFor(model => model.DriverName, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        @Html.ValidationMessageFor(model => model.DriverName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DriverMobileNo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.EditorFor(model => model.DriverMobileNo, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        @Html.ValidationMessageFor(model => model.DriverMobileNo, "", new { @class = "text-danger" })
+                    </div>                    
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-sm">Save</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts{
+    <script>
+        $('#BookingId').change(function () {
+            var value = $('#BookingId option:selected').val();
+            var index = $("#BookingId").prop('selectedIndex');
+
+            if (index != 0) {
+                var serviceURL = '@Url.Action("GetBookingInfo", "DriverAllocation")';
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    data: JSON.stringify(addRequestVerificationToken({ bookingId: value })),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: successFunc,
+                    error: errorFunc
+                });
+
+                function addRequestVerificationToken(data) {
+                    data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+                    return data;
+                };
+
+                function successFunc(data, status) {
+                    showGuestData(data);
+                };
+
+                function errorFunc(jqXHR, exception) {
+                    console.log(jqXHR);
+                };
+
+                function showGuestData(data) {
+                    $('#BookingDate').val(data.bookingDate);
+                    $('#BookingReceivedBy').val(data.bookingReceivedBy);
+                    $('#Company').val(data.company);
+                    $('#BookingBy').val(data.bookingBy);
+                    $('#BookingSource').val(data.bookingSource);
+                    $('#SourceDetail').val(data.sourceDetail);
+                    $('#DutyType').val(data.dutyType);
+                    $('#DateFrom').val(data.dateFrom);
+                    $('#DateTo').val(data.dateTo);
+                    $('#ReportingTo').val(data.reportingTo);
+                    $('#ReportingLocation').val(data.reportingLocation);
+                    $('#ReportingTime').val(data.reportingTime);
+                    $('#ModelCar').val(data.modelCar);
+                    $('#SpecialInstruction').val(data.specialInstructuion);
+                    $('#Requisition').val(data.requisition);
+                    $('#SlipNumber').val(data.slipNo);
+                };
+            }
+            else {
+                $('#BookingDate').val('');
+                $('#BookingReceivedBy').val('');
+                $('#Company').val('');
+                $('#BookingBy').val('');
+                $('#BookingSource').val('');
+                $('#SourceDetail').val('');
+                $('#DutyType').val('');
+                $('#DateFrom').val('');
+                $('#DateTo').val('');
+                $('#ReportingTo').val('');
+                $('#ReportingLocation').val('');
+                $('#ReportingTime').val('');
+                $('#ModelCar').val('');
+                $('#SpecialInstruction').val('');
+                $('#Requisition').val('');
+                $('#SlipNumber').val('');
+            }
+        });
+    </script>
+    <script>
+        $('#CarType').change(function () {
+            var value = $('#CarType option:selected').val();
+            var index = $("#CarType").prop('selectedIndex');
+
+            if (value == "OW") {
+                $('#owner').show();
+                $('#operator').hide();
+            }
+            else {
+                $('#owner').hide();
+                $('#operator').show();
+            }
+        });
+    </script>
+}

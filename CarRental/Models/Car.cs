@@ -14,6 +14,12 @@ namespace CarRental.Models
     
     public partial class Car
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Car()
+        {
+            this.DriverAllocations = new HashSet<DriverAllocation>();
+        }
+    
         public int CarId { get; set; }
         public Nullable<int> branchId { get; set; }
         public string carType { get; set; }
@@ -54,5 +60,7 @@ namespace CarRental.Models
         public virtual CarModel CarModel { get; set; }
         public virtual CompanyBranch CompanyBranch { get; set; }
         public virtual FuelType FuelType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DriverAllocation> DriverAllocations { get; set; }
     }
 }

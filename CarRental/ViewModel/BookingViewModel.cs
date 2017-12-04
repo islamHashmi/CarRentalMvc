@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -15,7 +16,8 @@ namespace CarRental.ViewModel
         public SelectList BranchList { get; set; }
 
         [Display(Name = "Booking Type")]
-        public string BookingType { get; set; }        
+        public string BookingType { get; set; }
+        public string BookingTypeDescription { get; set; }
 
         [Display(Name = "Billing Address")]
         public string BillAddress { get; set; }
@@ -42,7 +44,7 @@ namespace CarRental.ViewModel
         [Display(Name = "Booking By")]
         public string BookingBy { get; set; }
 
-        [Display(Name = "Mobile No. (Book BY)")]
+        [Display(Name = "Mobile No. (Book By)")]
         public string BookedByMobileNo { get; set; }
 
         [Display(Name = "Guest")]
@@ -99,5 +101,16 @@ namespace CarRental.ViewModel
 
         [Display(Name = "Mobile 3")]
         public string MobileNumber3 { get; set; }
+    }
+
+    public class BookingFilter
+    {
+        public string BookingType { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime Enddate { get; set; }
+
+        public IEnumerable<BookingViewModel> BookingList { get; set; }
     }
 }

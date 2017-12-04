@@ -1,0 +1,57 @@
+﻿@model CarRental.ViewModel.AllocationFilter
+
+@{
+    ViewBag.Title = "AllocationList";
+}
+
+<h2>AllocationList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookingId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarModelid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DriverId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.AllocationList) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookingId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CarModelid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DriverId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

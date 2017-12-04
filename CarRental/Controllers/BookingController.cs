@@ -34,7 +34,37 @@ namespace CarRental.Controllers
                 }
             }
 
-            return View(list);
+            var _model = new BookingFilter
+            {
+                BookingList = list
+            };
+
+            return View(_model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BookingList(BookingFilter bookingFilter)
+        {
+            var list = new List<BookingViewModel>();
+
+            var model = await db.Bookings
+                                .Where(m => m.bookingType == bookingFilter.BookingType)
+                                .ToListAsync();
+
+            if (model != null)
+            {
+                foreach (var item in model)
+                {
+                    list.Add(GetBooking(item));
+                }
+            }
+
+            var _model = new BookingFilter
+            {
+                BookingList = list
+            };
+
+            return View(_model);
         }
 
         [HttpGet]
@@ -81,7 +111,8 @@ namespace CarRental.Controllers
                 {
                     vm.BookingNumber = Generate_Booking_Number();
                     vm.Requisition = false;
-                    vm.BookingReceivedByName = "Islam";
+                    vm.BookingReceivedBy = 5;
+                    vm.BookingReceivedByName = (await db.Employees.FindAsync(5)).employeeName;
                 }
             }
             catch (Exception ex)
@@ -128,15 +159,43 @@ namespace CarRental.Controllers
                             db.Entry(model).State = EntityState.Modified;
                         }
 
-                        if (vm.GuestAddressId == null && vm.GuestId != null && !string.IsNullOrWhiteSpace(vm.ReportingLocation))
+                        if (!string.IsNullOrWhiteSpace(vm.ReportingLocation) && vm.GuestId != null)
                         {
-                            guestAddress ga = new guestAddress
+                            if (vm.GuestAddressId == null)
                             {
-                                guestId = (int)vm.GuestId,
-                                address = vm.ReportingLocation,
-                                entryBy = 1,
-                                entryDate = DateTime.Now
-                            };
+                                guestAddress ga = new guestAddress
+                                {
+                                    guestId = (int)vm.GuestId,
+                                    address = vm.ReportingLocation,
+                                    entryBy = 1,
+                                    entryDate = DateTime.Now
+                                };
+
+                                vm.GuestAddressId = ga.guestAddressId;
+                            }
+                            else
+                            {
+                                var guestAdd = await db.guestAddresses.FirstOrDefaultAsync(m => m.guestAddressId == vm.GuestAddressId && m.address == vm.ReportingLocation);
+
+                                if (guestAdd == null)
+                                {
+                                    guestAddress ga = new guestAddress
+                                    {
+                                        guestId = (int)vm.GuestId,
+                                        address = vm.ReportingLocation,
+                                        active = true,
+                                        entryBy = 1,
+                                        entryDate = DateTime.Now
+                                    };
+
+                                    db.guestAddresses.Add(ga);
+
+                                    await db.SaveChangesAsync();
+                                    
+
+                                    vm.GuestAddressId = ga.guestAddressId;
+                                }
+                            }
                         }
 
                         model.branchId = vm.BranchId;
@@ -249,12 +308,14 @@ namespace CarRental.Controllers
                 BranchId = model.branchId,
                 BranchName = model.CompanyBranch == null ? string.Empty : model.CompanyBranch.branchName,
                 BookingType = model.bookingType,
+                BookingTypeDescription = model.bookingType == "N" ? "Normal" : model.bookingType == "E" ? "Event" : model.bookingType == "M" ? "Monthly" : string.Empty,
                 BillAddress = model.billAddress,
                 BookingNumber = model.bookingNumber,
                 BookingDate = model.bookingDate,
                 BillingTypeCode = model.billingType,
-                BiilingType = model.billingType == "N" ? "Normal" : model.billingType == "E" ? "Event" : model.billingType == "M" ? "Monthly" : string.Empty,
+                BiilingType = model.billingType == "CA" ? "Cash" : model.billingType == "Cr" ? "Credit" : string.Empty,
                 BookingReceivedBy = model.bookingReceivedBy,
+                BookingReceivedByName = model.Employee == null ? string.Empty : model.Employee.employeeName,
                 PartyId = model.partyId,
                 PartyName = model.Party == null ? string.Empty : model.Party.Name,
                 BookingBy = model.bookingBy,
@@ -307,9 +368,9 @@ namespace CarRental.Controllers
                 { "Mob3", "" },
                 { "guestAddress", "" }
             };
-            
+
             var guest = db.Guests.Find(guestId);
-            
+
             if (guest != null)
             {
                 data["guestName"] = guest.guestName ?? "";
@@ -323,7 +384,7 @@ namespace CarRental.Controllers
 
                 data["guestAddress"] = new SelectList(db.guestAddresses.Where(m => m.guestId == guestId), "guestAddressId", "address");
             }
-            
+
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
@@ -332,12 +393,14 @@ namespace CarRental.Controllers
         {
             Dictionary<string, object> data = new Dictionary<string, object>
             {
-                { "ErrorMessage", "" },
+                { "errorMessage", "" },
+                { "billAddress", "" },
                 { "guestList", "" }
             };
 
-            if(partyId != null)
+            if (partyId != null)
             {
+                data["billAddress"] = db.Parties.FirstOrDefault(m => m.partyId == partyId).address1;
                 data["guestList"] = new SelectList(db.Guests.Where(m => m.partyId == partyId), "guestId", "guestName");
             }
 
