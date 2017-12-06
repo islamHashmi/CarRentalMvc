@@ -1,0 +1,199 @@
+﻿@model CarRental.ViewModel.DriverAllocationViewModel
+
+@{
+    ViewBag.Title = "AllocationDelete";
+}
+
+<h4>Allocation Delete</h4>
+<hr />
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarTypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarRegisterNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarRegisterNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DriverId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DriverName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DriverMobileNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DriverMobileNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SlipNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SlipNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingReceivedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingReceivedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Company)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSource)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSource)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SourceDetail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SourceDetail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportingTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReportingTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportingLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReportingLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportingTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReportingTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModelCar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModelCar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DutyType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DutyType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SpecialInstruction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SpecialInstruction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Requisition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Requisition)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger btn-sm" /> |
+            @Html.ActionLink("Back to List", "AllocationList")
+        </div>
+    }
+</div>

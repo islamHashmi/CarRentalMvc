@@ -20,6 +20,8 @@ namespace CarRental.Models
             this.Logins = new HashSet<Login>();
             this.Bookings = new HashSet<Booking>();
             this.DriverAllocations = new HashSet<DriverAllocation>();
+            this.Cars = new HashSet<Car>();
+            this.DutySlips = new HashSet<DutySlip>();
         }
     
         public int employeeId { get; set; }
@@ -59,5 +61,9 @@ namespace CarRental.Models
         public virtual ICollection<Booking> Bookings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DriverAllocation> DriverAllocations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Car> Cars { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DutySlip> DutySlips { get; set; }
     }
 }

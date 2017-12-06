@@ -26,7 +26,7 @@
             <div class="form-group row">
                 @Html.LabelFor(model => model.CompanyId, htmlAttributes: new { @class = "col-sm-2 col-form-label col-form-label-sm" })
                 <div class="col-sm-5">
-                    @Html.EditorFor(model => model.CompanyId, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.DropDownListFor(model => model.CompanyId,Model.CompanyList,"--- Select Company ---", new { @class = "form-control form-control-sm" })
                     @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
                 </div>
             </div>

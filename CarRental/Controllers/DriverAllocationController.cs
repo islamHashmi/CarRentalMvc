@@ -43,7 +43,6 @@ namespace CarRental.Controllers
             return View(_model);
         }
 
-
         [HttpGet]
         public async Task<ActionResult> AllocationManage(string key)
         {
@@ -64,6 +63,10 @@ namespace CarRental.Controllers
 
                     vm = GetDriverAllocation(model);
                 }
+                else
+                {
+                    vm.CarType = "OW";
+                }
             }
             catch (Exception ex)
             {
@@ -80,55 +83,115 @@ namespace CarRental.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> AllocationManage(DriverAllocationViewModel vm)
         {
-            try
+            using (DbContextTransaction dbTran = db.Database.BeginTransaction())
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    var model = new DriverAllocation();
-
-                    if (vm.AllocationId == null)
+                    if (ModelState.IsValid)
                     {
-                        model.active = true;
-                        model.entryBy = 1;
-                        model.entryDate = DateTime.Now;
+                        var model = new DriverAllocation();
 
-                        db.DriverAllocations.Add(model);
+                        if (vm.AllocationId == null)
+                        {
+                            model.active = true;
+                            model.entryBy = 1;
+                            model.entryDate = DateTime.Now;
+
+                            db.DriverAllocations.Add(model);
+                        }
+                        else
+                        {
+                            model = await db.DriverAllocations.FindAsync(vm.AllocationId);
+
+                            if (model == null)
+                                return HttpNotFound();
+
+                            model.updatedBy = 2;
+                            model.updatedDate = DateTime.Now;
+
+                            db.Entry(model).State = EntityState.Modified;
+                        }
+
+                        model.bookingId = (long)vm.BookingId;
+                        model.carType = vm.CarType;
+                        model.carId = vm.CarId;
+                        model.carNumber = vm.CarNumber;
+                        model.carRegisterNumber = vm.CarRegisterNumber;
+                        model.driverId = vm.DriverId;
+                        model.driverName = vm.DriverName;
+                        model.driverMobileNo = vm.DriverMobileNo;
+                        model.slipNumber = vm.SlipNumber;
+
+                        await db.SaveChangesAsync();
+
+                        int _allocationId = model.allocationId;
+
+                        var booking = await db.Bookings.FindAsync(vm.BookingId);
+
+                        booking.allocationId = _allocationId;
+
+                        await db.SaveChangesAsync();
+
+                        dbTran.Commit();
+
+                        return RedirectToAction("AllocationList");
                     }
-                    else
-                    {
-                        model = await db.DriverAllocations.FindAsync(vm.AllocationId);
+                }
+                catch (Exception ex)
+                {
+                    dbTran.Rollback();
 
-                        if (model == null)
-                            return HttpNotFound();
-
-                        model.updatedBy = 2;
-                        model.updatedDate = DateTime.Now;
-
-                        db.Entry(model).State = EntityState.Modified;
-                    }
-
-                    model.bookingId = (long)vm.BookingId;
-                    model.carType = vm.CarType;
-                    model.carId = vm.CarId;
-                    model.carNumber = vm.CarNumber;
-                    model.carRegisterNumber = vm.CarRegisterNumber;
-                    model.driverId = vm.DriverId;
-                    model.driverName = vm.DriverName;
-                    model.driverMobileNo = vm.DriverMobileNo;
-                    model.slipNumber = vm.SlipNumber;
-
-                    await db.SaveChangesAsync();
-
-                    return RedirectToAction("AllocationList");
+                    throw;
+                }
+                finally
+                {
+                    BindDropdown_Booking(vm);
                 }
             }
-            catch (Exception ex)
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> AllocationDelete(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
             {
-                throw;
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.DriverAllocations.FindAsync(_Id);
+
+                return View(GetDriverAllocation(model));
             }
-            finally
+
+            return RedirectToAction("AllocationList");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        [ActionName("AllocationDelete")]
+        public async Task<ActionResult> AllocationDeleteConfirm(string key, DriverAllocationViewModel vm)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
             {
-                BindDropdown_Booking(vm);
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.DriverAllocations.FindAsync(_Id);
+
+                model.active = false;
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("AllocationList");
             }
 
             return View(vm);
@@ -162,6 +225,9 @@ namespace CarRental.Controllers
 
             if (booking != null)
             {
+                if (TimeSpan.TryParse(Convert.ToString(booking.reportingTime), out TimeSpan timeSpan))
+                    data["reportingTime"] = string.Format("{0:00}:{1:00}", timeSpan.Hours, timeSpan.Minutes);
+
                 data["bookingDate"] = booking.bookingDate.ToString("dd/MM/yyyy HH:mm");
                 data["bookingReceivedBy"] = booking.Employee?.employeeName ?? "";
                 data["company"] = booking.Party.Name ?? "";
@@ -172,11 +238,10 @@ namespace CarRental.Controllers
                 data["dateTo"] = booking.requirementEndDate == null ? string.Empty : ((DateTime)booking.requirementEndDate).ToString("dd/MM/yyyy HH:mm");
                 data["reportingTo"] = booking.reportingTo ?? "";
                 data["reportingLocation"] = booking.reportingLocation ?? "";
-                data["reportingTime"] = booking.reportingTime;
                 data["modelCar"] = booking.CarModel?.modelDescription ?? "";
                 data["dutyType"] = booking.DutyType?.dutyDescription ?? "";
                 data["specialInstructuion"] = booking.specialInstruction ?? "";
-                data["requisition"] = booking.requisition == true ? "YES" : "NO";
+                data["requisition"] = booking.requisition == true ? "Yes" : "No";
                 data["slipNo"] = "";
             }
 
@@ -189,7 +254,9 @@ namespace CarRental.Controllers
             {
                 AllocationId = model.allocationId,
                 BookingId = model.bookingId,
+                BookingNumber = model.Booking?.bookingNumber,
                 CarType = model.carType,
+                CarTypeName = model.carType == "OP" ? "Operator" : "Owner",
                 CarId = model.carId,
                 CarNumber = model.carNumber,
                 CarRegisterNumber = model.carRegisterNumber,
@@ -217,8 +284,8 @@ namespace CarRental.Controllers
 
         private void BindDropdown_Booking(DriverAllocationViewModel vm)
         {
-            vm.CarNumberList = new SelectList(db.Cars.Where(m => m.active == true), "CarId", "carNumber");
-            vm.DriverNameList = new SelectList(db.Employees.Where(m => m.active == true && m.designationId == 2), "employeeId", "employeeName");
+            vm.CarNumberList = ApplicationParameter.GetCars(db);
+            vm.DriverNameList = ApplicationParameter.GetDrivers(db);
             vm.BookingNoList = new SelectList(db.Bookings.Where(m => m.active == true), "bookingId", "bookingNumber");
         }
     }

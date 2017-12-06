@@ -18,6 +18,7 @@ namespace CarRental.Models
         public Booking()
         {
             this.DriverAllocations = new HashSet<DriverAllocation>();
+            this.DutySlips = new HashSet<DutySlip>();
         }
     
         public long bookingId { get; set; }
@@ -53,6 +54,7 @@ namespace CarRental.Models
         public Nullable<int> updatedBy { get; set; }
         public Nullable<System.DateTime> updatedDate { get; set; }
         public Nullable<int> guestAddressId { get; set; }
+        public Nullable<int> allocationId { get; set; }
     
         public virtual CarModel CarModel { get; set; }
         public virtual CompanyBranch CompanyBranch { get; set; }
@@ -63,5 +65,7 @@ namespace CarRental.Models
         public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DriverAllocation> DriverAllocations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DutySlip> DutySlips { get; set; }
     }
 }

@@ -37,6 +37,7 @@
           <Property Name="mobileNumber1" Type="char" MaxLength="10" />
           <Property Name="mobileNumber2" Type="char" MaxLength="10" />
           <Property Name="mobileNumber3" Type="char" MaxLength="10" />
+          <Property Name="allocationId" Type="int" />
           <Property Name="active" Type="bit" Nullable="false" />
           <Property Name="entryBy" Type="int" Nullable="false" />
           <Property Name="entryDate" Type="datetime" Nullable="false" />
@@ -54,7 +55,7 @@
           <Property Name="fuelTypeCode" Type="char" MaxLength="2" />
           <Property Name="carNumber" Type="char" MaxLength="4" />
           <Property Name="driverId" Type="int" />
-          <Property Name="registrationNumber" Type="char" MaxLength="10" />
+          <Property Name="registrationNumber" Type="varchar" MaxLength="20" />
           <Property Name="chasisNumber" Type="varchar" MaxLength="50" />
           <Property Name="engineNumber" Type="varchar" MaxLength="50" />
           <Property Name="insuranceCompany" Type="varchar" MaxLength="250" />
@@ -165,6 +166,34 @@
           <Property Name="driverName" Type="varchar" MaxLength="50" />
           <Property Name="driverMobileNo" Type="char" MaxLength="10" />
           <Property Name="slipNumber" Type="int" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="entryBy" Type="int" Nullable="false" />
+          <Property Name="entryDate" Type="datetime" Nullable="false" />
+          <Property Name="updatedBy" Type="int" />
+          <Property Name="updatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DutySlip">
+          <Key>
+            <PropertyRef Name="dutySlipId" />
+          </Key>
+          <Property Name="dutySlipId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="slipNumber" Type="int" Nullable="false" />
+          <Property Name="slipDate" Type="date" Nullable="false" />
+          <Property Name="partyId" Type="int" Nullable="false" />
+          <Property Name="bookingId" Type="bigint" />
+          <Property Name="carType" Type="char" MaxLength="2" />
+          <Property Name="carId" Type="int" />
+          <Property Name="op_carNumber" Type="char" MaxLength="4" />
+          <Property Name="op_carRegNumber" Type="varchar" MaxLength="20" />
+          <Property Name="op_driverName" Type="varchar" MaxLength="50" />
+          <Property Name="op_driverMobile" Type="char" MaxLength="10" />
+          <Property Name="supplierId" Type="int" />
+          <Property Name="driverId" Type="int" />
+          <Property Name="driverBalance" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="advanceDriver" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="openingTime" Type="time" Precision="7" />
+          <Property Name="openingKM" Type="decimal" Precision="15" Scale="2" />
           <Property Name="active" Type="bit" Nullable="false" />
           <Property Name="entryBy" Type="int" Nullable="false" />
           <Property Name="entryDate" Type="datetime" Nullable="false" />
@@ -481,6 +510,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Car_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="driverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Car_FuelType">
           <End Role="FuelType" Type="Self.FuelType" Multiplicity="0..1" />
           <End Role="Car" Type="Self.Car" Multiplicity="*" />
@@ -490,6 +531,18 @@
             </Principal>
             <Dependent Role="Car">
               <PropertyRef Name="fuelTypeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Party">
+          <End Role="Party" Type="Self.Party" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="partyId" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="ownerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -538,6 +591,66 @@
             </Principal>
             <Dependent Role="DriverAllocation">
               <PropertyRef Name="driverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DutySlip_Booking">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="0..1" />
+          <End Role="DutySlip" Type="Self.DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="bookingId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="bookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DutySlip_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+          <End Role="DutySlip" Type="Self.DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="CarId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="carId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DutySlip_CompanyBranch">
+          <End Role="CompanyBranch" Type="Self.CompanyBranch" Multiplicity="1" />
+          <End Role="DutySlip" Type="Self.DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyBranch">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DutySlip_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="DutySlip" Type="Self.DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="driverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DutySlip_Party">
+          <End Role="Party" Type="Self.Party" Multiplicity="1" />
+          <End Role="DutySlip" Type="Self.DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="partyId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="partyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -709,6 +822,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Table_1_PartySupplier">
+          <End Role="Party" Type="Self.Party" Multiplicity="0..1" />
+          <End Role="DutySlip" Type="Self.DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="partyId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="supplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="sp_Generate_BookingNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="CarRentalModelStoreContainer">
           <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
@@ -719,6 +844,7 @@
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DriverAllocation" EntityType="Self.DriverAllocation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DutySlip" EntityType="Self.DutySlip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DutyType" EntityType="Self.DutyType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseHead" EntityType="Self.ExpenseHead" Schema="dbo" store:Type="Tables" />
@@ -767,8 +893,16 @@
             <End Role="CompanyBranch" EntitySet="CompanyBranch" />
             <End Role="Car" EntitySet="Car" />
           </AssociationSet>
+          <AssociationSet Name="FK_Car_Employee" Association="Self.FK_Car_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
           <AssociationSet Name="FK_Car_FuelType" Association="Self.FK_Car_FuelType">
             <End Role="FuelType" EntitySet="FuelType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_Party" Association="Self.FK_Car_Party">
+            <End Role="Party" EntitySet="Party" />
             <End Role="Car" EntitySet="Car" />
           </AssociationSet>
           <AssociationSet Name="FK_CompanyBranch_Company" Association="Self.FK_CompanyBranch_Company">
@@ -786,6 +920,26 @@
           <AssociationSet Name="FK_DriverAllocation_Employee" Association="Self.FK_DriverAllocation_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="DriverAllocation" EntitySet="DriverAllocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlip_Booking" Association="Self.FK_DutySlip_Booking">
+            <End Role="Booking" EntitySet="Booking" />
+            <End Role="DutySlip" EntitySet="DutySlip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlip_Car" Association="Self.FK_DutySlip_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="DutySlip" EntitySet="DutySlip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlip_CompanyBranch" Association="Self.FK_DutySlip_CompanyBranch">
+            <End Role="CompanyBranch" EntitySet="CompanyBranch" />
+            <End Role="DutySlip" EntitySet="DutySlip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlip_Employee" Association="Self.FK_DutySlip_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="DutySlip" EntitySet="DutySlip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlip_Party" Association="Self.FK_DutySlip_Party">
+            <End Role="Party" EntitySet="Party" />
+            <End Role="DutySlip" EntitySet="DutySlip" />
           </AssociationSet>
           <AssociationSet Name="FK_Employee_CompanyBranch" Association="Self.FK_Employee_CompanyBranch">
             <End Role="CompanyBranch" EntitySet="CompanyBranch" />
@@ -843,6 +997,10 @@
             <End Role="Scheme" EntitySet="Scheme" />
             <End Role="RateCard" EntitySet="RateCard" />
           </AssociationSet>
+          <AssociationSet Name="FK_Table_1_PartySupplier" Association="Self.FK_Table_1_PartySupplier">
+            <End Role="Party" EntitySet="Party" />
+            <End Role="DutySlip" EntitySet="DutySlip" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -884,6 +1042,7 @@
           <NavigationProperty Name="Cars" Relationship="CarRentalModel.FK_Car_CompanyBranch" FromRole="CompanyBranch" ToRole="Car" />
           <NavigationProperty Name="Employees" Relationship="CarRentalModel.FK_Employee_CompanyBranch" FromRole="CompanyBranch" ToRole="Employee" />
           <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_CompanyBranch" FromRole="CompanyBranch" ToRole="Booking" />
+          <NavigationProperty Name="DutySlips" Relationship="CarRentalModel.FK_DutySlip_CompanyBranch" FromRole="CompanyBranch" ToRole="DutySlip" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -1040,6 +1199,39 @@
             <End Role="Employee" EntitySet="Employees" />
             <End Role="DriverAllocation" EntitySet="DriverAllocations" />
           </AssociationSet>
+          <AssociationSet Name="FK_Car_Employee" Association="CarRentalModel.FK_Car_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Car" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_Party" Association="CarRentalModel.FK_Car_Party">
+            <End Role="Party" EntitySet="Parties" />
+            <End Role="Car" EntitySet="Cars" />
+          </AssociationSet>
+          <EntitySet Name="DutySlips" EntityType="CarRentalModel.DutySlip" />
+          <AssociationSet Name="FK_DutySlip_Booking" Association="CarRentalModel.FK_DutySlip_Booking">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="DutySlip" EntitySet="DutySlips" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlip_Car" Association="CarRentalModel.FK_DutySlip_Car">
+            <End Role="Car" EntitySet="Cars" />
+            <End Role="DutySlip" EntitySet="DutySlips" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlip_CompanyBranch" Association="CarRentalModel.FK_DutySlip_CompanyBranch">
+            <End Role="CompanyBranch" EntitySet="CompanyBranches" />
+            <End Role="DutySlip" EntitySet="DutySlips" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlip_Employee" Association="CarRentalModel.FK_DutySlip_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="DutySlip" EntitySet="DutySlips" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlip_Party" Association="CarRentalModel.FK_DutySlip_Party">
+            <End Role="Party" EntitySet="Parties" />
+            <End Role="DutySlip" EntitySet="DutySlips" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_1_PartySupplier" Association="CarRentalModel.FK_Table_1_PartySupplier">
+            <End Role="Party" EntitySet="Parties" />
+            <End Role="DutySlip" EntitySet="DutySlips" />
+          </AssociationSet>
           </EntityContainer>
         <Association Name="FK_CompanyBranch_Company">
           <End Type="CarRentalModel.Company" Role="Company" Multiplicity="0..1" />
@@ -1091,7 +1283,10 @@
           <NavigationProperty Name="Guests" Relationship="CarRentalModel.FK_Guest_Party" FromRole="Party" ToRole="Guest" />
           <NavigationProperty Name="RateCards" Relationship="CarRentalModel.FK_RateCard_Party" FromRole="Party" ToRole="RateCard" />
           <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_Party" FromRole="Party" ToRole="Booking" />
-        </EntityType>
+          <NavigationProperty Name="Cars" Relationship="CarRentalModel.FK_Car_Party" FromRole="Party" ToRole="Car" />
+          <NavigationProperty Name="DutySlips" Relationship="CarRentalModel.FK_DutySlip_Party" FromRole="Party" ToRole="DutySlip" />
+          <NavigationProperty Name="DutySlips1" Relationship="CarRentalModel.FK_Table_1_PartySupplier" FromRole="Party" ToRole="DutySlip" />
+          </EntityType>
         <Association Name="FK_Party_CompanyBranch">
           <End Type="CarRentalModel.CompanyBranch" Role="CompanyBranch" Multiplicity="0..1" />
           <End Type="CarRentalModel.Party" Role="Party" Multiplicity="*" />
@@ -1252,7 +1447,7 @@
           <Property Name="fuelTypeCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
           <Property Name="carNumber" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
           <Property Name="driverId" Type="Int32" />
-          <Property Name="registrationNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="registrationNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="chasisNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="engineNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="insuranceCompany" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
@@ -1285,6 +1480,9 @@
           <NavigationProperty Name="CompanyBranch" Relationship="CarRentalModel.FK_Car_CompanyBranch" FromRole="Car" ToRole="CompanyBranch" />
           <NavigationProperty Name="FuelType" Relationship="CarRentalModel.FK_Car_FuelType" FromRole="Car" ToRole="FuelType" />
           <NavigationProperty Name="DriverAllocations" Relationship="CarRentalModel.FK_DriverAllocation_Car" FromRole="Car" ToRole="DriverAllocation" />
+          <NavigationProperty Name="Employee" Relationship="CarRentalModel.FK_Car_Employee" FromRole="Car" ToRole="Employee" />
+          <NavigationProperty Name="Party" Relationship="CarRentalModel.FK_Car_Party" FromRole="Car" ToRole="Party" />
+          <NavigationProperty Name="DutySlips" Relationship="CarRentalModel.FK_DutySlip_Car" FromRole="Car" ToRole="DutySlip" />
         </EntityType>
         <EntityType Name="FuelType">
           <Key>
@@ -1368,6 +1566,8 @@
           <Property Name="sundayAmount" Type="Decimal" Precision="10" Scale="2" />
           <NavigationProperty Name="Bookings" Relationship="CarRentalModel.FK_Booking_Employee" FromRole="Employee" ToRole="Booking" />
           <NavigationProperty Name="DriverAllocations" Relationship="CarRentalModel.FK_DriverAllocation_Employee" FromRole="Employee" ToRole="DriverAllocation" />
+          <NavigationProperty Name="Cars" Relationship="CarRentalModel.FK_Car_Employee" FromRole="Employee" ToRole="Car" />
+          <NavigationProperty Name="DutySlips" Relationship="CarRentalModel.FK_DutySlip_Employee" FromRole="Employee" ToRole="DutySlip" />
         </EntityType>
         <Association Name="FK_Employee_CompanyBranch">
           <End Type="CarRentalModel.CompanyBranch" Role="CompanyBranch" Multiplicity="1" />
@@ -1574,6 +1774,8 @@
           <NavigationProperty Name="guestAddress" Relationship="CarRentalModel.FK_Booking_guestAddress" FromRole="Booking" ToRole="guestAddress" />
           <NavigationProperty Name="Employee" Relationship="CarRentalModel.FK_Booking_Employee" FromRole="Booking" ToRole="Employee" />
           <NavigationProperty Name="DriverAllocations" Relationship="CarRentalModel.FK_DriverAllocation_Booking" FromRole="Booking" ToRole="DriverAllocation" />
+          <Property Name="allocationId" Type="Int32" />
+          <NavigationProperty Name="DutySlips" Relationship="CarRentalModel.FK_DutySlip_Booking" FromRole="Booking" ToRole="DutySlip" />
         </EntityType>
         <Association Name="FK_Booking_CarModel">
           <End Type="CarRentalModel.CarModel" Role="CarModel" Multiplicity="0..1" />
@@ -1740,6 +1942,136 @@
             </Principal>
             <Dependent Role="DriverAllocation">
               <PropertyRef Name="driverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Employee">
+          <End Type="CarRentalModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="CarRentalModel.Car" Role="Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="driverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Party">
+          <End Type="CarRentalModel.Party" Role="Party" Multiplicity="0..1" />
+          <End Type="CarRentalModel.Car" Role="Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="partyId" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="ownerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DutySlip">
+          <Key>
+            <PropertyRef Name="dutySlipId" />
+          </Key>
+          <Property Name="dutySlipId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="slipNumber" Type="Int32" Nullable="false" />
+          <Property Name="slipDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="partyId" Type="Int32" Nullable="false" />
+          <Property Name="bookingId" Type="Int64" />
+          <Property Name="carType" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="carId" Type="Int32" />
+          <Property Name="op_carNumber" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="op_carRegNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="op_driverName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="op_driverMobile" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="supplierId" Type="Int32" />
+          <Property Name="driverId" Type="Int32" />
+          <Property Name="driverBalance" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="advanceDriver" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="openingTime" Type="Time" Precision="7" />
+          <Property Name="openingKM" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="entryBy" Type="Int32" Nullable="false" />
+          <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updatedBy" Type="Int32" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Booking" Relationship="CarRentalModel.FK_DutySlip_Booking" FromRole="DutySlip" ToRole="Booking" />
+          <NavigationProperty Name="Car" Relationship="CarRentalModel.FK_DutySlip_Car" FromRole="DutySlip" ToRole="Car" />
+          <NavigationProperty Name="CompanyBranch" Relationship="CarRentalModel.FK_DutySlip_CompanyBranch" FromRole="DutySlip" ToRole="CompanyBranch" />
+          <NavigationProperty Name="Employee" Relationship="CarRentalModel.FK_DutySlip_Employee" FromRole="DutySlip" ToRole="Employee" />
+          <NavigationProperty Name="Party" Relationship="CarRentalModel.FK_DutySlip_Party" FromRole="DutySlip" ToRole="Party" />
+          <NavigationProperty Name="Party1" Relationship="CarRentalModel.FK_Table_1_PartySupplier" FromRole="DutySlip" ToRole="Party" />
+        </EntityType>
+        <Association Name="FK_DutySlip_Booking">
+          <End Type="CarRentalModel.Booking" Role="Booking" Multiplicity="0..1" />
+          <End Type="CarRentalModel.DutySlip" Role="DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="bookingId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="bookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DutySlip_Car">
+          <End Type="CarRentalModel.Car" Role="Car" Multiplicity="0..1" />
+          <End Type="CarRentalModel.DutySlip" Role="DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="CarId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="carId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DutySlip_CompanyBranch">
+          <End Type="CarRentalModel.CompanyBranch" Role="CompanyBranch" Multiplicity="1" />
+          <End Type="CarRentalModel.DutySlip" Role="DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyBranch">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DutySlip_Employee">
+          <End Type="CarRentalModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="CarRentalModel.DutySlip" Role="DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="driverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DutySlip_Party">
+          <End Type="CarRentalModel.Party" Role="Party" Multiplicity="1" />
+          <End Type="CarRentalModel.DutySlip" Role="DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="partyId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="partyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_1_PartySupplier">
+          <End Type="CarRentalModel.Party" Role="Party" Multiplicity="0..1" />
+          <End Type="CarRentalModel.DutySlip" Role="DutySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="partyId" />
+            </Principal>
+            <Dependent Role="DutySlip">
+              <PropertyRef Name="supplierId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2068,6 +2400,7 @@
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="CarRentalModel.Booking">
               <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="allocationId" ColumnName="allocationId" />
                 <ScalarProperty Name="guestAddressId" ColumnName="guestAddressId" />
                 <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
                 <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
@@ -2135,6 +2468,35 @@
                 <ScalarProperty Name="carType" ColumnName="carType" />
                 <ScalarProperty Name="bookingId" ColumnName="bookingId" />
                 <ScalarProperty Name="allocationId" ColumnName="allocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DutySlips">
+            <EntityTypeMapping TypeName="CarRentalModel.DutySlip">
+              <MappingFragment StoreEntitySet="DutySlip">
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="entryDate" ColumnName="entryDate" />
+                <ScalarProperty Name="entryBy" ColumnName="entryBy" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="openingKM" ColumnName="openingKM" />
+                <ScalarProperty Name="openingTime" ColumnName="openingTime" />
+                <ScalarProperty Name="advanceDriver" ColumnName="advanceDriver" />
+                <ScalarProperty Name="driverBalance" ColumnName="driverBalance" />
+                <ScalarProperty Name="driverId" ColumnName="driverId" />
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+                <ScalarProperty Name="op_driverMobile" ColumnName="op_driverMobile" />
+                <ScalarProperty Name="op_driverName" ColumnName="op_driverName" />
+                <ScalarProperty Name="op_carRegNumber" ColumnName="op_carRegNumber" />
+                <ScalarProperty Name="op_carNumber" ColumnName="op_carNumber" />
+                <ScalarProperty Name="carId" ColumnName="carId" />
+                <ScalarProperty Name="carType" ColumnName="carType" />
+                <ScalarProperty Name="bookingId" ColumnName="bookingId" />
+                <ScalarProperty Name="partyId" ColumnName="partyId" />
+                <ScalarProperty Name="slipDate" ColumnName="slipDate" />
+                <ScalarProperty Name="slipNumber" ColumnName="slipNumber" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="dutySlipId" ColumnName="dutySlipId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

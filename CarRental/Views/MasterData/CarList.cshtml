@@ -10,238 +10,66 @@
     <div class="card-header">
         @Html.ActionLink("Create New", "CarManage")
     </div>
-    <table class="table table-sm table-responsive-sm">
-        <tr class="thead-light">
-            <th>
-                @Html.DisplayNameFor(model => model.BranchId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BranchName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarTypeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FuelTypeCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FuelTypeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DriverId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DriverName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarModelId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModelName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RegistrationNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ChasisNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EngineNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InsuranceCompany)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InsurancePolicyNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InsuranceStartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InsuranceEndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaxStartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaxEndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AuthorisationStartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AuthorisationEndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FitnessStartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FitnessEndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PermitStartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PermitEndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PucStartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PucEndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FinanceBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OwnerId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OwnerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarInUse)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarOnHold)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ServicingSlab)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmiAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmiDate)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BranchId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BranchName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarTypeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FuelTypeCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FuelTypeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DriverId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DriverName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarModelId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModelName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RegistrationNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ChasisNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EngineNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InsuranceCompany)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InsurancePolicyNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InsuranceStartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InsuranceEndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TaxStartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TaxEndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AuthorisationStartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AuthorisationEndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FitnessStartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FitnessEndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PermitStartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PermitEndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PucStartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PucEndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FinanceBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OwnerId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OwnerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarInUse)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarOnHold)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ServicingSlab)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmiAmount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmiDate)
-                </td>
-                <td>
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        @Html.ActionLink("Edit", "CarModelManage", new { key = HelperClass.Encrypt(item.CarId) }, new { @class = "btn btn-secondary btn-sm" })
-                        @Html.ActionLink("Details", "CarModelDetails", new { key = HelperClass.Encrypt(item.CarId) }, new { @class = "btn btn-secondary btn-sm" })
-                        @Html.ActionLink("Delete", "CarModelDelete", new { key = HelperClass.Encrypt(item.CarId) }, new { @class = "btn btn-secondary btn-sm" })
-                    </div>
-                </td>
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <tr class="thead-light">
+                <th>
+                    @Html.DisplayNameFor(model => model.BranchId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CarType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FuelTypeCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CarNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CarModelId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RegistrationNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OwnerId)
+                </th>
+                <th></th>
             </tr>
-        }
-    </table>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BranchName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CarTypeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FuelTypeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CarNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModelName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OwnerName)
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            @Html.ActionLink("Edit", "CarManage", new { key = HelperClass.Encrypt(item.CarId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Details", "CarDetails", new { key = HelperClass.Encrypt(item.CarId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Delete", "CarDelete", new { key = HelperClass.Encrypt(item.CarId) }, new { @class = "btn btn-secondary btn-sm" })
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>    
 </div>

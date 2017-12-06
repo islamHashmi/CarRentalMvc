@@ -20,6 +20,9 @@ namespace CarRental.Models
             this.Guests = new HashSet<Guest>();
             this.RateCards = new HashSet<RateCard>();
             this.Bookings = new HashSet<Booking>();
+            this.Cars = new HashSet<Car>();
+            this.DutySlips = new HashSet<DutySlip>();
+            this.DutySlips1 = new HashSet<DutySlip>();
         }
     
         public int partyId { get; set; }
@@ -60,5 +63,11 @@ namespace CarRental.Models
         public virtual ICollection<RateCard> RateCards { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Car> Cars { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DutySlip> DutySlips { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DutySlip> DutySlips1 { get; set; }
     }
 }

@@ -1,0 +1,463 @@
+﻿@model CarRental.ViewModel.DutySlipViewModel
+
+@{
+    ViewBag.Title = "DutySlipManage";
+}
+
+<style>
+    .chosen-container.chosen-container-single {
+        width: 100% !important;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.DutySlipId)
+
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Duty Slip</h4>
+                <hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BranchId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.BranchId, Model.BranchList, "--- Select Branch ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SlipNumber, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.SlipNumber, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.SlipNumber, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SlipDate, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    <div class='input-group input-group-sm' id='datetimepicker3'>
+                        @Html.EditorFor(model => model.SlipDate, new { htmlAttributes = new { @class = "form-control form-control-sm", aria_describedby = "sizing-addon1" } })
+                        <span class="input-group-addon" id="sizing-addon1">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.SlipDate, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PartyId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.PartyId, Model.PartyList, "--- Select Company ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.PartyId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.BookingId, Model.BookingNoList, "--- Select Booking No ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.BookingId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.BookingType, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookingBy, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.BookingBy, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportingTo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.ReportingTo, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportingLocation, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextAreaFor(model => model.ReportingLocation, new { @class = "form-control form-control-sm", rows = "3", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportingTime, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.ReportingTime, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CarModel, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.CarModel, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DutyType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.DutyType, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DutyDateFrom, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.DutyDateFrom, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DutyDateTo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.DutyDateTo, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Mobile1, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.Mobile1, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Mobile2, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.Mobile2, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Mobile3, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.Mobile3, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CarType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.CarType, new SelectList(new List<SelectListItem>
+                                                                                    {
+                                                                                        new SelectListItem{ Text = "Owner", Value = "OW" },
+                                                                                        new SelectListItem{ Text = "Operator", Value = "OP" }
+                                                                                    }, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.CarType, "", new { @class = "text-danger" })
+                </div>
+
+                <div id="owner">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CarId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.DropDownListFor(model => model.CarId, Model.CarNumberList, "--- Select Car Number ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                        @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DriverId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.DropDownListFor(model => model.DriverId, Model.DriverNameList, "--- Select Driver ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                        @Html.ValidationMessageFor(model => model.DriverId, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DriverMobileNo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.EditorFor(model => model.DriverMobileNo, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        @Html.ValidationMessageFor(model => model.DriverMobileNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div id="operator" style="display:none;">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OP_CarNumber, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.EditorFor(model => model.OP_CarNumber, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        @Html.ValidationMessageFor(model => model.OP_CarNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OP_CarRegisterNumber, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.EditorFor(model => model.OP_CarRegisterNumber, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        @Html.ValidationMessageFor(model => model.OP_CarRegisterNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OP_DriverName, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.EditorFor(model => model.OP_DriverName, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        @Html.ValidationMessageFor(model => model.OP_DriverName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OP_DriverMobile, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                        @Html.EditorFor(model => model.OP_DriverMobile, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        @Html.ValidationMessageFor(model => model.OP_DriverMobile, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.SupplierId, Model.SupplierList, "--- Select Supplier ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DriverBalance, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.DriverBalance, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.DriverBalance, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AdvanceDriver, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.AdvanceDriver, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.AdvanceDriver, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportingTime, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    <div class='input-group input-group-sm' id='datetimepicker4'>
+                        @Html.EditorFor(model => model.ReportingTime, new { htmlAttributes = new { @class = "form-control form-control-sm", aria_describedby = "sizing-addon1" } })
+                        <span class="input-group-addon" id="sizing-addon1">
+                            <span class="fa fa-clock-o"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ReportingTime, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OpeningKM, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.OpeningKM, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.OpeningKM, "", new { @class = "text-danger" })
+                </div>
+
+                <br />
+                <input type="submit" value="Save" class="btn btn-primary btn-sm" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts{
+    <script>
+        $('#datetimepicker3').datetimepicker({
+            format: 'DD/MM/YYYY',
+            showClear: true
+        });
+
+        $('#datetimepicker4').datetimepicker({
+            showClear: true,
+            format: 'HH:mm',
+        });
+    </script>
+    <script>
+        $('#BookingId').change(function () {
+            var value = $('#BookingId option:selected').val();
+            var index = $("#BookingId").prop('selectedIndex');
+
+            if (index != 0) {
+                var serviceURL = '@Url.Action("GetBookingInfo", "DutySlip")';
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    data: JSON.stringify(addRequestVerificationToken({ bookingId: value })),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: successFunc,
+                    error: errorFunc
+                });
+
+                function addRequestVerificationToken(data) {
+                    data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+                    return data;
+                };
+
+                function successFunc(data, status) {
+                    showGuestData(data);
+                };
+
+                function errorFunc(jqXHR, exception) {
+                    console.log(jqXHR);
+                };
+
+                function showGuestData(data) {
+                    $('#BookingType').val(data.bookingType);
+                    $('#BookingBy').val(data.bookingBy);
+                    $('#ReportingTo').val(data.reportingTo);
+                    $('#ReportingLocation').val(data.reportingLocation);
+                    $('#ReportingTime').val(data.reportingTime);
+                    $('#CarModel').val(data.modelCar);
+                    $('#DutyType').val(data.dutyType);
+                    $('#DutyDateFrom').val(data.dateFrom);
+                    $('#DutyDateTo').val(data.dateTo);
+                    $('#Mobile1').val(data.mobile1);
+                    $('#Mobile2').val(data.mobile2);
+                    $('#Mobile3').val(data.mobile3);
+                };
+            }
+            else {
+                $('#BookingType').val('');
+                $('#BookingBy').val('');
+                $('#ReportingTo').val('');
+                $('#ReportingLocation').val('');
+                $('#ReportingTime').val('');
+                $('#CarModel').val('');
+                $('#DutyType').val('');
+                $('#DutyDateFrom').val('');
+                $('#DutyDateTo').val('');
+                $('#Mobile1').val('');
+                $('#Mobile2').val('');
+                $('#Mobile3').val('');
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            toggleCarType();
+        });
+
+        $('#CarType').change(function () {
+            toggleCarType();
+        });
+
+        function toggleCarType() {
+            var value = $('#CarType option:selected').val();
+            var index = $("#CarType").prop('selectedIndex');
+
+            if (value == "OW") {
+                $('#owner').show();
+                $('#operator').hide();
+            }
+            else {
+                $('#owner').hide();
+                $('#operator').show();
+            }
+        };
+    </script>
+    <script>
+        $('#PartyId').change(function () {
+            var value = $('#PartyId option:selected').val();
+            var index = $("#PartyId").prop('selectedIndex');
+
+            if (index != 0) {
+                var serviceURL = '@Url.Action("GetBookingNumber", "DutySlip")';
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    data: JSON.stringify(addRequestVerificationToken({ partyId: value })),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: successFunc,
+                    error: errorFunc
+                });
+
+                function addRequestVerificationToken(data) {
+                    data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+                    return data;
+                };
+
+                function successFunc(data, status) {
+                    bindBookingNumber(data);
+                };
+
+                function errorFunc(jqXHR, exception) {
+                    console.log(jqXHR);
+                };
+
+                function bindBookingNumber(data) {
+
+                    var list = data.bookingNos
+
+                    $("#BookingId").empty();
+
+                    var opt = '<option value=' + "" + '>--- Select Booking No ---</option>';
+
+                    for (var i = 0; i < list.length; i++) {
+                        opt += '<option value=' + list[i].Value + '>' + list[i].Text + '</option>';
+                    }
+
+                    $('#BookingId').append(opt);
+
+                    $("#BookingId").trigger("chosen:updated");
+                    $("#BookingId").trigger("liszt:updated");
+                };
+            }
+            else {
+
+            }
+        });
+    </script>
+    <script>
+        $('#DriverId').change(function () {
+            var value = $('#DriverId option:selected').val();
+            var index = $("#DriverId").prop('selectedIndex');
+
+            $("#DriverMobileNo").val('');
+            $("#DriverBalance").val('');
+
+            if (index != 0) {
+                var serviceURL = '@Url.Action("GetDriverInfo", "DutySlip")';
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    data: JSON.stringify(addRequestVerificationToken({ driverId: value })),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: successFunc,
+                    error: errorFunc
+                });
+
+                function addRequestVerificationToken(data) {
+                    data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+                    return data;
+                };
+
+                function successFunc(data, status) {
+                    bindDriver(data);
+                };
+
+                function errorFunc(jqXHR, exception) {
+                    console.log(jqXHR);
+                };
+
+                function bindDriver(data) {
+                    $("#DriverMobileNo").val(data.driverMobile);
+                    $("#DriverBalance").val(data.balance);
+                };
+            }
+        });
+    </script>
+    <script>
+        $('#CarId').change(function () {
+            var value = $('#CarId option:selected').val();
+            var index = $("#CarId").prop('selectedIndex');
+
+            if (index != 0) {
+                var serviceURL = '@Url.Action("GetCarInfo", "DutySlip")';
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    data: JSON.stringify(addRequestVerificationToken({ carId: value })),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: successFunc,
+                    error: errorFunc
+                });
+
+                function addRequestVerificationToken(data) {
+                    data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+                    return data;
+                };
+
+                function successFunc(data, status) {
+                    bindDriver(data);
+                };
+
+                function errorFunc(jqXHR, exception) {
+                    console.log(jqXHR);
+                };
+
+                function bindDriver(data) {
+                    $("#SupplierId").val(data.ownerId);
+
+                    $("#SupplierId").trigger("chosen:updated");
+                    $("#SupplierId").trigger("liszt:updated");
+                };
+            }
+        });
+    </script>
+}

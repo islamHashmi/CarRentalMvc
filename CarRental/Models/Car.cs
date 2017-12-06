@@ -18,6 +18,7 @@ namespace CarRental.Models
         public Car()
         {
             this.DriverAllocations = new HashSet<DriverAllocation>();
+            this.DutySlips = new HashSet<DutySlip>();
         }
     
         public int CarId { get; set; }
@@ -62,5 +63,9 @@ namespace CarRental.Models
         public virtual FuelType FuelType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DriverAllocation> DriverAllocations { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Party Party { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DutySlip> DutySlips { get; set; }
     }
 }

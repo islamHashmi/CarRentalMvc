@@ -75,16 +75,15 @@
                     @Html.DropDownListFor(model => model.OwnerId, Model.OwnerList, "--- Select Owner ---", new { @class = "form-control form-control-sm chosen-select-single" })
                     @Html.ValidationMessageFor(model => model.OwnerId, "", new { @class = "text-danger" })
                 </div>
-
-                <div class="form-group">
+                <br />
+                <div class="form-check form-check-inline">
                     <label class="form-check-label">
                         @Html.CheckBoxFor(model => model.CarInUse, new { @class = "form-check-input" })
                         @Html.LabelFor(model => model.CarInUse, htmlAttributes: new { @class = "" })
                     </label>
                     @Html.ValidationMessageFor(model => model.CarInUse, "", new { @class = "text-danger" })
                 </div>
-
-                <div class="form-group">
+                <div class="form-check form-check-inline">
                     <label class="form-check-label">
                         @Html.CheckBoxFor(model => model.CarOnHold, new { @class = "form-check-input" })
                         @Html.LabelFor(model => model.CarOnHold, htmlAttributes: new { @class = "" })
@@ -281,8 +280,8 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.EmiDate, "", new { @class = "text-danger" })
                 </div>
-            </div>
-            <div class="card-footer">
+
+                <br />
                 <input type="submit" value="Save" class="btn btn-primary btn-sm" />
             </div>
         </div>
@@ -290,62 +289,96 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "GuestList")
+    @Html.ActionLink("Back to List", "CarList")
 </div>
 
 @section scripts{
     <script type="text/javascript">
         $(function () {
             $('#datetimepicker1').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker2').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker3').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker4').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker5').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker6').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker7').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker8').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker9').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker10').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker11').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker12').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
             });
 
             $('#datetimepicker13').datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                showClear: true
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#RegistrationNumber').keyup(function () {
+                var text = $('#RegistrationNumber').val();
+
+                $('#RegistrationNumber').val(text.toUpperCase());
+            });
+
+            $('#ChasisNumber').keyup(function () {
+                var text = $('#ChasisNumber').val();
+
+                $('#ChasisNumber').val(text.toUpperCase());
+            });
+
+            $('#EngineNumber').keyup(function () {
+                var text = $('#EngineNumber').val();
+
+                $('#EngineNumber').val(text.toUpperCase());
             });
         });
     </script>

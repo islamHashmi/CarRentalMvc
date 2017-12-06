@@ -1,57 +1,68 @@
 ﻿@model CarRental.ViewModel.AllocationFilter
-
 @{
     ViewBag.Title = "AllocationList";
 }
 
 <h2>AllocationList</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BookingId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarModelid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DriverId)
-        </th>
-        <th></th>
-    </tr>
+<div class="card">
+    <div class="card-header">
+        @Html.ActionLink("Create New", "AllocationManage")
+    </div>
+    <table class="table table-sm table-responsive-sm">
+        <tr class="thead-light">
+            <th>
+                Booking Number
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Car Number
+            </th>
+            <th>
+                Registration Number
+            </th>
+            <th>
+                Driver Name
+            </th>
+            <th>
+                Mobile No.
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model.AllocationList) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BookingId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CarModelid)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DriverId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+        @foreach (var item in Model.AllocationList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarRegisterNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DriverName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DriverMobileNo)
+                </td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        @Html.ActionLink("Edit", "AllocationManage", new { key = HelperClass.Encrypt(item.AllocationId) }, new { @class = "btn btn-secondary btn-sm" })
+                        @Html.ActionLink("Details", "BranchDetails", new { key = HelperClass.Encrypt(item.AllocationId) }, new { @class = "btn btn-secondary btn-sm" })
+                        @Html.ActionLink("Delete", "BranchDelete", new { key = HelperClass.Encrypt(item.AllocationId) }, new { @class = "btn btn-secondary btn-sm" })
+                    </div>
+                </td>
+            </tr>
+        }
 
-</table>
+    </table>
+</div>
+

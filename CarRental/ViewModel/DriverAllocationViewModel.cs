@@ -19,6 +19,7 @@ namespace CarRental.ViewModel
 
         [Required, Display(Name = "Type")]
         public string CarType { get; set; }
+        public string CarTypeName { get; set; }
 
         [Display(Name = "Car Number")]
         public int? CarId { get; set; }
@@ -96,9 +97,9 @@ namespace CarRental.ViewModel
 
         public DateTime EndDate { get; set; }
 
-        public long BookingId { get; set; }
+        public string BookingNumber { get; set; }
 
-        public int CarModelid { get; set; }
+        public int CarModelId { get; set; }
 
         public int DriverId { get; set; }
 

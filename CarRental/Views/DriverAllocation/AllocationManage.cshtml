@@ -3,8 +3,11 @@
 @{
     ViewBag.Title = "AllocationManage";
 }
-
-<h4>AllocationManage</h4>
+<style>
+    .chosen-container.chosen-container-single {
+        width: 100% !important;
+    }
+</style>
 
 @using (Html.BeginForm())
 {
@@ -15,12 +18,12 @@
     <div class="card-group">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Booking Details</h4>
+                <h4 class="card-title">Allocation</h4>
                 <hr />
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.BookingId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    @Html.DropDownListFor(model => model.BookingId, Model.BookingNoList,"--- Select Booking No ---", new { @class = "form-control form-control-sm" })
+                    @Html.DropDownListFor(model => model.BookingId, Model.BookingNoList, "--- Select Booking No ---", new { @class = "form-control form-control-sm chosen-select-single" })
                     @Html.ValidationMessageFor(model => model.BookingId, "", new { @class = "text-danger" })
                 </div>
 
@@ -113,8 +116,6 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Allocation</h4>
-                <hr />
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.CarType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
@@ -125,17 +126,17 @@
                                                                             }, "Value", "Text"), new { @class = "form-control form-control-sm" })
                     @Html.ValidationMessageFor(model => model.CarType, "", new { @class = "text-danger" })
                 </div>
-
+                
                 <div id="owner">
                     <div class="form-group">
                         @Html.LabelFor(model => model.CarId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                        @Html.DropDownListFor(model => model.CarId, Model.CarNumberList,"--- Select Car Number", new { @class = "form-control form-control-sm" })
+                        @Html.DropDownListFor(model => model.CarId, Model.CarNumberList, "--- Select Car Number", new { @class = "form-control form-control-sm chosen-select-single" })
                         @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.DriverId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                        @Html.DropDownListFor(model => model.DriverId, Model.DriverNameList,"--- Select Driver Name ---", new { @class = "form-control form-control-sm" })
+                        @Html.DropDownListFor(model => model.DriverId, Model.DriverNameList, "--- Select Driver Name ---", new { @class = "form-control form-control-sm chosen-select-single" })
                         @Html.ValidationMessageFor(model => model.DriverId, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -163,9 +164,10 @@
                         @Html.LabelFor(model => model.DriverMobileNo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
                         @Html.EditorFor(model => model.DriverMobileNo, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
                         @Html.ValidationMessageFor(model => model.DriverMobileNo, "", new { @class = "text-danger" })
-                    </div>                    
+                    </div>
                 </div>
 
+                <br />
                 <button type="submit" class="btn btn-primary btn-sm">Save</button>
             </div>
         </div>
@@ -249,9 +251,17 @@
     </script>
     <script>
         $('#CarType').change(function () {
+            toggleCarType();
+        });
+
+        $(document).ready(function () {
+            toggleCarType();           
+        });
+
+        function toggleCarType() {
             var value = $('#CarType option:selected').val();
             var index = $("#CarType").prop('selectedIndex');
-
+            
             if (value == "OW") {
                 $('#owner').show();
                 $('#operator').hide();
@@ -260,6 +270,6 @@
                 $('#owner').hide();
                 $('#operator').show();
             }
-        });
+        }
     </script>
 }

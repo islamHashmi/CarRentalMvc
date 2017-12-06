@@ -429,7 +429,7 @@ namespace CarRental.Controllers
 
         private void BindDropdown_Branch(BranchViewModel vm)
         {
-            vm.CompanyList = new SelectList(db.Companies.Where(m => m.active == true), "companyId", "companyName");
+            vm.CompanyList = ApplicationParameter.GetCompanies(db);
         }
 
         #endregion
@@ -842,8 +842,8 @@ namespace CarRental.Controllers
 
         private void BindDropdown_Employee(EmployeeViewModel vm)
         {
-            vm.BranchList = new SelectList(db.CompanyBranches.Where(m => m.active == true), "branchId", "branchName");
-            vm.DesignationList = new SelectList(db.Designations.Where(m => m.active == true), "designationId", "designationName");
+            vm.BranchList = ApplicationParameter.GetBranches(db);
+            vm.DesignationList = ApplicationParameter.GetDesignations(db);
         }
 
         #endregion
@@ -861,41 +861,7 @@ namespace CarRental.Controllers
             {
                 foreach (var item in model)
                 {
-                    var vm = new PartyViewModel
-                    {
-                        PartyId = item.partyId,
-                        BranchId = item.branchId,
-                        BranchName = item.CompanyBranch == null ? "" : item.CompanyBranch.branchName,
-                        CompanyId = item.CompanyBranch?.companyId,
-                        CompanyName = item.CompanyBranch.Company == null ? "" : item.CompanyBranch.Company.companyName,
-                        StatusCode = item.status,
-                        StatusDescription = item.PartyStatu.statusDescription,
-                        Name = item.Name,
-                        BillName = item.billName,
-                        IdName = item.idName,
-                        Address1 = item.address1,
-                        City1 = item.city1,
-                        Pincode1 = item.pincode1,
-                        Address2 = item.address2,
-                        City2 = item.city2,
-                        Pincode2 = item.pincode2,
-                        Contact1 = item.contact1,
-                        Contact2 = item.contact2,
-                        FaxNumber = item.faxNumber,
-                        EmailId = item.emailId,
-                        PrimaryGroupId = item.primaryGroupId,
-                        PrimaryGroupName = db.Parties.FirstOrDefault(m => m.partyId == item.primaryGroupId) == null ? ""
-                                            : db.Parties.FirstOrDefault(m => m.partyId == item.primaryGroupId).Name,
-                        DiscountAllowed = item.discountAllowed,
-                        DutySlipFormat = item.dutySlipFormat,
-                        VendorCode = item.vendorCode,
-                        CostCenter = item.costCenter,
-                        TdsPercent = item.tdsPercent,
-                        CommissionPercent = item.commissionPercent,
-                        GstNumber = item.gstNumber
-                    };
-
-                    list.Add(vm);
+                    list.Add(GetParty(item));
                 }
             }
 
@@ -916,41 +882,7 @@ namespace CarRental.Controllers
 
                 var model = await db.Parties.FindAsync(_Id);
 
-                var vm = new PartyViewModel
-                {
-                    PartyId = model.partyId,
-                    BranchId = model.branchId,
-                    BranchName = model.CompanyBranch == null ? "" : model.CompanyBranch.branchName,
-                    CompanyId = model.CompanyBranch?.companyId,
-                    CompanyName = model.CompanyBranch.Company == null ? "" : model.CompanyBranch.Company.companyName,
-                    StatusCode = model.status,
-                    StatusDescription = model.PartyStatu.statusDescription,
-                    Name = model.Name,
-                    BillName = model.billName,
-                    IdName = model.idName,
-                    Address1 = model.address1,
-                    City1 = model.city1,
-                    Pincode1 = model.pincode1,
-                    Address2 = model.address2,
-                    City2 = model.city2,
-                    Pincode2 = model.pincode2,
-                    Contact1 = model.contact1,
-                    Contact2 = model.contact2,
-                    FaxNumber = model.faxNumber,
-                    EmailId = model.emailId,
-                    PrimaryGroupId = model.primaryGroupId,
-                    PrimaryGroupName = db.Parties.FirstOrDefault(m => m.partyId == model.primaryGroupId) == null ? ""
-                                            : db.Parties.FirstOrDefault(m => m.partyId == model.primaryGroupId).Name,
-                    DiscountAllowed = model.discountAllowed,
-                    DutySlipFormat = model.dutySlipFormat,
-                    VendorCode = model.vendorCode,
-                    CostCenter = model.costCenter,
-                    TdsPercent = model.tdsPercent,
-                    CommissionPercent = model.commissionPercent,
-                    GstNumber = model.gstNumber
-                };
-
-                return View(vm);
+                return View(GetParty(model));
             }
 
             return RedirectToAction("PartyList");
@@ -974,31 +906,7 @@ namespace CarRental.Controllers
 
                     var model = await db.Parties.FindAsync(_Id);
 
-                    vm.PartyId = model.partyId;
-                    vm.BranchId = model.branchId;
-                    vm.StatusCode = model.status;
-                    vm.Name = model.Name;
-                    vm.BillName = model.billName;
-                    vm.IdName = model.idName;
-                    vm.Address1 = model.address1;
-                    vm.City1 = model.city1;
-                    vm.Pincode1 = model.pincode1;
-                    vm.Address2 = model.address2;
-                    vm.City2 = model.city2;
-                    vm.Pincode2 = model.pincode2;
-                    vm.Contact1 = model.contact1;
-                    vm.Contact2 = model.contact2;
-                    vm.FaxNumber = model.faxNumber;
-                    vm.EmailId = model.emailId;
-                    vm.PrimaryGroupId = model.primaryGroupId;
-                    vm.PrimaryGroupName = db.Parties.FirstOrDefault(m => m.partyId == model.primaryGroupId).Name;
-                    vm.DiscountAllowed = model.discountAllowed;
-                    vm.DutySlipFormat = model.dutySlipFormat;
-                    vm.VendorCode = model.vendorCode;
-                    vm.CostCenter = model.costCenter;
-                    vm.TdsPercent = model.tdsPercent;
-                    vm.CommissionPercent = model.commissionPercent;
-                    vm.GstNumber = model.gstNumber;
+                    vm = GetParty(model);
                 }
             }
             catch (Exception ex)
@@ -1097,41 +1005,7 @@ namespace CarRental.Controllers
 
                 var model = await db.Parties.FindAsync(_Id);
 
-                var vm = new PartyViewModel
-                {
-                    PartyId = model.partyId,
-                    BranchId = model.branchId,
-                    BranchName = model.CompanyBranch == null ? "" : model.CompanyBranch.branchName,
-                    CompanyId = model.CompanyBranch?.companyId,
-                    CompanyName = model.CompanyBranch.Company == null ? "" : model.CompanyBranch.Company.companyName,
-                    StatusCode = model.status,
-                    StatusDescription = model.PartyStatu.statusDescription,
-                    Name = model.Name,
-                    BillName = model.billName,
-                    IdName = model.idName,
-                    Address1 = model.address1,
-                    City1 = model.city1,
-                    Pincode1 = model.pincode1,
-                    Address2 = model.address2,
-                    City2 = model.city2,
-                    Pincode2 = model.pincode2,
-                    Contact1 = model.contact1,
-                    Contact2 = model.contact2,
-                    FaxNumber = model.faxNumber,
-                    EmailId = model.emailId,
-                    PrimaryGroupId = model.primaryGroupId,
-                    PrimaryGroupName = db.Parties.FirstOrDefault(m => m.partyId == model.primaryGroupId) == null ? ""
-                                            : db.Parties.FirstOrDefault(m => m.partyId == model.primaryGroupId).Name,
-                    DiscountAllowed = model.discountAllowed,
-                    DutySlipFormat = model.dutySlipFormat,
-                    VendorCode = model.vendorCode,
-                    CostCenter = model.costCenter,
-                    TdsPercent = model.tdsPercent,
-                    CommissionPercent = model.commissionPercent,
-                    GstNumber = model.gstNumber
-                };
-
-                return View(vm);
+                return View(GetParty(model));
             }
 
             return RedirectToAction("PartyList");
@@ -1163,11 +1037,48 @@ namespace CarRental.Controllers
             return View(vm);
         }
 
+        private PartyViewModel GetParty(Party model)
+        {
+            return new PartyViewModel
+            {
+                PartyId = model.partyId,
+                BranchId = model.branchId,
+                BranchName = model.CompanyBranch == null ? "" : model.CompanyBranch.branchName,
+                CompanyId = model.CompanyBranch?.companyId,
+                CompanyName = model.CompanyBranch.Company == null ? "" : model.CompanyBranch.Company.companyName,
+                StatusCode = model.status,
+                StatusDescription = model.PartyStatu.statusDescription,
+                Name = model.Name,
+                BillName = model.billName,
+                IdName = model.idName,
+                Address1 = model.address1,
+                City1 = model.city1,
+                Pincode1 = model.pincode1,
+                Address2 = model.address2,
+                City2 = model.city2,
+                Pincode2 = model.pincode2,
+                Contact1 = model.contact1,
+                Contact2 = model.contact2,
+                FaxNumber = model.faxNumber,
+                EmailId = model.emailId,
+                PrimaryGroupId = model.primaryGroupId,
+                PrimaryGroupName = db.Parties.FirstOrDefault(m => m.partyId == model.primaryGroupId) == null ? ""
+                                            : db.Parties.FirstOrDefault(m => m.partyId == model.primaryGroupId).Name,
+                DiscountAllowed = model.discountAllowed,
+                DutySlipFormat = model.dutySlipFormat,
+                VendorCode = model.vendorCode,
+                CostCenter = model.costCenter,
+                TdsPercent = model.tdsPercent,
+                CommissionPercent = model.commissionPercent,
+                GstNumber = model.gstNumber
+            };
+        }
+
         private void BindDropdown_Party(PartyViewModel vm)
         {
-            vm.BranchList = new SelectList(db.CompanyBranches.Where(m => m.active == true), "branchId", "branchName");
-            vm.StatusList = new SelectList(db.PartyStatus, "statusCode", "statusDescription");
-            vm.PrimaryGroupList = new SelectList(db.Parties.Where(m => m.active == true), "partyId", "Name");
+            vm.BranchList = ApplicationParameter.GetBranches(db);
+            vm.StatusList = ApplicationParameter.GetStatus(db);
+            vm.PrimaryGroupList = ApplicationParameter.GetParties(db);
         }
 
         #endregion
@@ -1587,7 +1498,7 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Guests.FindAsync(_Id);
-                
+
                 return View(GetGuest(model));
             }
 
@@ -1698,7 +1609,7 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Guests.FindAsync(_Id);
-                
+
                 return View(GetGuest(model));
             }
 
@@ -1733,10 +1644,10 @@ namespace CarRental.Controllers
 
         private void BindDropdown_Guest(GuestViewModel vm)
         {
-            vm.BranchList = new SelectList(db.CompanyBranches.Where(m => m.active == true), "branchId", "branchName");
-            vm.PartyList = new SelectList(db.Parties.Where(m => m.active == true), "partyId", "Name");
-            vm.DepartmentList = new SelectList(db.Departments.Where(m => m.active == true), "departmentId", "departmentName");
-            vm.ModelList = new SelectList(db.CarModels.Where(m => m.active == true), "carModelId", "modelDescription");
+            vm.BranchList = ApplicationParameter.GetBranches(db);
+            vm.PartyList = ApplicationParameter.GetParties(db);
+            vm.DepartmentList = ApplicationParameter.GetDepartments(db);
+            vm.ModelList = ApplicationParameter.GetCarModels(db);
         }
 
         private GuestViewModel GetGuest(Guest model)
@@ -1777,42 +1688,7 @@ namespace CarRental.Controllers
             {
                 foreach (var item in model)
                 {
-                    var vm = new CarViewModel
-                    {
-                        CarId = item.CarId,
-                        BranchId = item.branchId,
-                        CarType = item.carType,
-                        CarModelId = item.carModelId,
-                        FuelTypeCode = item.fuelTypeCode,
-                        CarNumber = item.carNumber,
-                        DriverId = item.driverId,
-                        RegistrationNumber = item.registrationNumber,
-                        ChasisNumber = item.chasisNumber,
-                        EngineNumber = item.engineNumber,
-                        InsuranceCompany = item.insuranceCompany,
-                        InsurancePolicyNo = item.insurancePolicyNo,
-                        InsuranceStartDate = item.insuranceStartDate,
-                        InsuranceEndDate = item.insuranceEndDate,
-                        TaxStartDate = item.taxStartDate,
-                        TaxEndDate = item.taxEndDate,
-                        AuthorisationStartDate = item.authorisationStartDate,
-                        AuthorisationEndDate = item.authorisationEndDate,
-                        FitnessStartDate = item.fitnessStartDate,
-                        FitnessEndDate = item.fitnessEndDate,
-                        PermitStartDate = item.permitStartDate,
-                        PermitEndDate = item.permitEndDate,
-                        PucStartDate = item.permitStartDate,
-                        PucEndDate = item.pucEndDate,
-                        FinanceBy = item.financeBy,
-                        OwnerId = item.ownerId,
-                        CarInUse = item.carInUse,
-                        CarOnHold = item.carOnHold,
-                        ServicingSlab = item.servicingSlab,
-                        EmiAmount = item.emiAmount,
-                        EmiDate = item.emiDate
-                    };
-
-                    list.Add(vm);
+                    list.Add(GetCar(item));
                 }
             }
 
@@ -1832,43 +1708,8 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Cars.FindAsync(_Id);
-
-                var vm = new CarViewModel
-                {
-                    CarId = model.CarId,
-                    BranchId = model.branchId,
-                    CarType = model.carType,
-                    CarModelId = model.carModelId,
-                    FuelTypeCode = model.fuelTypeCode,
-                    CarNumber = model.carNumber,
-                    DriverId = model.driverId,
-                    RegistrationNumber = model.registrationNumber,
-                    ChasisNumber = model.chasisNumber,
-                    EngineNumber = model.engineNumber,
-                    InsuranceCompany = model.insuranceCompany,
-                    InsurancePolicyNo = model.insurancePolicyNo,
-                    InsuranceStartDate = model.insuranceStartDate,
-                    InsuranceEndDate = model.insuranceEndDate,
-                    TaxStartDate = model.taxStartDate,
-                    TaxEndDate = model.taxEndDate,
-                    AuthorisationStartDate = model.authorisationStartDate,
-                    AuthorisationEndDate = model.authorisationEndDate,
-                    FitnessStartDate = model.fitnessStartDate,
-                    FitnessEndDate = model.fitnessEndDate,
-                    PermitStartDate = model.permitStartDate,
-                    PermitEndDate = model.permitEndDate,
-                    PucStartDate = model.permitStartDate,
-                    PucEndDate = model.pucEndDate,
-                    FinanceBy = model.financeBy,
-                    OwnerId = model.ownerId,
-                    CarInUse = model.carInUse,
-                    CarOnHold = model.carOnHold,
-                    ServicingSlab = model.servicingSlab,
-                    EmiAmount = model.emiAmount,
-                    EmiDate = model.emiDate
-                };
-
-                return View(vm);
+                
+                return View(GetCar(model));
             }
 
             return RedirectToAction("CarList");
@@ -1892,37 +1733,7 @@ namespace CarRental.Controllers
 
                     var model = await db.Cars.FindAsync(_Id);
 
-                    vm.CarId = model.CarId;
-                    vm.BranchId = model.branchId;
-                    vm.CarType = model.carType;
-                    vm.CarModelId = model.carModelId;
-                    vm.FuelTypeCode = model.fuelTypeCode;
-                    vm.CarNumber = model.carNumber;
-                    vm.DriverId = model.driverId;
-                    vm.RegistrationNumber = model.registrationNumber;
-                    vm.ChasisNumber = model.chasisNumber;
-                    vm.EngineNumber = model.engineNumber;
-                    vm.InsuranceCompany = model.insuranceCompany;
-                    vm.InsurancePolicyNo = model.insurancePolicyNo;
-                    vm.InsuranceStartDate = model.insuranceStartDate;
-                    vm.InsuranceEndDate = model.insuranceEndDate;
-                    vm.TaxStartDate = model.taxStartDate;
-                    vm.TaxEndDate = model.taxEndDate;
-                    vm.AuthorisationStartDate = model.authorisationStartDate;
-                    vm.AuthorisationEndDate = model.authorisationEndDate;
-                    vm.FitnessStartDate = model.fitnessStartDate;
-                    vm.FitnessEndDate = model.fitnessEndDate;
-                    vm.PermitStartDate = model.permitStartDate;
-                    vm.PermitEndDate = model.permitEndDate;
-                    vm.PucStartDate = model.permitStartDate;
-                    vm.PucEndDate = model.pucEndDate;
-                    vm.FinanceBy = model.financeBy;
-                    vm.OwnerId = model.ownerId;
-                    vm.CarInUse = model.carInUse;
-                    vm.CarOnHold = model.carOnHold;
-                    vm.ServicingSlab = model.servicingSlab;
-                    vm.EmiAmount = model.emiAmount;
-                    vm.EmiDate = model.emiDate;
+                    vm = GetCar(model);
                 }
             }
             catch (Exception ex)
@@ -2033,43 +1844,8 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.Cars.FindAsync(_Id);
-
-                var vm = new CarViewModel
-                {
-                    CarId = model.CarId,
-                    BranchId = model.branchId,
-                    CarType = model.carType,
-                    CarModelId = model.carModelId,
-                    FuelTypeCode = model.fuelTypeCode,
-                    CarNumber = model.carNumber,
-                    DriverId = model.driverId,
-                    RegistrationNumber = model.registrationNumber,
-                    ChasisNumber = model.chasisNumber,
-                    EngineNumber = model.engineNumber,
-                    InsuranceCompany = model.insuranceCompany,
-                    InsurancePolicyNo = model.insurancePolicyNo,
-                    InsuranceStartDate = model.insuranceStartDate,
-                    InsuranceEndDate = model.insuranceEndDate,
-                    TaxStartDate = model.taxStartDate,
-                    TaxEndDate = model.taxEndDate,
-                    AuthorisationStartDate = model.authorisationStartDate,
-                    AuthorisationEndDate = model.authorisationEndDate,
-                    FitnessStartDate = model.fitnessStartDate,
-                    FitnessEndDate = model.fitnessEndDate,
-                    PermitStartDate = model.permitStartDate,
-                    PermitEndDate = model.permitEndDate,
-                    PucStartDate = model.permitStartDate,
-                    PucEndDate = model.pucEndDate,
-                    FinanceBy = model.financeBy,
-                    OwnerId = model.ownerId,
-                    CarInUse = model.carInUse,
-                    CarOnHold = model.carOnHold,
-                    ServicingSlab = model.servicingSlab,
-                    EmiAmount = model.emiAmount,
-                    EmiDate = model.emiDate
-                };
-
-                return View(vm);
+                
+                return View(GetCar(model));
             }
 
             return RedirectToAction("CarList");
@@ -2101,13 +1877,57 @@ namespace CarRental.Controllers
             return View(vm);
         }
 
+        private CarViewModel GetCar(Car model)
+        {
+            return new CarViewModel
+            {
+                CarId = model.CarId,
+                BranchId = model.branchId,
+                BranchName = model.CompanyBranch?.branchName,
+                CarType = model.carType,
+                CarTypeName = model.carType == "O" ? "Owner" : "Fixed",
+                CarModelId = model.carModelId,
+                ModelName = model.CarModel?.modelDescription,
+                FuelTypeCode = model.fuelTypeCode,
+                FuelTypeName = model.FuelType?.fuelTypeDescription,
+                CarNumber = model.carNumber,
+                DriverId = model.driverId,
+                DriverName = model.Employee?.employeeName,
+                RegistrationNumber = model.registrationNumber,
+                ChasisNumber = model.chasisNumber,
+                EngineNumber = model.engineNumber,
+                InsuranceCompany = model.insuranceCompany,
+                InsurancePolicyNo = model.insurancePolicyNo,
+                InsuranceStartDate = model.insuranceStartDate,
+                InsuranceEndDate = model.insuranceEndDate,
+                TaxStartDate = model.taxStartDate,
+                TaxEndDate = model.taxEndDate,
+                AuthorisationStartDate = model.authorisationStartDate,
+                AuthorisationEndDate = model.authorisationEndDate,
+                FitnessStartDate = model.fitnessStartDate,
+                FitnessEndDate = model.fitnessEndDate,
+                PermitStartDate = model.permitStartDate,
+                PermitEndDate = model.permitEndDate,
+                PucStartDate = model.permitStartDate,
+                PucEndDate = model.pucEndDate,
+                FinanceBy = model.financeBy,
+                OwnerId = model.ownerId,
+                OwnerName = model.Party?.Name,
+                CarInUse = model.carInUse,
+                CarOnHold = model.carOnHold,
+                ServicingSlab = model.servicingSlab,
+                EmiAmount = model.emiAmount,
+                EmiDate = model.emiDate
+            };
+        }
+
         private void BindDropdown_Car(CarViewModel vm)
         {
-            vm.FuelTypeList = new SelectList(db.FuelTypes.Where(m => m.active == true), "fuelTypeCode", "fuelTypeDescription");
-            vm.BranchList = new SelectList(db.CompanyBranches.Where(m => m.active == true), "branchId", "branchName");
-            vm.OwnerList = new SelectList(db.Parties.Where(m => m.active == true), "partyId", "Name");
-            vm.ModelList = new SelectList(db.CarModels.Where(m => m.active == true), "carModelId", "modelDescription");
-            vm.DriverList = new SelectList(db.Employees.Where(m => m.active == true), "employeeId", "employeeName");
+            vm.FuelTypeList = ApplicationParameter.GetFuelTypes(db);
+            vm.BranchList = ApplicationParameter.GetBranches(db);
+            vm.OwnerList = ApplicationParameter.GetOwners(db);
+            vm.ModelList = ApplicationParameter.GetCarModels(db);
+            vm.DriverList = ApplicationParameter.GetDrivers(db);
         }
 
         #endregion
@@ -2502,10 +2322,10 @@ namespace CarRental.Controllers
 
         private void BindDropdown_RateCard(RateCardViewModel vm)
         {
-            vm.PartyList = new SelectList(db.Parties.Where(m => m.active == true), "partyId", "Name");
-            vm.CarModelList = new SelectList(db.CarModels.Where(m => m.active == true), "carModelId", "modelDescription");
-            vm.DutyTypeList = new SelectList(db.DutyTypes.Where(m => m.active == true), "dutyTypeId", "dutyDescription");
-            vm.SchemeList = new SelectList(db.Schemes.Where(m => m.active == true), "schemeId", "schemeName");
+            vm.PartyList = ApplicationParameter.GetParties(db);
+            vm.CarModelList = ApplicationParameter.GetCarModels(db);
+            vm.DutyTypeList = ApplicationParameter.GetDutyTypes(db);
+            vm.SchemeList = ApplicationParameter.GetSchemes(db);
         }
 
         #endregion
@@ -2543,7 +2363,7 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.ExpenseHeads.FindAsync(_Id);
-                
+
                 return View(GetExpense(model));
             }
 
@@ -2642,7 +2462,7 @@ namespace CarRental.Controllers
                     return HttpNotFound();
 
                 var model = await db.ExpenseHeads.FindAsync(_Id);
-                
+
                 return View(GetExpense(model));
             }
 

@@ -196,11 +196,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\DriverAllocationController.cs" />
+    <Compile Include="Controllers\DutySlipController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MasterDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ApplicationParameter.cs" />
     <Compile Include="Helpers\GenerateOTP.cs" />
     <Compile Include="Helpers\HelperClass.cs" />
     <Compile Include="Models\Booking.cs">
@@ -240,6 +242,9 @@
       <DependentUpon>CarRentalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DriverAllocation.cs">
+      <DependentUpon>CarRentalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DutySlip.cs">
       <DependentUpon>CarRentalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DutyType.cs">
@@ -288,6 +293,7 @@
     <Compile Include="ViewModel\DepartmentViewModel.cs" />
     <Compile Include="ViewModel\DesignationViewModel.cs" />
     <Compile Include="ViewModel\DriverAllocationViewModel.cs" />
+    <Compile Include="ViewModel\DutySlipViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\ExpenseViewModel.cs" />
     <Compile Include="ViewModel\GuestViewModel.cs" />
@@ -554,6 +560,9 @@
     <Content Include="Views\DriverAllocation\AllocationList.cshtml" />
     <Content Include="Views\DriverAllocation\Index.cshtml" />
     <Content Include="Views\DriverAllocation\AllocationManage.cshtml" />
+    <Content Include="Views\DutySlip\Index.cshtml" />
+    <Content Include="Views\DriverAllocation\AllocationDelete.cshtml" />
+    <Content Include="Views\DutySlip\DutySlipManage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -171,6 +171,10 @@ namespace CarRental.Controllers
                                     entryDate = DateTime.Now
                                 };
 
+                                db.guestAddresses.Add(ga);
+
+                                await db.SaveChangesAsync();
+
                                 vm.GuestAddressId = ga.guestAddressId;
                             }
                             else
@@ -190,8 +194,7 @@ namespace CarRental.Controllers
 
                                     db.guestAddresses.Add(ga);
 
-                                    await db.SaveChangesAsync();
-                                    
+                                    await db.SaveChangesAsync();                                    
 
                                     vm.GuestAddressId = ga.guestAddressId;
                                 }
