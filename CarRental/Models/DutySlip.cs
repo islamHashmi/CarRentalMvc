@@ -31,7 +31,23 @@ namespace CarRental.Models
         public Nullable<decimal> driverBalance { get; set; }
         public Nullable<decimal> advanceDriver { get; set; }
         public Nullable<System.TimeSpan> openingTime { get; set; }
+        public Nullable<System.TimeSpan> closingTime { get; set; }
+        public Nullable<decimal> totalTime { get; set; }
         public Nullable<decimal> openingKM { get; set; }
+        public Nullable<decimal> closingKM { get; set; }
+        public Nullable<decimal> totalKM { get; set; }
+        public Nullable<int> releasePointId { get; set; }
+        public string billingType { get; set; }
+        public Nullable<decimal> parkingCharge { get; set; }
+        public Nullable<decimal> fuelCharge { get; set; }
+        public Nullable<decimal> otherCharge { get; set; }
+        public string extraChargeName { get; set; }
+        public Nullable<decimal> extraAmount { get; set; }
+        public Nullable<decimal> paidAmount { get; set; }
+        public Nullable<decimal> receivedAmount { get; set; }
+        public Nullable<decimal> advanceTaken { get; set; }
+        public string route { get; set; }
+        public bool payableToDriver { get; set; }
         public bool active { get; set; }
         public int entryBy { get; set; }
         public System.DateTime entryDate { get; set; }

@@ -193,7 +193,23 @@
           <Property Name="driverBalance" Type="decimal" Precision="12" Scale="2" />
           <Property Name="advanceDriver" Type="decimal" Precision="12" Scale="2" />
           <Property Name="openingTime" Type="time" Precision="7" />
+          <Property Name="closingTime" Type="time" Precision="7" />
+          <Property Name="totalTime" Type="decimal" Precision="10" Scale="2" />
           <Property Name="openingKM" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="closingKM" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="totalKM" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="releasePointId" Type="int" />
+          <Property Name="billingType" Type="varchar" MaxLength="10" />
+          <Property Name="parkingCharge" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="fuelCharge" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="otherCharge" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="extraChargeName" Type="varchar" MaxLength="50" />
+          <Property Name="extraAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="paidAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="receivedAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="advanceTaken" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="route" Type="varchar" MaxLength="500" />
+          <Property Name="payableToDriver" Type="bit" Nullable="false" />
           <Property Name="active" Type="bit" Nullable="false" />
           <Property Name="entryBy" Type="int" Nullable="false" />
           <Property Name="entryDate" Type="datetime" Nullable="false" />
@@ -1990,7 +2006,23 @@
           <Property Name="driverBalance" Type="Decimal" Precision="12" Scale="2" />
           <Property Name="advanceDriver" Type="Decimal" Precision="12" Scale="2" />
           <Property Name="openingTime" Type="Time" Precision="7" />
+          <Property Name="closingTime" Type="Time" Precision="7" />
+          <Property Name="totalTime" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="openingKM" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="closingKM" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="totalKM" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="releasePointId" Type="Int32" />
+          <Property Name="billingType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="parkingCharge" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="fuelCharge" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="otherCharge" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="extraChargeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="extraAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="paidAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="receivedAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="advanceTaken" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="route" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="payableToDriver" Type="Boolean" Nullable="false" />
           <Property Name="active" Type="Boolean" Nullable="false" />
           <Property Name="entryBy" Type="Int32" Nullable="false" />
           <Property Name="entryDate" Type="DateTime" Nullable="false" Precision="3" />
@@ -2479,7 +2511,23 @@
                 <ScalarProperty Name="entryDate" ColumnName="entryDate" />
                 <ScalarProperty Name="entryBy" ColumnName="entryBy" />
                 <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="payableToDriver" ColumnName="payableToDriver" />
+                <ScalarProperty Name="route" ColumnName="route" />
+                <ScalarProperty Name="advanceTaken" ColumnName="advanceTaken" />
+                <ScalarProperty Name="receivedAmount" ColumnName="receivedAmount" />
+                <ScalarProperty Name="paidAmount" ColumnName="paidAmount" />
+                <ScalarProperty Name="extraAmount" ColumnName="extraAmount" />
+                <ScalarProperty Name="extraChargeName" ColumnName="extraChargeName" />
+                <ScalarProperty Name="otherCharge" ColumnName="otherCharge" />
+                <ScalarProperty Name="fuelCharge" ColumnName="fuelCharge" />
+                <ScalarProperty Name="parkingCharge" ColumnName="parkingCharge" />
+                <ScalarProperty Name="billingType" ColumnName="billingType" />
+                <ScalarProperty Name="releasePointId" ColumnName="releasePointId" />
+                <ScalarProperty Name="totalKM" ColumnName="totalKM" />
+                <ScalarProperty Name="closingKM" ColumnName="closingKM" />
                 <ScalarProperty Name="openingKM" ColumnName="openingKM" />
+                <ScalarProperty Name="totalTime" ColumnName="totalTime" />
+                <ScalarProperty Name="closingTime" ColumnName="closingTime" />
                 <ScalarProperty Name="openingTime" ColumnName="openingTime" />
                 <ScalarProperty Name="advanceDriver" ColumnName="advanceDriver" />
                 <ScalarProperty Name="driverBalance" ColumnName="driverBalance" />

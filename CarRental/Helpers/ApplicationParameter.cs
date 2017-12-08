@@ -147,5 +147,16 @@ namespace CarRental.Helpers
                                         carNumber = m.carNumber + " [ " + m.registrationNumber + " ]"
                                     }), "CarId", "carNumber");
         }
+
+        public static SelectList GetReleasePoints(CarRentalEntities db)
+        {
+            return new SelectList(db.ReleasePoints
+                                    .Where(m => m.active == true)
+                                    .Select(m => new
+                                    {
+                                        releasePointId = m.releasePointId,
+                                        releasePointName = m.releasePointName
+                                    }), "releasePointId", "releasePointName");
+        }
     }
 }

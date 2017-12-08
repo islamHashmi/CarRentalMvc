@@ -16,7 +16,7 @@ namespace CarRental.Controllers
         CarRentalEntities db = new CarRentalEntities();
 
         public ActionResult Index()
-        {
+        {            
             return View();
         }
 
@@ -41,6 +41,26 @@ namespace CarRental.Controllers
             };
 
             return View(_model);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DutySlipDetail(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.DutySlips.FindAsync(_Id);
+
+                return View(GetDutySlip(model));
+            }
+
+            return RedirectToAction("DutySlipList");
         }
 
         [HttpGet]
@@ -128,7 +148,23 @@ namespace CarRental.Controllers
                         model.driverBalance = vm.DriverBalance;
                         model.advanceDriver = vm.AdvanceDriver;
                         model.openingTime = vm.OpeningTime;
+                        model.closingTime = vm.ClosingTime;
+                        model.totalTime = vm.TotalTime;
                         model.openingKM = vm.OpeningKM;
+                        model.closingKM = vm.ClosingKM;
+                        model.totalKM = vm.TotalKM;
+                        model.payableToDriver = vm.PayableToDriver;
+                        model.billingType = vm.BillingType;
+                        model.releasePointId = vm.ReleasePointId;
+                        model.parkingCharge = vm.ParkingCharge;
+                        model.fuelCharge = vm.FuelCharge;
+                        model.otherCharge = vm.OtherCharge;
+                        model.extraChargeName = vm.ExtraChargeName;
+                        model.extraAmount = vm.ExtraAmount;
+                        model.paidAmount = vm.PaidAmount;
+                        model.receivedAmount = vm.ReceivedAmount;
+                        model.advanceTaken = vm.AdvanceTaken;
+                        model.route = vm.Route;
 
                         await db.SaveChangesAsync();
 
@@ -316,6 +352,8 @@ namespace CarRental.Controllers
         {
             return new DutySlipViewModel
             {
+                BranchId = model.branchId,
+                BranchName = model.CompanyBranch?.branchName,
                 DutySlipId = model.dutySlipId,
                 BookingId = model.bookingId,
                 BookingType = model.Booking?.bookingType,
@@ -323,12 +361,14 @@ namespace CarRental.Controllers
                 CarType = model.carType,
                 CarTypeName = model.carType == "OP" ? "Operator" : "Owner",
                 CarId = model.carId,
+                SupplierId = model.Car?.ownerId,
                 CarNo = model.Car?.carNumber,
                 OP_CarNumber = model.op_carNumber,
                 OP_CarRegisterNumber = model.op_carRegNumber,
                 OP_DriverName = model.op_driverName,
                 OP_DriverMobile = model.op_driverMobile,
                 DriverId = model.driverId,
+                DriverBalance = model.Employee?.basicAmount,
                 DriverName = model.Employee?.employeeName,
                 DriverMobileNo = model.Employee?.mobileNumber,
                 SlipNumber = model.slipNumber,
@@ -345,7 +385,26 @@ namespace CarRental.Controllers
                 DutyType = model.Booking?.DutyType?.dutyDescription,
                 Mobile1 = model.Booking?.mobileNumber1,
                 Mobile2 = model.Booking?.mobileNumber2,
-                Mobile3 = model.Booking?.mobileNumber3
+                Mobile3 = model.Booking?.mobileNumber3,
+                PayableToDriver = model.payableToDriver,
+                BillingType = model.billingType,
+                OpeningTime = model.openingTime,
+                ClosingTime = model.closingTime,
+                TotalTime = model.totalTime,
+                OpeningKM = model.openingKM,
+                ClosingKM = model.closingKM,
+                TotalKM = model.totalKM,
+                ReleasePointId = model.releasePointId,
+                AdvanceDriver = model.advanceDriver,
+                ParkingCharge = model.parkingCharge,
+                FuelCharge = model.fuelCharge,
+                OtherCharge = model.otherCharge,
+                ExtraChargeName = model.extraChargeName,
+                ExtraAmount = model.extraAmount,
+                PaidAmount = model.paidAmount,
+                ReceivedAmount = model.receivedAmount,
+                AdvanceTaken = model.advanceTaken,
+                Route = model.route
             };
         }
 
@@ -356,6 +415,7 @@ namespace CarRental.Controllers
             vm.CarNumberList = ApplicationParameter.GetCars(db);
             vm.DriverNameList = ApplicationParameter.GetDrivers(db);
             vm.SupplierList = ApplicationParameter.GetOwners(db);
+            vm.ReleasePointList = ApplicationParameter.GetReleasePoints(db);
             vm.BookingNoList = new SelectList(db.Bookings.Where(m => m.active == true), "bookingId", "bookingNumber");
         }
     }

@@ -69,13 +69,8 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.ReportingTo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    @Html.TextBoxFor(model => model.ReportingTo, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                    @Html.TextBoxFor(model => model.ReportingTo, "{0:HH:mm}", new { @class = "form-control form-control-sm", readOnly = "readOnly" })
                 </div>
-
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.ReportingLocation, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
@@ -90,7 +85,12 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.CarModel, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
                     @Html.TextBoxFor(model => model.CarModel, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
-                </div>
+                </div>                
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.DutyType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
@@ -98,13 +98,15 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.DutyDateFrom, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    @Html.TextBoxFor(model => model.DutyDateFrom, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DutyDateTo, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    @Html.TextBoxFor(model => model.DutyDateTo, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                    <label class="col-form-label col-form-label-sm">Duty Date : From / To</label>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.DutyDateFrom, "{0:dd/MM/yyyy}", new { @class = "form-control form-control-sm mb-2 mr-sm-2 mb-sm-0", readOnly = "readOnly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.DutyDateTo, "{0:dd/MM/yyyy}", new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -121,11 +123,6 @@
                     @Html.LabelFor(model => model.Mobile3, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
                     @Html.TextBoxFor(model => model.Mobile3, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
                 </div>
-
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.CarType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
@@ -190,9 +187,86 @@
                 </div>
 
                 <div class="form-group">
+                    @Html.LabelFor(model => model.PayableToDriver, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.PayableToDriver, new SelectList(new List<SelectListItem>
+                                                                                    {
+                                                                                        new SelectListItem{ Text = "Yes", Value = "true" },
+                                                                                        new SelectListItem{ Text = "No", Value = "false" }
+                                                                                    }, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.PayableToDriver, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
                     @Html.LabelFor(model => model.DriverBalance, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
                     @Html.EditorFor(model => model.DriverBalance, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
                     @Html.ValidationMessageFor(model => model.DriverBalance, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BillingType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.BillingType, new SelectList(new List<SelectListItem>
+                                                                                    {
+                                                                                        new SelectListItem{ Text = "Casual", Value = "C" },
+                                                                                        new SelectListItem{ Text = "Monthly", Value = "M" }
+                                                                                    }, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(model => model.BillingType, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">                
+
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Time Reading (24hr format)</label>
+                    <div class="form-inline">
+                        <div class="form-group" style="width:33.35%;">
+                            <div class='input-group input-group-sm mb-2 mr-sm-2 mb-sm-0' id='datetimepicker5a'>
+                                @Html.EditorFor(model => model.OpeningTime, new { htmlAttributes = new { @class = "form-control form-control-sm", aria_describedby = "sizing-addon1", placeholder = "Start" } })
+                                <span class="input-group-addon" id="sizing-addon1">
+                                    <span class="fa fa-clock-o"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.OpeningTime, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group" style="width:33.33%;">
+                            <div class='input-group input-group-sm mb-2 mr-sm-2 mb-sm-0' id='datetimepicker5b'>
+                                @Html.EditorFor(model => model.ClosingTime, new { htmlAttributes = new { @class = "form-control form-control-sm", aria_describedby = "sizing-addon1", placeholder = "Stop" } })
+                                <span class="input-group-addon" id="sizing-addon1">
+                                    <span class="fa fa-clock-o"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.ClosingTime, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group" style="width:33.33%;">
+                            @Html.EditorFor(model => model.TotalTime, new { htmlAttributes = new { @class = "form-control form-control-sm", style = "width:100%;", placeholder = "Total Time", @readOnly = "readOnly" } })
+                            @Html.ValidationMessageFor(model => model.OpeningKM, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">K.M. Reading</label>
+                    <div class="form-inline">
+                        <div class="form-group" style="width:33.33%;">
+                            @Html.EditorFor(model => model.OpeningKM, new { htmlAttributes = new { @class = "form-control form-control-sm mb-2 mr-sm-2 mb-sm-0", style = "width:100%;", placeholder = "Start" } })
+                            @Html.ValidationMessageFor(model => model.OpeningKM, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group" style="width:33.33%;">
+                            @Html.EditorFor(model => model.ClosingKM, new { htmlAttributes = new { @class = "form-control form-control-sm mb-2 mr-sm-2 mb-sm-0", style = "width:100%;", placeholder = "Stop" } })
+                            @Html.ValidationMessageFor(model => model.OpeningKM, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group" style="width:33.33%;">
+                            @Html.EditorFor(model => model.TotalKM, new { htmlAttributes = new { @class = "form-control form-control-sm", style = "width:100%;", placeholder = "Total Km", @readOnly = "readOnly" } })
+                            @Html.ValidationMessageFor(model => model.OpeningKM, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReleasePointId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.DropDownListFor(model => model.ReleasePointId, Model.ReleasePointList, "--- Select Release Point ---", new { @class = "form-control form-control-sm chosen-select-single" })
+                    @Html.ValidationMessageFor(model => model.ReleasePointId, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
@@ -202,20 +276,62 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ReportingTime, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    <div class='input-group input-group-sm' id='datetimepicker4'>
-                        @Html.EditorFor(model => model.ReportingTime, new { htmlAttributes = new { @class = "form-control form-control-sm", aria_describedby = "sizing-addon1" } })
-                        <span class="input-group-addon" id="sizing-addon1">
-                            <span class="fa fa-clock-o"></span>
-                        </span>
-                    </div>
-                    @Html.ValidationMessageFor(model => model.ReportingTime, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.ParkingCharge, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.ParkingCharge, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.ParkingCharge, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.OpeningKM, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    @Html.EditorFor(model => model.OpeningKM, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
-                    @Html.ValidationMessageFor(model => model.OpeningKM, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.FuelCharge, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.FuelCharge, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.FuelCharge, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OtherCharge, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.OtherCharge, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.OtherCharge, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Extra Charges</label>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.ExtraChargeName, new { htmlAttributes = new { @class = "form-control form-control-sm mb-2 mr-sm-2 mb-sm-0", style = "width:100%;", placeholder = "Name" } })
+                            @Html.ValidationMessageFor(model => model.ExtraChargeName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.ExtraAmount, new { htmlAttributes = new { @class = "form-control form-control-sm", style = "width:100%;", placeholder = "Amount" } })
+                            @Html.ValidationMessageFor(model => model.ExtraAmount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Paid / Received</label>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.PaidAmount, new { htmlAttributes = new { @class = "form-control form-control-sm mb-2 mr-sm-2 mb-sm-0" } })
+                            @Html.ValidationMessageFor(model => model.PaidAmount, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.ReceivedAmount, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                            @Html.ValidationMessageFor(model => model.ReceivedAmount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AdvanceTaken, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.EditorFor(model => model.AdvanceTaken, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                    @Html.ValidationMessageFor(model => model.AdvanceTaken, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Route, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextAreaFor(model => model.Route, new { @class = "form-control form-control-sm", rows = "3" })
+                    @Html.ValidationMessageFor(model => model.Route, "", new { @class = "text-danger" })
                 </div>
 
                 <br />
@@ -236,6 +352,16 @@
         });
 
         $('#datetimepicker4').datetimepicker({
+            showClear: true,
+            format: 'HH:mm',
+        });
+
+        $('#datetimepicker5a').datetimepicker({
+            showClear: true,
+            format: 'HH:mm',
+        });
+
+        $('#datetimepicker5b').datetimepicker({
             showClear: true,
             format: 'HH:mm',
         });
@@ -459,5 +585,96 @@
                 };
             }
         });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#OpeningTime').blur(function () {
+                calculateTime();
+            });
+
+            $('#ClosingTime').blur(function () {
+                calculateTime();
+            });
+
+            $('#OpeningKM').blur(function () {
+                calculateKm();
+            });
+
+            $('#ClosingKM').blur(function () {
+                calculateKm();
+            });
+        });
+
+        function calculateTime() {
+            var start = $('#OpeningTime').val().replace(':', '.');
+            var end = $('#ClosingTime').val().replace(':', '.');
+
+            var totalTime = parseFloat(end) - parseFloat(start);
+
+            if (!isNaN(totalTime))
+                $('#TotalTime').val((totalTime.toFixed(2)));
+        };
+
+        function calculateKm() {
+            var start = $('#OpeningKM').val();
+            var end = $('#ClosingKM').val();
+
+            var totalKm = parseFloat(end) - parseFloat(start);
+
+            if (!isNaN(totalKm))
+                $('#TotalKM').val((totalKm.toFixed(2)));
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#ParkingCharge').keyup(function () {
+                calculateAmount();
+            });
+
+            $('#FuelCharge').keyup(function () {
+                calculateAmount();
+            });
+
+            $('#OtherCharge').keyup(function () {
+                calculateAmount();
+            });
+
+            $('#AdvanceDriver').blur(function () {
+                calculateAmount();
+            });
+        });
+
+        function calculateAmount() {
+            $('#PaidAmount').val('');
+            $('#ReceivedAmount').val('');
+
+            var advanceDriver = $('#AdvanceDriver').val();
+            var parking = $('#ParkingCharge').val();
+            var fuel = $('#FuelCharge').val();
+            var other = $('#OtherCharge').val();
+
+            if (advanceDriver == '')
+                advanceDriver = '0'
+
+            if (parking == '')
+                parking = '0'
+
+            if (fuel == '')
+                fuel = '0'
+
+            if (other == '')
+                other = '0'
+
+            var totalAmt = parseFloat(advanceDriver) - (parseFloat(parking) + parseFloat(fuel) + parseFloat(other));
+
+            if (!isNaN(totalAmt)) {
+                if (totalAmt < 0) {
+                    $('#PaidAmount').val(Math.abs(totalAmt.toFixed(2)));
+                }
+                else {
+                    $('#ReceivedAmount').val(Math.abs(totalAmt.toFixed(2)));
+                }
+            }
+        };
     </script>
 }

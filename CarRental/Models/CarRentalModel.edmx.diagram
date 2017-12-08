@@ -55,7 +55,7 @@
         <AssociationConnector Association="CarRentalModel.FK_DriverAllocation_Employee" />
         <AssociationConnector Association="CarRentalModel.FK_Car_Employee" />
         <AssociationConnector Association="CarRentalModel.FK_Car_Party" />
-        <EntityTypeShape EntityType="CarRentalModel.DutySlip" Width="1.5" PointX="18" PointY="4.625" />
+        <EntityTypeShape EntityType="CarRentalModel.DutySlip" Width="1.5" PointX="18" PointY="3.125" />
         <AssociationConnector Association="CarRentalModel.FK_DutySlip_Booking" />
         <AssociationConnector Association="CarRentalModel.FK_DutySlip_Car" />
         <AssociationConnector Association="CarRentalModel.FK_DutySlip_CompanyBranch" />

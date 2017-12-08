@@ -36,7 +36,7 @@ namespace CarRental.ViewModel
         [Display(Name = "Type")]
         public string CarType { get; set; }
         public string CarTypeName { get; set; }
-        
+
         [Display(Name = "Vehicle")]
         public int? CarId { get; set; }
         public string CarNo { get; set; }
@@ -73,12 +73,6 @@ namespace CarRental.ViewModel
         [Display(Name = "Driver Advance")]
         public decimal? AdvanceDriver { get; set; }
 
-        [Display(Name = "Opening Time")]
-        public TimeSpan? OpeningTime { get; set; }
-
-        [Display(Name = "Opening K.M.")]
-        public decimal? OpeningKM { get; set; }
-
         [Display(Name = "Booking Type")]
         public string BookingType { get; set; }
 
@@ -104,7 +98,7 @@ namespace CarRental.ViewModel
         public DateTime? DutyDateFrom { get; set; }
 
         [Display(Name = "Duty Date To")]
-        public DateTime? DutyDateTo { get; set; }        
+        public DateTime? DutyDateTo { get; set; }
 
         [Display(Name = "Mobile 1")]
         public string Mobile1 { get; set; }
@@ -114,6 +108,62 @@ namespace CarRental.ViewModel
 
         [Display(Name = "Mobile 3")]
         public string Mobile3 { get; set; }
+
+        [Display(Name = "Opening Time")]
+        public TimeSpan? OpeningTime { get; set; }
+
+        [Display(Name = "Closing Time")]
+        public TimeSpan? ClosingTime { get; set; }
+
+        [Display(Name = "Total Time")]
+        public decimal? TotalTime { get; set; }
+
+        [Display(Name = "Opening K.M.")]
+        public decimal? OpeningKM { get; set; }
+
+        [Display(Name = "Closing K.M.")]
+        public decimal? ClosingKM { get; set; }
+
+        [Display(Name = "Total K.M.")]
+        public decimal? TotalKM { get; set; }
+
+        [Display(Name = "Release Point")]
+        public int? ReleasePointId { get; set; }
+        public string ReleasePointName { get; set; }
+        public SelectList ReleasePointList { get; set; }
+
+        [Display(Name = "Billing Type")]
+        public string BillingType { get; set; }
+
+        [Display(Name = "Parking Charge")]
+        public decimal? ParkingCharge { get; set; }
+
+        [Display(Name = "Fuel Charge")]
+        public decimal? FuelCharge { get; set; }
+
+        [Display(Name = "Other Charge")]
+        public decimal? OtherCharge { get; set; }
+
+        [Display(Name = "Extra Charge")]
+        public string ExtraChargeName { get; set; }
+
+        [Display(Name = "Extra Amount")]
+        public decimal? ExtraAmount { get; set; }
+
+        [Display(Name = "Paid Amount")]
+        public decimal? PaidAmount { get; set; }
+
+        [Display(Name = "Received Amount")]
+        public decimal? ReceivedAmount { get; set; }
+
+        [Display(Name = "Advance Taken")]
+        public decimal? AdvanceTaken { get; set; }
+
+        [Display(Name = "Route")]
+        public string Route { get; set; }
+
+        [Display(Name = "Payable to driver")]
+        public bool PayableToDriver { get; set; }
     }
 
     public class DutySlipFilter

@@ -563,6 +563,7 @@
     <Content Include="Views\DutySlip\Index.cshtml" />
     <Content Include="Views\DriverAllocation\AllocationDelete.cshtml" />
     <Content Include="Views\DutySlip\DutySlipManage.cshtml" />
+    <Content Include="Views\DutySlip\DutySlipList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

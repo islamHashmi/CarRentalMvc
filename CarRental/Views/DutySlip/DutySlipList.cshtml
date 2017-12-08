@@ -1,0 +1,68 @@
+﻿@model CarRental.ViewModel.DutySlipFilter
+
+<p>
+    @Html.ActionLink("Create New", "DutySlipManage")
+</p>
+<div class="card">
+    <div class="card-header">
+        @Html.ActionLink("Create New", "BranchManage")
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <tr class="thead-light">
+                <th>
+                    Branch
+                </th>
+                <th>
+                    Slip Number
+                </th>
+                <th>
+                    Slip Date
+                </th>
+                <th>
+                    Company
+                </th>
+                <th>
+                    Booking Number
+                </th>
+                <th>
+                    Type
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.DutySlipList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BranchName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SlipNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SlipDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PartyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookingNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CarTypeName)
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            @Html.ActionLink("Edit", "DutySlipManage", new { key = HelperClass.Encrypt(item.DutySlipId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Details", "DutySlipDetail", new { key = HelperClass.Encrypt(item.DutySlipId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Delete", "DutySlipDelete", new { key = HelperClass.Encrypt(item.DutySlipId) }, new { @class = "btn btn-secondary btn-sm" })
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+
