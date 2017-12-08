@@ -18,6 +18,7 @@ namespace CarRental.Models
         public Scheme()
         {
             this.RateCards = new HashSet<RateCard>();
+            this.DutySlipDetails = new HashSet<DutySlipDetail>();
         }
     
         public int schemeId { get; set; }
@@ -32,5 +33,7 @@ namespace CarRental.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RateCard> RateCards { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DutySlipDetail> DutySlipDetails { get; set; }
     }
 }

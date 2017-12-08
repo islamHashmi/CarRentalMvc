@@ -233,6 +233,33 @@ namespace CarRental.Controllers
             return View(vm);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> DutySlipCalculation(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                key = HelperClass.Decrypt(key);
+
+                int.TryParse(key, out int _Id);
+
+                if (_Id == 0)
+                    return HttpNotFound();
+
+                var model = await db.DutySlips.FindAsync(_Id);
+                
+                return View(GetDutySlip(model));
+            }
+
+            return RedirectToAction("DutySlipList");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DutySlipCalculation(DutySlipViewModel vm)
+        {
+            return View();
+        }
+
+
         [HttpPost]
         public JsonResult GetBookingNumber(int? partyId)
         {
@@ -405,6 +432,7 @@ namespace CarRental.Controllers
                 ReceivedAmount = model.receivedAmount,
                 AdvanceTaken = model.advanceTaken,
                 Route = model.route
+
             };
         }
 

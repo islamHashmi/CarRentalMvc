@@ -48,6 +48,7 @@ namespace CarRental.Models
         public virtual DbSet<guestAddress> guestAddresses { get; set; }
         public virtual DbSet<DriverAllocation> DriverAllocations { get; set; }
         public virtual DbSet<DutySlip> DutySlips { get; set; }
+        public virtual DbSet<DutySlipDetail> DutySlipDetails { get; set; }
     
         public virtual ObjectResult<Nullable<int>> sp_Generate_BookingNo()
         {

@@ -14,6 +14,12 @@ namespace CarRental.Models
     
     public partial class DutySlip
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public DutySlip()
+        {
+            this.DutySlipDetails = new HashSet<DutySlipDetail>();
+        }
+    
         public long dutySlipId { get; set; }
         public int branchId { get; set; }
         public int slipNumber { get; set; }
@@ -60,5 +66,7 @@ namespace CarRental.Models
         public virtual Employee Employee { get; set; }
         public virtual Party Party { get; set; }
         public virtual Party Party1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DutySlipDetail> DutySlipDetails { get; set; }
     }
 }

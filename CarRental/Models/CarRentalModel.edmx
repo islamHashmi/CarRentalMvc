@@ -216,6 +216,25 @@
           <Property Name="updatedBy" Type="int" />
           <Property Name="updatedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="DutySlipDetail">
+          <Key>
+            <PropertyRef Name="dutySlipDetailId" />
+          </Key>
+          <Property Name="dutySlipDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dutySlipId" Type="bigint" Nullable="false" />
+          <Property Name="schemeId" Type="int" />
+          <Property Name="billOpeningTime" Type="time" Precision="7" />
+          <Property Name="billClosingTime" Type="time" Precision="7" />
+          <Property Name="billOpeningKm" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="billClosingKm" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dayAllowance" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="nightAllowance" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="extraKm" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="extraKmAmount" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="extraHour" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="extraHourAmount" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="totalAmount" Type="decimal" Precision="12" Scale="2" />
+        </EntityType>
         <EntityType Name="DutyType">
           <Key>
             <PropertyRef Name="dutyTypeId" />
@@ -670,6 +689,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DutySlipDetail_DutySlip">
+          <End Role="DutySlip" Type="Self.DutySlip" Multiplicity="1" />
+          <End Role="DutySlipDetail" Type="Self.DutySlipDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DutySlip">
+              <PropertyRef Name="dutySlipId" />
+            </Principal>
+            <Dependent Role="DutySlipDetail">
+              <PropertyRef Name="dutySlipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DutySlipDetail_Scheme">
+          <End Role="Scheme" Type="Self.Scheme" Multiplicity="0..1" />
+          <End Role="DutySlipDetail" Type="Self.DutySlipDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Scheme">
+              <PropertyRef Name="schemeId" />
+            </Principal>
+            <Dependent Role="DutySlipDetail">
+              <PropertyRef Name="schemeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Employee_CompanyBranch">
           <End Role="CompanyBranch" Type="Self.CompanyBranch" Multiplicity="1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
@@ -861,6 +904,7 @@
           <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DriverAllocation" EntityType="Self.DriverAllocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DutySlip" EntityType="Self.DutySlip" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DutySlipDetail" EntityType="Self.DutySlipDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DutyType" EntityType="Self.DutyType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseHead" EntityType="Self.ExpenseHead" Schema="dbo" store:Type="Tables" />
@@ -956,6 +1000,14 @@
           <AssociationSet Name="FK_DutySlip_Party" Association="Self.FK_DutySlip_Party">
             <End Role="Party" EntitySet="Party" />
             <End Role="DutySlip" EntitySet="DutySlip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlipDetail_DutySlip" Association="Self.FK_DutySlipDetail_DutySlip">
+            <End Role="DutySlip" EntitySet="DutySlip" />
+            <End Role="DutySlipDetail" EntitySet="DutySlipDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlipDetail_Scheme" Association="Self.FK_DutySlipDetail_Scheme">
+            <End Role="Scheme" EntitySet="Scheme" />
+            <End Role="DutySlipDetail" EntitySet="DutySlipDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_Employee_CompanyBranch" Association="Self.FK_Employee_CompanyBranch">
             <End Role="CompanyBranch" EntitySet="CompanyBranch" />
@@ -1247,6 +1299,15 @@
           <AssociationSet Name="FK_Table_1_PartySupplier" Association="CarRentalModel.FK_Table_1_PartySupplier">
             <End Role="Party" EntitySet="Parties" />
             <End Role="DutySlip" EntitySet="DutySlips" />
+          </AssociationSet>
+          <EntitySet Name="DutySlipDetails" EntityType="CarRentalModel.DutySlipDetail" />
+          <AssociationSet Name="FK_DutySlipDetail_DutySlip" Association="CarRentalModel.FK_DutySlipDetail_DutySlip">
+            <End Role="DutySlip" EntitySet="DutySlips" />
+            <End Role="DutySlipDetail" EntitySet="DutySlipDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DutySlipDetail_Scheme" Association="CarRentalModel.FK_DutySlipDetail_Scheme">
+            <End Role="Scheme" EntitySet="Schemes" />
+            <End Role="DutySlipDetail" EntitySet="DutySlipDetails" />
           </AssociationSet>
           </EntityContainer>
         <Association Name="FK_CompanyBranch_Company">
@@ -1635,6 +1696,7 @@
           <Property Name="updatedDate" Type="DateTime" Precision="3" />
           <Property Name="active" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="RateCards" Relationship="CarRentalModel.FK_RateCard_Scheme" FromRole="Scheme" ToRole="RateCard" />
+          <NavigationProperty Name="DutySlipDetails" Relationship="CarRentalModel.FK_DutySlipDetail_Scheme" FromRole="Scheme" ToRole="DutySlipDetail" />
         </EntityType>
         <EntityType Name="DutyType">
           <Key>
@@ -2034,6 +2096,7 @@
           <NavigationProperty Name="Employee" Relationship="CarRentalModel.FK_DutySlip_Employee" FromRole="DutySlip" ToRole="Employee" />
           <NavigationProperty Name="Party" Relationship="CarRentalModel.FK_DutySlip_Party" FromRole="DutySlip" ToRole="Party" />
           <NavigationProperty Name="Party1" Relationship="CarRentalModel.FK_Table_1_PartySupplier" FromRole="DutySlip" ToRole="Party" />
+          <NavigationProperty Name="DutySlipDetails" Relationship="CarRentalModel.FK_DutySlipDetail_DutySlip" FromRole="DutySlip" ToRole="DutySlipDetail" />
         </EntityType>
         <Association Name="FK_DutySlip_Booking">
           <End Type="CarRentalModel.Booking" Role="Booking" Multiplicity="0..1" />
@@ -2104,6 +2167,51 @@
             </Principal>
             <Dependent Role="DutySlip">
               <PropertyRef Name="supplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DutySlipDetail">
+          <Key>
+            <PropertyRef Name="dutySlipDetailId" />
+          </Key>
+          <Property Name="dutySlipDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dutySlipId" Type="Int64" Nullable="false" />
+          <Property Name="schemeId" Type="Int32" />
+          <Property Name="billOpeningTime" Type="Time" Precision="7" />
+          <Property Name="billClosingTime" Type="Time" Precision="7" />
+          <Property Name="billOpeningKm" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="billClosingKm" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dayAllowance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="nightAllowance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="extraKm" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="extraKmAmount" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="extraHour" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="extraHourAmount" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="totalAmount" Type="Decimal" Precision="12" Scale="2" />
+          <NavigationProperty Name="DutySlip" Relationship="CarRentalModel.FK_DutySlipDetail_DutySlip" FromRole="DutySlipDetail" ToRole="DutySlip" />
+          <NavigationProperty Name="Scheme" Relationship="CarRentalModel.FK_DutySlipDetail_Scheme" FromRole="DutySlipDetail" ToRole="Scheme" />
+        </EntityType>
+        <Association Name="FK_DutySlipDetail_DutySlip">
+          <End Type="CarRentalModel.DutySlip" Role="DutySlip" Multiplicity="1" />
+          <End Type="CarRentalModel.DutySlipDetail" Role="DutySlipDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DutySlip">
+              <PropertyRef Name="dutySlipId" />
+            </Principal>
+            <Dependent Role="DutySlipDetail">
+              <PropertyRef Name="dutySlipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DutySlipDetail_Scheme">
+          <End Type="CarRentalModel.Scheme" Role="Scheme" Multiplicity="0..1" />
+          <End Type="CarRentalModel.DutySlipDetail" Role="DutySlipDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Scheme">
+              <PropertyRef Name="schemeId" />
+            </Principal>
+            <Dependent Role="DutySlipDetail">
+              <PropertyRef Name="schemeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2545,6 +2653,26 @@
                 <ScalarProperty Name="slipNumber" ColumnName="slipNumber" />
                 <ScalarProperty Name="branchId" ColumnName="branchId" />
                 <ScalarProperty Name="dutySlipId" ColumnName="dutySlipId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DutySlipDetails">
+            <EntityTypeMapping TypeName="CarRentalModel.DutySlipDetail">
+              <MappingFragment StoreEntitySet="DutySlipDetail">
+                <ScalarProperty Name="totalAmount" ColumnName="totalAmount" />
+                <ScalarProperty Name="extraHourAmount" ColumnName="extraHourAmount" />
+                <ScalarProperty Name="extraHour" ColumnName="extraHour" />
+                <ScalarProperty Name="extraKmAmount" ColumnName="extraKmAmount" />
+                <ScalarProperty Name="extraKm" ColumnName="extraKm" />
+                <ScalarProperty Name="nightAllowance" ColumnName="nightAllowance" />
+                <ScalarProperty Name="dayAllowance" ColumnName="dayAllowance" />
+                <ScalarProperty Name="billClosingKm" ColumnName="billClosingKm" />
+                <ScalarProperty Name="billOpeningKm" ColumnName="billOpeningKm" />
+                <ScalarProperty Name="billClosingTime" ColumnName="billClosingTime" />
+                <ScalarProperty Name="billOpeningTime" ColumnName="billOpeningTime" />
+                <ScalarProperty Name="schemeId" ColumnName="schemeId" />
+                <ScalarProperty Name="dutySlipId" ColumnName="dutySlipId" />
+                <ScalarProperty Name="dutySlipDetailId" ColumnName="dutySlipDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -164,6 +164,47 @@ namespace CarRental.ViewModel
 
         [Display(Name = "Payable to driver")]
         public bool PayableToDriver { get; set; }
+
+        [Display(Name ="Scheme")]
+        public int SchemeId { get; set; }
+        public string SchemeName { get; set; }
+        public SelectList SchemeList { get; set; }
+
+        [Display(Name = "Bill Opening Time")]
+        public TimeSpan? BillOpeningTime { get; set; }
+
+        [Display(Name = "Bill Closing Time")]
+        public TimeSpan? BillClosingTime { get; set; }
+
+        [Display(Name = "Bill Opening KM")]
+        public decimal? BillOpeningKm { get; set; }
+
+        [Display(Name = "Bill Closing KM")]
+        public decimal? BillClosingKm { get; set; }
+
+        [Display(Name = "Day Allowance")]
+        public decimal DayAllowance { get; set; }
+
+        [Display(Name = "Night Allowance")]
+        public decimal? NightAllowance { get; set; }
+
+        [Display(Name = "Total KM Amount")]
+        public decimal? TotalKmAmount { get; set; }
+
+        [Display(Name = "Ex. KM")]
+        public decimal? ExtraKm { get; set; }
+
+        [Display(Name = "Ex. KM Amount")]
+        public decimal? ExtraKmAmount { get; set; }
+
+        [Display(Name = "Ex. Hours")]
+        public decimal? ExtraHours { get; set; }
+
+        [Display(Name = "Ex. Hour Amount")]
+        public decimal? ExtraHoursAmount { get; set; }
+
+        [Display(Name = "Total Amount")]
+        public decimal? TotalAmount { get; set; }
     }
 
     public class DutySlipFilter

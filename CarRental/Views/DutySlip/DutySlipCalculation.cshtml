@@ -1,14 +1,10 @@
 ﻿@model CarRental.ViewModel.DutySlipViewModel
 
 @{
-    ViewBag.Title = "DutySlipManage";
+    ViewBag.Title = "DutySlipCalculation";
 }
 
-<style>
-    .chosen-container.chosen-container-single {
-        width: 100% !important;
-    }
-</style>
+<h2>DutySlipCalculation</h2>
 
 @using (Html.BeginForm())
 {
@@ -85,7 +81,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.CarModel, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
                     @Html.TextBoxFor(model => model.CarModel, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
-                </div>                
+                </div>
 
             </div>
         </div>
@@ -215,7 +211,7 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-body">                
+            <div class="card-body">
 
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm">Time Reading (24hr format)</label>
@@ -311,12 +307,12 @@
                     <label class="col-form-label col-form-label-sm">Paid / Received</label>
                     <div class="form-inline">
                         <div class="form-group">
-                            @Html.EditorFor(model => model.PaidAmount, new { htmlAttributes = new { @class = "form-control form-control-sm mb-2 mr-sm-2 mb-sm-0", placeholder="To Pay" } })
+                            @Html.EditorFor(model => model.PaidAmount, new { htmlAttributes = new { @class = "form-control form-control-sm mb-2 mr-sm-2 mb-sm-0", placeholder = "To Pay" } })
                             @Html.ValidationMessageFor(model => model.PaidAmount, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group">
-                            @Html.EditorFor(model => model.ReceivedAmount, new { htmlAttributes = new { @class = "form-control form-control-sm", placeholder="To Receive" } })
+                            @Html.EditorFor(model => model.ReceivedAmount, new { htmlAttributes = new { @class = "form-control form-control-sm", placeholder = "To Receive" } })
                             @Html.ValidationMessageFor(model => model.ReceivedAmount, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -340,6 +336,7 @@
         </div>
     </div>
 }
+
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
@@ -365,316 +362,5 @@
             showClear: true,
             format: 'HH:mm',
         });
-    </script>
-    <script>
-        $('#BookingId').change(function () {
-            var value = $('#BookingId option:selected').val();
-            var index = $("#BookingId").prop('selectedIndex');
-
-            if (index != 0) {
-                var serviceURL = '@Url.Action("GetBookingInfo", "DutySlip")';
-
-                $.ajax({
-                    type: "POST",
-                    url: serviceURL,
-                    data: JSON.stringify(addRequestVerificationToken({ bookingId: value })),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: successFunc,
-                    error: errorFunc
-                });
-
-                function addRequestVerificationToken(data) {
-                    data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
-                    return data;
-                };
-
-                function successFunc(data, status) {
-                    showGuestData(data);
-                };
-
-                function errorFunc(jqXHR, exception) {
-                    console.log(jqXHR);
-                };
-
-                function showGuestData(data) {
-                    $('#BookingType').val(data.bookingType);
-                    $('#BookingBy').val(data.bookingBy);
-                    $('#ReportingTo').val(data.reportingTo);
-                    $('#ReportingLocation').val(data.reportingLocation);
-                    $('#ReportingTime').val(data.reportingTime);
-                    $('#CarModel').val(data.modelCar);
-                    $('#DutyType').val(data.dutyType);
-                    $('#DutyDateFrom').val(data.dateFrom);
-                    $('#DutyDateTo').val(data.dateTo);
-                    $('#Mobile1').val(data.mobile1);
-                    $('#Mobile2').val(data.mobile2);
-                    $('#Mobile3').val(data.mobile3);
-                };
-            }
-            else {
-                $('#BookingType').val('');
-                $('#BookingBy').val('');
-                $('#ReportingTo').val('');
-                $('#ReportingLocation').val('');
-                $('#ReportingTime').val('');
-                $('#CarModel').val('');
-                $('#DutyType').val('');
-                $('#DutyDateFrom').val('');
-                $('#DutyDateTo').val('');
-                $('#Mobile1').val('');
-                $('#Mobile2').val('');
-                $('#Mobile3').val('');
-            }
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            toggleCarType();
-        });
-
-        $('#CarType').change(function () {
-            toggleCarType();
-        });
-
-        function toggleCarType() {
-            var value = $('#CarType option:selected').val();
-            var index = $("#CarType").prop('selectedIndex');
-
-            if (value == "OW") {
-                $('#owner').show();
-                $('#operator').hide();
-            }
-            else {
-                $('#owner').hide();
-                $('#operator').show();
-            }
-        };
-    </script>
-    <script>
-        $('#PartyId').change(function () {
-            var value = $('#PartyId option:selected').val();
-            var index = $("#PartyId").prop('selectedIndex');
-
-            if (index != 0) {
-                var serviceURL = '@Url.Action("GetBookingNumber", "DutySlip")';
-
-                $.ajax({
-                    type: "POST",
-                    url: serviceURL,
-                    data: JSON.stringify(addRequestVerificationToken({ partyId: value })),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: successFunc,
-                    error: errorFunc
-                });
-
-                function addRequestVerificationToken(data) {
-                    data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
-                    return data;
-                };
-
-                function successFunc(data, status) {
-                    bindBookingNumber(data);
-                };
-
-                function errorFunc(jqXHR, exception) {
-                    console.log(jqXHR);
-                };
-
-                function bindBookingNumber(data) {
-
-                    var list = data.bookingNos
-
-                    $("#BookingId").empty();
-
-                    var opt = '<option value=' + "" + '>--- Select Booking No ---</option>';
-
-                    for (var i = 0; i < list.length; i++) {
-                        opt += '<option value=' + list[i].Value + '>' + list[i].Text + '</option>';
-                    }
-
-                    $('#BookingId').append(opt);
-
-                    $("#BookingId").trigger("chosen:updated");
-                    $("#BookingId").trigger("liszt:updated");
-                };
-            }
-            else {
-
-            }
-        });
-    </script>
-    <script>
-        $('#DriverId').change(function () {
-            var value = $('#DriverId option:selected').val();
-            var index = $("#DriverId").prop('selectedIndex');
-
-            $("#DriverMobileNo").val('');
-            $("#DriverBalance").val('');
-
-            if (index != 0) {
-                var serviceURL = '@Url.Action("GetDriverInfo", "DutySlip")';
-
-                $.ajax({
-                    type: "POST",
-                    url: serviceURL,
-                    data: JSON.stringify(addRequestVerificationToken({ driverId: value })),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: successFunc,
-                    error: errorFunc
-                });
-
-                function addRequestVerificationToken(data) {
-                    data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
-                    return data;
-                };
-
-                function successFunc(data, status) {
-                    bindDriver(data);
-                };
-
-                function errorFunc(jqXHR, exception) {
-                    console.log(jqXHR);
-                };
-
-                function bindDriver(data) {
-                    $("#DriverMobileNo").val(data.driverMobile);
-                    $("#DriverBalance").val(data.balance);
-                };
-            }
-        });
-    </script>
-    <script>
-        $('#CarId').change(function () {
-            var value = $('#CarId option:selected').val();
-            var index = $("#CarId").prop('selectedIndex');
-
-            if (index != 0) {
-                var serviceURL = '@Url.Action("GetCarInfo", "DutySlip")';
-
-                $.ajax({
-                    type: "POST",
-                    url: serviceURL,
-                    data: JSON.stringify(addRequestVerificationToken({ carId: value })),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: successFunc,
-                    error: errorFunc
-                });
-
-                function addRequestVerificationToken(data) {
-                    data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
-                    return data;
-                };
-
-                function successFunc(data, status) {
-                    bindDriver(data);
-                };
-
-                function errorFunc(jqXHR, exception) {
-                    console.log(jqXHR);
-                };
-
-                function bindDriver(data) {
-                    $("#SupplierId").val(data.ownerId);
-
-                    $("#SupplierId").trigger("chosen:updated");
-                    $("#SupplierId").trigger("liszt:updated");
-                };
-            }
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#OpeningTime').blur(function () {
-                calculateTime();
-            });
-
-            $('#ClosingTime').blur(function () {
-                calculateTime();
-            });
-
-            $('#OpeningKM').blur(function () {
-                calculateKm();
-            });
-
-            $('#ClosingKM').blur(function () {
-                calculateKm();
-            });
-        });
-
-        function calculateTime() {
-            var start = $('#OpeningTime').val().replace(':', '.');
-            var end = $('#ClosingTime').val().replace(':', '.');
-
-            var totalTime = parseFloat(end) - parseFloat(start);
-
-            if (!isNaN(totalTime))
-                $('#TotalTime').val((totalTime.toFixed(2)));
-        };
-
-        function calculateKm() {
-            var start = $('#OpeningKM').val();
-            var end = $('#ClosingKM').val();
-
-            var totalKm = parseFloat(end) - parseFloat(start);
-
-            if (!isNaN(totalKm))
-                $('#TotalKM').val((totalKm.toFixed(2)));
-        }
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('#ParkingCharge').keyup(function () {
-                calculateAmount();
-            });
-
-            $('#FuelCharge').keyup(function () {
-                calculateAmount();
-            });
-
-            $('#OtherCharge').keyup(function () {
-                calculateAmount();
-            });
-
-            $('#AdvanceDriver').blur(function () {
-                calculateAmount();
-            });
-        });
-
-        function calculateAmount() {
-            $('#PaidAmount').val('');
-            $('#ReceivedAmount').val('');
-
-            var advanceDriver = $('#AdvanceDriver').val();
-            var parking = $('#ParkingCharge').val();
-            var fuel = $('#FuelCharge').val();
-            var other = $('#OtherCharge').val();
-
-            if (advanceDriver == '')
-                advanceDriver = '0'
-
-            if (parking == '')
-                parking = '0'
-
-            if (fuel == '')
-                fuel = '0'
-
-            if (other == '')
-                other = '0'
-
-            var totalAmt = parseFloat(advanceDriver) - (parseFloat(parking) + parseFloat(fuel) + parseFloat(other));
-
-            if (!isNaN(totalAmt)) {
-                if (totalAmt < 0) {
-                    $('#PaidAmount').val(Math.abs(totalAmt.toFixed(2)));
-                }
-                else {
-                    $('#ReceivedAmount').val(Math.abs(totalAmt.toFixed(2)));
-                }
-            }
-        };
     </script>
 }

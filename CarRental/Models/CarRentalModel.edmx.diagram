@@ -62,6 +62,9 @@
         <AssociationConnector Association="CarRentalModel.FK_DutySlip_Employee" />
         <AssociationConnector Association="CarRentalModel.FK_DutySlip_Party" />
         <AssociationConnector Association="CarRentalModel.FK_Table_1_PartySupplier" />
+        <EntityTypeShape EntityType="CarRentalModel.DutySlipDetail" Width="1.5" PointX="20.25" PointY="4.75" />
+        <AssociationConnector Association="CarRentalModel.FK_DutySlipDetail_DutySlip" />
+        <AssociationConnector Association="CarRentalModel.FK_DutySlipDetail_Scheme" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
