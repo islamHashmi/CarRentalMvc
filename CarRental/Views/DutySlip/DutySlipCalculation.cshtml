@@ -40,7 +40,7 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.SlipDate, "", new { @class = "text-danger" })
                 </div>
-
+                
                 <div class="form-group">
                     @Html.LabelFor(model => model.PartyId, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
                     @Html.DropDownListFor(model => model.PartyId, Model.PartyList, "--- Select Company ---", new { @class = "form-control form-control-sm chosen-select-single" })
@@ -52,12 +52,7 @@
                     @Html.DropDownListFor(model => model.BookingId, Model.BookingNoList, "--- Select Booking No ---", new { @class = "form-control form-control-sm chosen-select-single" })
                     @Html.ValidationMessageFor(model => model.BookingId, "", new { @class = "text-danger" })
                 </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BookingType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
-                    @Html.TextBoxFor(model => model.BookingType, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
-                </div>
-
+                
                 <div class="form-group">
                     @Html.LabelFor(model => model.BookingBy, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
                     @Html.TextBoxFor(model => model.BookingBy, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
@@ -87,6 +82,11 @@
         </div>
         <div class="card">
             <div class="card-body">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DutyType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })
+                    @Html.TextBoxFor(model => model.DutyType, new { @class = "form-control form-control-sm", readOnly = "readOnly" })
+                </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.DutyType, htmlAttributes: new { @class = "col-form-label col-form-label-sm" })

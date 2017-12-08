@@ -164,9 +164,116 @@ namespace CarRental.ViewModel
 
         [Display(Name = "Payable to driver")]
         public bool PayableToDriver { get; set; }
+    }
 
-        [Display(Name ="Scheme")]
-        public int SchemeId { get; set; }
+    public class DutySlipFilter
+    {
+        public IEnumerable<DutySlipViewModel> DutySlipList { get; set; }
+
+        public IEnumerable<DutyCalculationViewModel> DutyCalculationList { get; set; }
+    }
+
+    public class DutyCalculationViewModel
+    {
+        [Key]
+        public long DutySlipDetailId { get; set; }
+
+        public long? DutySlipId { get; set; }
+
+        [Display(Name = "Branch")]
+        public string BranchName { get; set; }
+
+        [Display(Name = "Slip Number")]
+        public int? SlipNumber { get; set; }
+
+        [Display(Name = "Slip Date")]
+        public DateTime? SlipDate { get; set; }
+
+        [Display(Name = "Company")]
+        public int? PartyId { get; set; }
+        public string PartyName { get; set; }
+        public SelectList PartyList { get; set; }
+
+        [Display(Name = "Booking Number")]
+        public string BookingNumber { get; set; }
+        
+        [Display(Name = "Car Number")]
+        public string CarNumber { get; set; }
+
+        [Display(Name = "Registration No.")]
+        public string CarRegisterNumber { get; set; }
+
+        [Display(Name = "Driver Name")]
+        public string DriverName { get; set; }
+        
+        [Display(Name = "Supplier")]
+        public string SupplierName { get; set; }
+        
+        [Display(Name = "Booking By")]
+        public string BookingBy { get; set; }
+
+        [Display(Name = "Reporting To")]
+        public string ReportingTo { get; set; }
+
+        [Display(Name = "Reporting Location")]
+        public string ReportingLocation { get; set; }
+
+        [Display(Name = "Reporting Time")]
+        public TimeSpan? ReportingTime { get; set; }
+
+        [Display(Name = "Model")]
+        public string CarModel { get; set; }
+
+        [Display(Name = "Duty Type")]
+        public string DutyType { get; set; }
+
+        [Display(Name = "Outstation")]
+        public string OutstationName { get; set; }
+
+        [Display(Name = "Duty Date From")]
+        public DateTime? DutyDateFrom { get; set; }
+
+        [Display(Name = "Duty Date To")]
+        public DateTime? DutyDateTo { get; set; }
+        
+        [Display(Name = "Opening Time")]
+        public TimeSpan? OpeningTime { get; set; }
+
+        [Display(Name = "Closing Time")]
+        public TimeSpan? ClosingTime { get; set; }
+
+        [Display(Name = "Total Time")]
+        public decimal? TotalTime { get; set; }
+
+        [Display(Name = "Opening K.M.")]
+        public decimal? OpeningKM { get; set; }
+
+        [Display(Name = "Closing K.M.")]
+        public decimal? ClosingKM { get; set; }
+
+        [Display(Name = "Total K.M.")]
+        public decimal? TotalKM { get; set; }
+        
+        [Display(Name = "Billing Type")]
+        public string BillingType { get; set; }
+
+        [Display(Name = "Parking Charge")]
+        public decimal? ParkingCharge { get; set; }
+        
+        [Display(Name = "Extra Charge")]
+        public string ExtraChargeName { get; set; }
+
+        [Display(Name = "Extra Amount")]
+        public decimal? ExtraAmount { get; set; }
+        
+        [Display(Name = "Advance Taken")]
+        public decimal? AdvanceTaken { get; set; }
+
+        [Display(Name = "Route")]
+        public string Route { get; set; }
+
+        [Display(Name = "Scheme")]
+        public int? SchemeId { get; set; }
         public string SchemeName { get; set; }
         public SelectList SchemeList { get; set; }
 
@@ -183,7 +290,7 @@ namespace CarRental.ViewModel
         public decimal? BillClosingKm { get; set; }
 
         [Display(Name = "Day Allowance")]
-        public decimal DayAllowance { get; set; }
+        public decimal? DayAllowance { get; set; }
 
         [Display(Name = "Night Allowance")]
         public decimal? NightAllowance { get; set; }
@@ -205,10 +312,5 @@ namespace CarRental.ViewModel
 
         [Display(Name = "Total Amount")]
         public decimal? TotalAmount { get; set; }
-    }
-
-    public class DutySlipFilter
-    {
-        public IEnumerable<DutySlipViewModel> DutySlipList { get; set; }
     }
 }

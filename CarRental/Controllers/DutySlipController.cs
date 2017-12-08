@@ -16,7 +16,7 @@ namespace CarRental.Controllers
         CarRentalEntities db = new CarRentalEntities();
 
         public ActionResult Index()
-        {            
+        {
             return View();
         }
 
@@ -236,21 +236,38 @@ namespace CarRental.Controllers
         [HttpGet]
         public async Task<ActionResult> DutySlipCalculation(string key)
         {
-            if (!string.IsNullOrWhiteSpace(key))
+            var vm = new DutyCalculationViewModel();
+
+            try
             {
-                key = HelperClass.Decrypt(key);
+                if (!string.IsNullOrWhiteSpace(key))
+                {
+                    key = HelperClass.Decrypt(key);
 
-                int.TryParse(key, out int _Id);
+                    int.TryParse(key, out int _Id);
 
-                if (_Id == 0)
-                    return HttpNotFound();
+                    if (_Id == 0)
+                        return HttpNotFound();
 
-                var model = await db.DutySlips.FindAsync(_Id);
-                
-                return View(GetDutySlip(model));
+                    var model = await db.DutySlips.FindAsync(_Id);
+
+                    vm = GetDutySlip(model);
+                }
+                else
+                {
+                    return RedirectToAction("DutySlipList");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                vm.SchemeList = ApplicationParameter.GetSchemes(db);
             }
 
-            return RedirectToAction("DutySlipList");
+            return View(vm);
         }
 
         [HttpPost]
@@ -432,7 +449,57 @@ namespace CarRental.Controllers
                 ReceivedAmount = model.receivedAmount,
                 AdvanceTaken = model.advanceTaken,
                 Route = model.route
+            };
+        }
 
+        private DutyCalculationViewModel GetDutyCalculation(DutySlipDetail model)
+        {
+            return new DutyCalculationViewModel
+            {
+                DutySlipId = model.dutySlipId,
+                BookingNumber = model.DutySlip?.Booking?.bookingNumber,
+                SupplierName = model.DutySlip?.Party1?.Name,
+                CarNumber = model.DutySlip?.carType == "OP" ? model.DutySlip?.op_carNumber : model.DutySlip?.Car?.carNumber,
+                CarRegisterNumber = model.DutySlip?.carType == "OP" ? model.DutySlip?.op_carRegNumber : model.DutySlip?.Car?.registrationNumber,
+                DriverName = model.DutySlip?.carType == "OP" ? model.DutySlip?.op_driverName : model.DutySlip?.Employee?.employeeName,
+                SlipNumber = model.DutySlip?.slipNumber,
+                SlipDate = model.DutySlip?.slipDate,
+                PartyId = model.DutySlip?.partyId,
+                PartyName = model.DutySlip?.Party?.Name,
+                BookingBy = model.DutySlip?.Booking?.bookingBy,
+                DutyDateFrom = model.DutySlip?.Booking?.requirementStartDate,
+                DutyDateTo = model.DutySlip?.Booking?.requirementEndDate,
+                ReportingTo = model.DutySlip?.Booking?.reportingTo,
+                ReportingLocation = model.DutySlip?.Booking?.reportingLocation,
+                ReportingTime = model.DutySlip?.Booking?.reportingTime,
+                CarModel = model.DutySlip?.Booking?.CarModel?.modelDescription,
+                DutyType = model.DutySlip?.Booking?.DutyType?.dutyDescription,
+                BillingType = model.DutySlip?.billingType,
+                OpeningTime = model.DutySlip?.openingTime,
+                ClosingTime = model.DutySlip?.closingTime,
+                TotalTime = model.DutySlip?.totalTime,
+                OpeningKM = model.DutySlip?.openingKM,
+                ClosingKM = model.DutySlip?.closingKM,
+                TotalKM = model.DutySlip?.totalKM,
+                ParkingCharge = model.DutySlip?.parkingCharge,
+                ExtraChargeName = model.DutySlip?.extraChargeName,
+                ExtraAmount = model.DutySlip?.extraAmount,
+                AdvanceTaken = model.DutySlip?.advanceTaken,
+                Route = model.DutySlip?.route,
+                SchemeId = model.schemeId,
+                SchemeName = model.Scheme?.schemeName,
+                BillOpeningTime = model.billOpeningTime,
+                BillClosingTime = model.billClosingTime,
+                BillOpeningKm = model.billOpeningKm,
+                BillClosingKm = model.billClosingKm,
+                DayAllowance = model.dayAllowance,
+                NightAllowance = model.nightAllowance,
+                TotalAmount = model.totalAmount,
+                ExtraKm = model.extraKm,
+                ExtraKmAmount = model.extraKmAmount,
+                ExtraHours = model.extraHour,
+                ExtraHoursAmount = model.extraHourAmount,
+                TotalKmAmount = model.totalAmount
             };
         }
 

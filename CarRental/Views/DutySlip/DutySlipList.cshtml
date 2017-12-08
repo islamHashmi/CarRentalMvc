@@ -57,6 +57,7 @@
                             @Html.ActionLink("Edit", "DutySlipManage", new { key = HelperClass.Encrypt(item.DutySlipId) }, new { @class = "btn btn-secondary btn-sm" })
                             @Html.ActionLink("Details", "DutySlipDetail", new { key = HelperClass.Encrypt(item.DutySlipId) }, new { @class = "btn btn-secondary btn-sm" })
                             @Html.ActionLink("Delete", "DutySlipDelete", new { key = HelperClass.Encrypt(item.DutySlipId) }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Calculate Duty", "DutySlipCalculation", new { key = HelperClass.Encrypt(item.DutySlipId) }, new { @class = "btn btn-secondary btn-sm" })
                         </div>
                     </td>
                 </tr>
